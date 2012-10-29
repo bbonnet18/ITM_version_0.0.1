@@ -20,7 +20,66 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+//    UIImage *img = [UIImage imageNamed:@"ITM_v0.jpg"];
+//    PreviewImage *p = [[PreviewImage alloc] initWithFrame:CGRectMake(0, 0, 320, 400) andImage:img];
+//    p.itemNumber = 1;
+//    
+//    HomeViewController *hv = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+//    
+//    [hv.view addSubview:p];
+    
+    MainEditorViewController *me = [[MainEditorViewController alloc] initWithNibName:@"MainEditorViewController" bundle:nil];
+    me.context = self.managedObjectContext;
+    
+    NSString* newBuildID = [self createTestData];
+    [me setBuildID:newBuildID];
+    
+//    ImageTestsViewController *it = [[ImageTestsViewController alloc] initWithNibName:@"ImageTestsViewController" bundle:nil];
+    // subclassed main nave controller from nav controller to override autorotation
+    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:me];
+    self.navController = nav;
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
     return YES;
+
+}
+
+-(NSString*) createTestData{
+    
+    if(![[NSUserDefaults standardUserDefaults] valueForKey:@"didCreateTestData"]){
+        Build *newBuild = (Build*) [NSEntityDescription insertNewObjectForEntityForName:@"Build" inManagedObjectContext:self.managedObjectContext];
+        
+        Utilities *u = [[Utilities alloc] init];
+        
+        NSDate *today = [NSDate date];
+        newBuild.dateCreated = today;
+        newBuild.buildDescription = @"Type in your description";
+        NSString *newBuildID = [u GetUUIDString];
+        newBuild.buildID = newBuildID;
+        
+        NSError *err = nil;
+        
+        if(![self.managedObjectContext save:&err]){
+            NSLog(@"error creating the test build object: %@", [err localizedFailureReason]);
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setValue:newBuildID forKey:@"testBuildID"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"didCreateTestData"];
+        
+        
+        return newBuildID;
+    }else{
+        
+        
+        NSString *testBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"testBuildID"];
+        return testBuildID;
+
+    }
+    
+    
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

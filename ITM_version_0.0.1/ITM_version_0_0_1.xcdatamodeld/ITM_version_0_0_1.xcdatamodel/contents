@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="11G56" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Build" representedClassName="Build" syncable="YES">
+        <attribute name="buildDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="buildID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="buildItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BuildItem" inverseName="build" inverseEntity="BuildItem" syncable="YES"/>
+    </entity>
+    <entity name="BuildItem" representedClassName="BuildItem" syncable="YES">
+        <attribute name="buildItemID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediaPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="thumbnailPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="build" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Build" inverseName="buildItems" inverseEntity="Build" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Build" positionX="160" positionY="192" width="128" height="120"/>
+        <element name="BuildItem" positionX="160" positionY="192" width="128" height="180"/>
+    </elements>
 </model>
