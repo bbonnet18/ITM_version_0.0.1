@@ -14,10 +14,10 @@
 #import "PreviewImage.h"
 #import "ImageEditor.h"
 #import "CaptureViewController.h"
+#import "PublishViewController.h"
 
 
-
-@interface MainEditorViewController : UIViewController <PreviewImageProtocol, UIScrollViewDelegate, ImageEditor, UIAlertViewDelegate>{
+@interface MainEditorViewController : UIViewController <PreviewImageProtocol, UIScrollViewDelegate, ImageEditor, UIAlertViewDelegate,PublishProtocol>{
     
     NSManagedObjectContext *_context;
     NSMutableArray *_orderArray;
@@ -28,6 +28,7 @@
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
+@property (strong, nonatomic) IBOutlet UIButton *publishBtn;
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
 @property (strong, nonatomic) NSMutableArray *orderArray;// array of build item ids (GUUID), used to populate everything
 @property (strong, nonatomic) NSMutableArray* previewImageArray;// holds all our PreviewImage objects
@@ -41,6 +42,8 @@
 -(BuildItem*) createBuildItemWithOrderNumber:(NSNumber*) orderNum;// creates a build item and inserts it into the
 // context, returns the build item
 -(UIImage*)getPreviewImage:(NSString*)path;// gets and returns an image for a path
+-(IBAction)publish:(id)sender;// attempts to publish the build
+
 @end
 
 

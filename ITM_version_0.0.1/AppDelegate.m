@@ -29,15 +29,29 @@
 //    
 //    [hv.view addSubview:p];
     
-    MainEditorViewController *me = [[MainEditorViewController alloc] initWithNibName:@"MainEditorViewController" bundle:nil];
-    me.context = self.managedObjectContext;
+    // if we were uploading something, then we need to start that back up
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]  && [[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        NSInteger uploadingBuildID = [[NSUserDefaults standardUserDefaults] integerForKey:@"lastUploadingBuildID"];
+        
+        
+        // this should be encapsulated in another method, so it can be called from here and from the published function
+        NSNumber *idForBuild = [NSNumber numberWithInt:uploadingBuildID];
+        Build * newBuild = [self getBuild:idForBuild];
+        
+        [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
+        
+    }
     
-    NSString* newBuildID = [self createTestData];
-    [me setBuildID:newBuildID];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
+    self.uploadQueue = [[NSOperationQueue alloc] init];// set the background queue
+
     
-//    ImageTestsViewController *it = [[ImageTestsViewController alloc] initWithNibName:@"ImageTestsViewController" bundle:nil];
+    HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
+    hc.context = self.managedObjectContext;
+    
+    
     // subclassed main nave controller from nav controller to override autorotation
-    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:me];
+    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
     self.navController = nav;
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -58,6 +72,7 @@
         newBuild.buildDescription = @"Type in your description";
         NSString *newBuildID = [u GetUUIDString];
         newBuild.buildID = newBuildID;
+        newBuild.status = @"edit";
         
         NSError *err = nil;
         
@@ -82,32 +97,232 @@
     
 }
 
+- (void) startUploadProcessWithBuild: (Build*) newBuild withBuildID:(NSNumber*) idForBuild{
+    
+    if(newBuild != nil){
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.managedObjectContext];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"build == %@",newBuild];
+        [request setPredicate:predicate];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"orderNumber" ascending:YES];
+        [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+        
+        NSError *error = nil;
+        
+        // each of these is actually a buildItem rather than a media item
+        NSArray *mediaItems = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:request error:&error]];// go get all the mediaItems
+      
+        NSMutableArray *mediaItemsToUpload = [[NSMutableArray alloc] initWithCapacity:[mediaItems count]];// inititate the mediaItemsToUpload array that will be passed to the uploader
+        if(error == nil){
+            
+            // create array to hold the objects to pass to the uploader
+            
+            for (BuildItem * b in mediaItems) {
+                NSString * type = @"";// set the media type and path
+                NSString * mediaPath = @"";
+                                
+                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status", nil];
+                [mediaItemsToUpload addObject:mediaObject];// add it to the array to be passed
+                
+                
+                // create a dictionary of objects that have types and media paths and send those to the uploader
+            }
+            
+            // get the JSON data from the build
+            NSData * jsonData = [self generateJSONFromBuild:newBuild withItems:mediaItems];
+            // create an instance of uploader and assign it to the uploader instance variable so it can be acted on and tracked
+            self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload andJSONData:jsonData buildID:idForBuild];
+            self.uploader.delegate = self;// should probably set this before calling the method above, or set it with it.
+        }else{
+            
+            NSLog(@"PROBLEM RETRIEVING mediaItems: %@",[error localizedDescription]);
+        }
+    }
+    
+    
+}
+
+- (void) published:(NSNotification*) buildID{
+    
+    
+    
+    NSDictionary *myDictionary = [buildID userInfo];
+    NSNumber * idForBuild = [myDictionary valueForKey:@"buildID"];
+    
+    // save this a reference to the last uploaded buildID so it can be re-launched the next time if it quits
+    [[NSUserDefaults standardUserDefaults] setInteger:[idForBuild integerValue] forKey:@"lastUploadingBuildID"];
+    
+    self.uploader = nil;
+    Build * newBuild = [self getBuild:idForBuild];
+    
+    // NEED to CHECK network access
+    if(newBuild != nil){
+        [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
+    }else{
+        NSLog(@"problem retrieving build");
+    }
+        
+}
+// get a build with the id provided
+-(Build*) getBuild:(NSNumber*) buildID{
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Build" inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"buildID == %@",buildID];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    
+    // each of these is actually a buildItem rather than a media item, but the media items are part of each BuildItem so they can be brought in
+    
+    NSArray *builds = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:request error:&error]];
+    
+    if(error == nil){
+        
+        Build * b = [builds objectAtIndex:0];// get the build for this id
+        return b;
+    }else{
+        return nil;
+    }
+}
+// creates a dictionary and adds an array of items to the dictionary to create the JSON data
+- (NSData*) generateJSONFromBuild:(Build*)b withItems:(NSArray*)buildItems{
+    // get the date
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy"];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
+    NSString *creationDateString = [formatter stringFromDate:b.dateCreated];
+    // this builds a hierarchy with the main node being the build and the items string data making up the rest
+    NSDictionary *metaDataDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:creationDateString, @"buildCreationDate",nil];
+    
+    // initialize the dictionary that we'll use to add the items to
+    NSMutableDictionary *buildDictionary = [[NSMutableDictionary alloc] initWithDictionary:metaDataDictionary];
+    // create an array to store the items
+    NSMutableArray * itemArray = [[NSMutableArray alloc] init];
+    // roll through the items and extract what's needed and add each to the array
+    for (BuildItem * b in buildItems) {
+        NSString * screenTitle = b.title;
+        NSString * screenID = b.buildItemID;
+        NSString * itemType = b.type;
+        NSString * screenText = b.caption;
+        NSDictionary *itemDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:screenTitle,@"screenTitle",screenID,@"screenID",itemType,@"itemType",screenText,@"screenText", nil];
+        [itemArray addObject:itemDictionary];
+        
+    }
+    // add the item array to the buildDictionary
+    [buildDictionary setObject:itemArray forKey:@"buildItems"];
+    NSError *error;
+    // create json data
+    NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *stringData = [[NSString alloc] initWithData:buildData encoding:NSUTF8StringEncoding];
+    
+    if(!error){
+        NSLog(@"jsonData: %@",stringData );
+        return buildData;
+    }else {
+        return nil;
+    }
+    
+}
+
+
+-(void)uploadDidCompleWithBuildID:(NSNumber *)buildID{
+    NSString* test = nil;
+}
+
+-(void)uploadDidFailWithReason:(NSString *)reason{
+    NSString* test = nil;
+}
+
+#pragma mark - Application lifecycle methods
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    // if an upload is currently active, pause the upload
+    
+    /*
+     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+     */
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        if(self.uploader){
+            [self.uploader stopUpload];
+        }
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    
+    /*
+     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+     */
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        if(self.uploader){
+            [self.uploader stopUpload];
+        }
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    // same as for active status
+    
+    /*
+     Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+     */
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        if(self.uploader){
+            [self.uploader resumeUpload];
+        }
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    }
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // if there is an upload to complete, make sure you can get it and then resume the upload
+    
+    
+    /*
+     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+     */
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        if(self.uploader){
+            [self.uploader resumeUpload];
+        }
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    }
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
+    // stop the upload process and clean up. Make sure to store all relevant user settings
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        [self.uploader stopUpload];// stop the upload process
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }
+    
+    /*
+     Called when the application is about to terminate.
+     Save data if appropriate.
+     See also applicationDidEnterBackground:.
+     */
 }
 
 - (void)saveContext

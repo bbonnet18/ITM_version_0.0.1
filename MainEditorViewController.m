@@ -198,6 +198,7 @@
     BuildItem* bi = [NSEntityDescription insertNewObjectForEntityForName:@"BuildItem" inManagedObjectContext:self.context];
     bi.orderNumber = orderNum;
     bi.buildItemID = [self.util GetUUIDString];
+    bi.status = @"edit";
     [bi setBuild:b];
     NSError* err;
     if(![self.context save:&err]){
@@ -453,7 +454,6 @@
     NSString *caption = [changes valueForKey:@"caption"];
     NSString *timeStamp = [changes valueForKey:@"timeStamp"];
     NSString *title = [changes valueForKey:@"title"];
-    Utilities *utils = [[Utilities alloc] init];
     
     //make sure none of these are null and if they are, substitute an empty string
     
@@ -480,11 +480,36 @@
         
     }]; 
 }
-
+// only need the cancel for the error screens, not providing any other buttons
 -(void) alertViewCancel:(UIAlertView *)alertView{
-    NSString* test = @"test";
+   
 }
 
+-(IBAction)publish:(id)sender{
+    PublishViewController *pv = [[PublishViewController alloc] initWithNibName:@"PublishViewController" bundle:[NSBundle mainBundle]];
+    pv.delegate = self;
+    [self presentViewController:pv animated:YES completion:^{
+        
+    }];
+}
+
+#pragma Publish Protocol methods
+
+-(void) userDidPublish{
+    
+    // create a build dicitionary with the buildID and send it off
+     NSDictionary *holder = [NSDictionary dictionaryWithObjectsAndKeys:self->_buildID,@"buildID",@"message to Ben",@"newMsg"            , nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidUpload" object:nil userInfo:holder];
+    [self dismissViewControllerAnimated:YES completion:^{
+       
+    }];
+}
+
+-(void) userDidCancel{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 
 @end
 

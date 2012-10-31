@@ -1,18 +1,18 @@
 //
-//  ImageEditorViewController.m
+//  PublishViewController.m
 //  ITM_version_0.0.1
 //
-//  Created by Lauren Bonnet on 10/13/12.
+//  Created by Lauren Bonnet on 10/29/12.
 //  Copyright (c) 2012 Ben Bonnet. All rights reserved.
 //
 
-#import "ImageEditorViewController.h"
+#import "PublishViewController.h"
 
-@interface ImageEditorViewController ()
+@interface PublishViewController ()
 
 @end
 
-@implementation ImageEditorViewController
+@implementation PublishViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +33,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)publish:(id)sender{
+    [self.delegate userDidPublish];
+    
+}
+
+- (IBAction)cancel:(id)sender{
+    [self.delegate userDidCancel];
 }
 
 @end
