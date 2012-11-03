@@ -350,7 +350,6 @@
             CMTime startPoint = CMTimeMake(durationSeconds/2.0,600);
             CMTime actualTime;
             NSError *e = nil;
-            NSDate* d = [assetToUse.creationDate dateValue];
             NSString *creationDateString = [[assetToUse.creationDate dateValue] description];
             self.timeStampTxt.text = creationDateString;
             [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
@@ -376,6 +375,11 @@
                 NSString *requestedTimeString = (__bridge NSString*)CMTimeCopyDescription(NULL, startPoint);
                 NSLog(@"requested time %@, actual time%@", requestedTimeString, actualTimeString);
                 UIImage* imageToUse = [UIImage imageWithCGImage:halfWayImage];
+                NSLog(@"orientation %d",imageToUse.imageOrientation);
+                if(UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation])){// done to correct video taken with the image orientation set to portrait, this will automatically assign a rotated orientation 
+                    imageToUse = [UIImage imageWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationRight];
+                }
+                
                 [self removeOldThumbAndWriteNew:imageToUse];
                 NSLog(@" the thing was made");
             }
@@ -415,6 +419,7 @@
         [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
         UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1.0 orientation:UIImageOrientationUp];
         
+        
         NSLog(@" saved image orientation: %d",preview.imageOrientation);
         
         //[self performSelectorOnMainThread:@selector(saveNewImage:) withObject:preview waitUntilDone:NO];
@@ -453,6 +458,7 @@
             }
 
         }
+        NSLog(@"imageOrientation: %d", img.imageOrientation);
         
         // create the path  and URL for the new thumbnail image, then write it to the home directory
         NSString *imageName = [NSString stringWithFormat:@"thumb_%@",[self.buildItemVals valueForKey:@"buildItemID"]];

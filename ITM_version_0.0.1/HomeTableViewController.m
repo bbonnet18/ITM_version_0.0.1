@@ -26,7 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    // add observer for uploaded item
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadComplete:) name:@"UploadComplete" object:nil];
+    
     UIBarButtonItem* addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewBuildAndPopulate:)];
     self.navigationItem.rightBarButtonItem = addItem;
     
@@ -45,6 +47,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) uploadComplete:(NSNotification*) note{
+    [self.tableView reloadData];
 }
 
 // shows the build that was selected in the table

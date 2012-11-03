@@ -15,8 +15,8 @@
 
 @required
 // notifies the delegate that the upload is done and provides it with the original buildID provided to it
-- (void) uploadDidCompleWithBuildID:(NSNumber*) buildID;
-- (void) uploadDidFailWithReason:(NSString*) reason;
+- (void) uploadDidCompleWithBuildID:(NSString*) buildID;
+- (void) uploadDidFailWithReason:(NSString*) reason andID:(NSString*)buildID;
 
 @end
 
@@ -26,7 +26,7 @@
 {
     
     id <UploadProtocol> _delegate;// the delegate must adhere to the protocol
-    NSNumber * _buildID;
+    NSString * _buildID;
     NSTimer *_updateTimer;
     NSOperationQueue *_mediaQueue;// will hold all the upload operations
     NSArray *_mediaItems;// array of the items
@@ -43,7 +43,7 @@
 }
 
 @property (strong, nonatomic) id <UploadProtocol> delegate;
-@property (strong, nonatomic) NSNumber * buildID;
+@property (strong, nonatomic) NSString * buildID;
 
 
 @property (assign, nonatomic) BOOL isUploading;
@@ -62,7 +62,7 @@
 
 
 // this method takes in an array of dictionary objects and a JSONData object and starts the process of uploading
-- (id) initWithBuildItems:(NSArray*) buildItemVals andJSONData:(NSData*) jsonData buildID:(NSNumber*) idNum;
+- (id) initWithBuildItems:(NSArray*) buildItemVals andJSONData:(NSData*) jsonData buildID:(NSString*) idNum;
 
 // stops the uploads from happening
 - (void) stopUpload;

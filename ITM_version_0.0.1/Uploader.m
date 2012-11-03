@@ -16,6 +16,7 @@
 
 
 #import "Uploader.h"
+#import "Reachability.h"
 
 
 @implementation Uploader
@@ -37,7 +38,7 @@
 
 // class methods
 
-- (id) initWithBuildItems:(NSArray *)buildItemVals andJSONData:(NSData *)jsonData buildID:(NSNumber*) idNum{
+- (id) initWithBuildItems:(NSArray *)buildItemVals andJSONData:(NSData *)jsonData buildID:(NSString*) idNum{
     
      if ( self = [super init] ) {
          self->currentItemUploadIndex = 0;// set to zero to get things started
@@ -48,13 +49,39 @@
              self->currentItemUploadIndex = lastUploadIndex;
          }
          
+         [[NSNotificationCenter defaultCenter] addObserver:self
+                                                  selector:@selector(reachabilityChanged:)
+                                                      name:kReachabilityChangedNotification
+                                                    object:nil];
+         
+         Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+         
+         reach.reachableBlock = ^(Reachability * reachability)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 NSLog(@"--- BLOCK --- is Reachable FROM UPLOADER");
+             });
+         };
+         
+         reach.unreachableBlock = ^(Reachability * reachability)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 NSLog(@"--- BLOCK --- is NOT  Reachable FROM UPLOADER");
+             });
+         };
+         
+         [reach startNotifier];
+
+         
          
          self.buildID = idNum;// set this so we can store it and return it
          // initialize the library that we'll use to get assets
          self.lib = [[ALAssetsLibrary alloc] init];
          self.isUploading = YES;// set this to yes to indicate that the class is curently uploading
          self.mediaItems = buildItemVals;
-
+         [self.mediaItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+             NSLog(@"obj %@",obj);
+         }];
          self.mediaQueue = [[NSOperationQueue alloc] init]; //initialize the mediaQueue
          self.uploadComplete = NO;
          [self buildRequestAndUpload];//call the buildRequestAndUpload method kick the whole thing off
@@ -62,6 +89,23 @@
     
     return self;
     
+}
+
+-(void)reachabilityChanged:(NSNotification*)note
+{
+    Reachability * reach = [note object];
+    
+    if([reach isReachable])
+    {
+        NSLog(@" Uploader ---- > IS REACHABLE --------------- ");
+        [self resumeUpload];
+        
+    }
+    else
+    {
+        NSLog(@" Uploader ---- > IS NOT 2REACHABLE --------------- ");
+        [self stopUpload];
+    }
 }
 
 
@@ -101,6 +145,8 @@
             [self createJSONDataRequest];
         }
         
+    }else{// caught it just when it was done, so now make sure to run the delegate actions
+        [self.delegate uploadDidCompleWithBuildID:self.buildID];
     }
     
     
@@ -424,6 +470,10 @@
     NSObject *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
     NSString *mediaType =  [b valueForKey:@"type"];// get the media type
     
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"key: %@ - %@",key,obj);
+    }];
+    
     for (int i = 0; i < [keys count]; i++)
     {
         id value = [dict valueForKey: [keys objectAtIndex:i]];
@@ -433,7 +483,7 @@
 		{
 			// handle video data
             NSString* formstring = nil;
-            if(mediaType == @"video"){
+            if([mediaType isEqualToString:@"video"]){
                 formstring = [NSString stringWithFormat:VIDEO_CONTENT, [keys objectAtIndex:i]];
             }else{
                 formstring = [NSString stringWithFormat:IMAGE_CONTENT, [keys objectAtIndex:i]];

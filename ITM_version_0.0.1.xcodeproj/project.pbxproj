@@ -71,6 +71,7 @@
 		90B3CBD0162FB2A90079710E /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B3CBCD162FB2A90079710E /* UIImage+RoundedCorner.m */; };
 		90B3CBD51630E7DE0079710E /* ImageTestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B3CBD31630E7DE0079710E /* ImageTestsViewController.m */; };
 		90B3CBD61630E7DE0079710E /* ImageTestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90B3CBD41630E7DE0079710E /* ImageTestsViewController.xib */; };
+		90BC2D6716435E650040CBF0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BC2D6616435E650040CBF0 /* Reachability.m */; };
 		90BC651F163F248600460A55 /* Uploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BC651E163F248600460A55 /* Uploader.m */; };
 		90BC6525163F86BD00460A55 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BC6523163F86BD00460A55 /* PublishViewController.m */; };
 		90BC6526163F86BD00460A55 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90BC6524163F86BD00460A55 /* PublishViewController.xib */; };
@@ -165,6 +166,8 @@
 		90B3CBD21630E7DE0079710E /* ImageTestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageTestsViewController.h; path = ITM_version_0.0.1/ImageTestsViewController.h; sourceTree = "<group>"; };
 		90B3CBD31630E7DE0079710E /* ImageTestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageTestsViewController.m; path = ITM_version_0.0.1/ImageTestsViewController.m; sourceTree = "<group>"; };
 		90B3CBD41630E7DE0079710E /* ImageTestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageTestsViewController.xib; path = ITM_version_0.0.1/ImageTestsViewController.xib; sourceTree = "<group>"; };
+		90BC2D6516435E650040CBF0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = "../../../../Downloads/tonymillion-Reachability-f7176f4/Reachability.h"; sourceTree = "<group>"; };
+		90BC2D6616435E650040CBF0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = "../../../../Downloads/tonymillion-Reachability-f7176f4/Reachability.m"; sourceTree = "<group>"; };
 		90BC651D163F248600460A55 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uploader.h; sourceTree = "<group>"; };
 		90BC651E163F248600460A55 /* Uploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Uploader.m; sourceTree = "<group>"; };
 		90BC6522163F86BD00460A55 /* PublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishViewController.h; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 			children = (
 				903C38CA1623C7D1001845FE /* AppDelegate.h */,
 				903C38CB1623C7D1001845FE /* AppDelegate.m */,
+				90BC2D6516435E650040CBF0 /* Reachability.h */,
+				90BC2D6616435E650040CBF0 /* Reachability.m */,
 				90BC652D1640231E00460A55 /* HomeTableViewController.h */,
 				90BC652E1640231E00460A55 /* HomeTableViewController.m */,
 				90BC652F1640231E00460A55 /* HomeTableViewController.xib */,
@@ -512,6 +517,7 @@
 				90BC6529163F963300460A55 /* Build.m in Sources */,
 				90BC652C163F963400460A55 /* BuildItem.m in Sources */,
 				90BC65301640231F00460A55 /* HomeTableViewController.m in Sources */,
+				90BC2D6716435E650040CBF0 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

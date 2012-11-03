@@ -7,12 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import "Reachability.h"
 
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize isReachable = _isReachable;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -21,24 +23,24 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-//    UIImage *img = [UIImage imageNamed:@"ITM_v0.jpg"];
-//    PreviewImage *p = [[PreviewImage alloc] initWithFrame:CGRectMake(0, 0, 320, 400) andImage:img];
-//    p.itemNumber = 1;
-//    
-//    HomeViewController *hv = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-//    
-//    [hv.view addSubview:p];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
+
+
     
-    // if we were uploading something, then we need to start that back up
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]  && [[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
-        NSInteger uploadingBuildID = [[NSUserDefaults standardUserDefaults] integerForKey:@"lastUploadingBuildID"];
+        NSString* uploadingBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastUploadingBuildID"];
         
         
         // this should be encapsulated in another method, so it can be called from here and from the published function
-        NSNumber *idForBuild = [NSNumber numberWithInt:uploadingBuildID];
-        Build * newBuild = [self getBuild:idForBuild];
         
-        [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
+        Build * newBuild = [self getBuild:uploadingBuildID];
+        
+        [self startUploadProcessWithBuild:newBuild withBuildID:uploadingBuildID];
         
     }
     
@@ -56,48 +58,53 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    
+    Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    reach.reachableBlock = ^(Reachability * reachability)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"--- BLOCK --- is Reachable");
+            self.isReachable = YES;
+        });
+    };
+    
+    reach.unreachableBlock = ^(Reachability * reachability)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+             NSLog(@"--- BLOCK --- is NOT  Reachable");
+            self.isReachable = NO;
+        });
+    };
+    
+    [reach startNotifier];
+    
     return YES;
 
 }
 
--(NSString*) createTestData{
+-(void)reachabilityChanged:(NSNotification*)note
+{
+    Reachability * reach = [note object];
     
-    if(![[NSUserDefaults standardUserDefaults] valueForKey:@"didCreateTestData"]){
-        Build *newBuild = (Build*) [NSEntityDescription insertNewObjectForEntityForName:@"Build" inManagedObjectContext:self.managedObjectContext];
-        
-        Utilities *u = [[Utilities alloc] init];
-        
-        NSDate *today = [NSDate date];
-        newBuild.dateCreated = today;
-        newBuild.buildDescription = @"Type in your description";
-        NSString *newBuildID = [u GetUUIDString];
-        newBuild.buildID = newBuildID;
-        newBuild.status = @"edit";
-        
-        NSError *err = nil;
-        
-        if(![self.managedObjectContext save:&err]){
-            NSLog(@"error creating the test build object: %@", [err localizedFailureReason]);
-        }
-        
-        [[NSUserDefaults standardUserDefaults] setValue:newBuildID forKey:@"testBuildID"];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"didCreateTestData"];
-        
-        
-        return newBuildID;
-    }else{
-        
-        
-        NSString *testBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"testBuildID"];
-        return testBuildID;
-
+    if([reach isReachable])
+    {
+        self.isReachable = YES;
     }
-    
-    
-    
+    else
+    {
+        self.isReachable = NO;
+    }
 }
 
-- (void) startUploadProcessWithBuild: (Build*) newBuild withBuildID:(NSNumber*) idForBuild{
+
+
+- (void) startUploadProcessWithBuild: (Build*) newBuild withBuildID:(NSString*) idForBuild{
     
     if(newBuild != nil){
         
@@ -122,8 +129,6 @@
             // create array to hold the objects to pass to the uploader
             
             for (BuildItem * b in mediaItems) {
-                NSString * type = @"";// set the media type and path
-                NSString * mediaPath = @"";
                                 
                 NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status", nil];
                 [mediaItemsToUpload addObject:mediaObject];// add it to the array to be passed
@@ -151,24 +156,46 @@
     
     
     NSDictionary *myDictionary = [buildID userInfo];
-    NSNumber * idForBuild = [myDictionary valueForKey:@"buildID"];
+    NSString * idForBuild = [myDictionary valueForKey:@"buildID"];
     
     // save this a reference to the last uploaded buildID so it can be re-launched the next time if it quits
-    [[NSUserDefaults standardUserDefaults] setInteger:[idForBuild integerValue] forKey:@"lastUploadingBuildID"];
+    [[NSUserDefaults standardUserDefaults] setValue:idForBuild forKey:@"lastUploadingBuildID"];
     
     self.uploader = nil;
     Build * newBuild = [self getBuild:idForBuild];
     
-    // NEED to CHECK network access
-    if(newBuild != nil){
-        [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
+        
+    if(self.isReachable){
+        if(newBuild != nil){
+            [newBuild setStatus:@"uploading"];// set the status to uploading
+            NSError *err = nil;
+            [self.managedObjectContext save:&err];
+            if(!err){
+                [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
+            }else{
+                [newBuild setStatus:@"edit"];// set the status to uploading
+                NSError *err2 = nil;
+                [self.managedObjectContext save:&err2];
+                if(!err2){
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to retrieve your event" message:[err2 localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alertView show];
+                }
+            }
+            
+        }else{
+            NSLog(@"problem retrieving build");
+        }
     }else{
-        NSLog(@"problem retrieving build");
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network Unavailable" message:@"Unable to upload, no network available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+        
+       
     }
+
         
 }
 // get a build with the id provided
--(Build*) getBuild:(NSNumber*) buildID{
+-(Build*) getBuild:(NSString*) buildID{
     
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Build" inManagedObjectContext:self.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -229,15 +256,57 @@
     }
     
 }
-
-
--(void)uploadDidCompleWithBuildID:(NSNumber *)buildID{
-    NSString* test = nil;
+// incomplete - finish
+#pragma mark - uploads
+- (void) addItemsToUploadObjects:(NSMutableArray *)mediaItems{
+    
+    [self.uploadObjects addObject:mediaItems];
+    
 }
 
--(void)uploadDidFailWithReason:(NSString *)reason{
-    NSString* test = nil;
+- (NSArray*) getUploadObjectsAtIndex:(NSUInteger)uploadIndex{
+    return [self.uploadObjects objectAtIndex:uploadIndex];
 }
+
+-(void)uploadDidCompleWithBuildID:(NSString *)buildID{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.uploader = nil;
+    
+    Build *b = [self getBuild:buildID];
+    
+    b.status = @"view";
+    
+    NSError *err = nil;
+    
+    [self.managedObjectContext save:&err];
+
+    if(!err){
+         [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:buildID forKey:@"buildID"]];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error saving" message:@"Could not save your upload session" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+   
+}
+
+-(void)uploadDidFailWithReason:(NSString *)reason andID:(NSString*)buildID{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.uploader = nil;
+    
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:@"An error occured while uploading your files. Try again?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    [errorAlert show];
+    
+}
+
+
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+
+}
+
+- (void) alertViewCancel:(UIAlertView *)alertView{
+    
+}
+
 
 #pragma mark - Application lifecycle methods
 

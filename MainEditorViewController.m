@@ -501,8 +501,9 @@
      NSDictionary *holder = [NSDictionary dictionaryWithObjectsAndKeys:self->_buildID,@"buildID",@"message to Ben",@"newMsg"            , nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidUpload" object:nil userInfo:holder];
     [self dismissViewControllerAnimated:YES completion:^{
-       
+        NSLog(@"dismissed the publish screen");
     }];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void) userDidCancel{
