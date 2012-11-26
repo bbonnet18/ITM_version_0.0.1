@@ -40,6 +40,7 @@
     NSURLConnection *_mainConn;// the main url connection object to handle the uploads and downloads
     NSData *_jsonData;// this will be used to hold the JSON that we get from the init function
     BOOL _uploadComplete;// used to track whether completely done uploading, initially set to NO
+    BOOL _jsonSent;// private flag used temporarily while we set up the server side
 }
 
 @property (strong, nonatomic) id <UploadProtocol> delegate;
@@ -70,4 +71,5 @@
 // resumes the upload process from the current point
 - (void) resumeUpload;
 
+- (void) buildRequestAndUpload;// starts the process to upload 
 @end

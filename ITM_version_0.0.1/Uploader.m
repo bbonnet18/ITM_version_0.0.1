@@ -16,7 +16,6 @@
 
 
 #import "Uploader.h"
-#import "Reachability.h"
 
 
 @implementation Uploader
@@ -47,30 +46,10 @@
          if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]){
              NSInteger lastUploadIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"uploadIndex"];
              self->currentItemUploadIndex = lastUploadIndex;
+         }else{// set it to uploading now
+             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];
          }
          
-         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                  selector:@selector(reachabilityChanged:)
-                                                      name:kReachabilityChangedNotification
-                                                    object:nil];
-         
-         Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
-         
-         reach.reachableBlock = ^(Reachability * reachability)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 NSLog(@"--- BLOCK --- is Reachable FROM UPLOADER");
-             });
-         };
-         
-         reach.unreachableBlock = ^(Reachability * reachability)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 NSLog(@"--- BLOCK --- is NOT  Reachable FROM UPLOADER");
-             });
-         };
-         
-         [reach startNotifier];
 
          
          
@@ -79,34 +58,15 @@
          self.lib = [[ALAssetsLibrary alloc] init];
          self.isUploading = YES;// set this to yes to indicate that the class is curently uploading
          self.mediaItems = buildItemVals;
-         [self.mediaItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-             NSLog(@"obj %@",obj);
-         }];
          self.mediaQueue = [[NSOperationQueue alloc] init]; //initialize the mediaQueue
          self.uploadComplete = NO;
-         [self buildRequestAndUpload];//call the buildRequestAndUpload method kick the whole thing off
+         self->_jsonSent = NO;
      }
     
     return self;
     
 }
 
--(void)reachabilityChanged:(NSNotification*)note
-{
-    Reachability * reach = [note object];
-    
-    if([reach isReachable])
-    {
-        NSLog(@" Uploader ---- > IS REACHABLE --------------- ");
-        [self resumeUpload];
-        
-    }
-    else
-    {
-        NSLog(@" Uploader ---- > IS NOT 2REACHABLE --------------- ");
-        [self stopUpload];
-    }
-}
 
 
 
@@ -142,6 +102,7 @@
         if(![self checkMediaComplete]){
             [self buildRequestAndUpload];//
         }else{
+            self->_jsonSent = YES;
             [self createJSONDataRequest];
         }
         
@@ -161,13 +122,9 @@
 -  (void) buildRequestAndUpload{
     
     NSDictionary *itemToUpload = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
-    [itemToUpload enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"key: %@ value: %@", key, obj);
-    }];
     
     NSString *typeForMedia = [itemToUpload valueForKey:@"type"];
     NSString *mediaPath = [itemToUpload valueForKey:@"path"];
-    NSLog(@"mediaPath :%@",mediaPath);
     if([typeForMedia isEqualToString: @"image"]){
         [self createImageDataFromPath:mediaPath];
     }else{
@@ -181,15 +138,23 @@
     AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:path]];
     // these path components can be tricky and you need to store the file in the right place. The place below works better than all others to store larger files temporarily.
     //setup all the file path components
-    NSString *basePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/temp"];
-    NSString *filePath = [basePath stringByAppendingString:@"tempMov"];
-    NSString *fullPath = [filePath stringByAppendingPathExtension:@"mov"];
-    self.mediaPathString = fullPath;
-    NSLog(@"mediaPathString: %@",fullPath);
+//    NSString *basePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/temp"];
+//    NSString *filePath = [basePath stringByAppendingString:@"tempMov"];
+//    NSString *fullPath = [filePath stringByAppendingPathExtension:@"mov"];
+    
+    
+    NSString *movName = @"tempUploadMov";
+    NSString *movPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.mov",movName]];
+    //NSURL *url = [NSURL fileURLWithPath:path];
+    
+    
+    self.mediaPathString = movPath;
+
+    NSLog(@"######## _____------- videoDataFromPath: %@",movPath);
     
     // remove the file if for some reason it's in the directory already
     if([[NSFileManager defaultManager] fileExistsAtPath:self.mediaPathString]){
-        BOOL removeIfFileExists = [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
+        [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
     }
     // used to set up presets if there are many to choose from
     
@@ -214,13 +179,13 @@
         // check the status report problems or start a media request with the newly exported movie
         switch ([self.export status]) {
             case AVAssetExportSessionStatusCompleted:
-                NSLog(@"Export session completed");
+                [self showMessage];
                 [self performSelectorOnMainThread:@selector(createMediaRequestFromBuildItem) withObject:nil waitUntilDone:YES];
                 break;
             case AVAssetExportSessionStatusFailed:
-                NSLog(@"failed with error: %@",self.export.error);
+                [self showMessage];
             default:
-                NSLog(@"Default ---------- ");
+                [self showMessage];
                 break;
         }
     }];
@@ -241,12 +206,8 @@
     }];
 
 }
-
+// save a temporary image to the docs folder
 - (void) saveTempImage:(UIImage*)tempImg{
- 
-    NSString *basePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/temp"];
-    
-    //NSString *fullPath = [filePath stringByAppendingPathExtension:@"jpg"];
     
     NSString *imageName = @"tempUploadImg";
     NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.jpg",imageName]];
@@ -254,11 +215,10 @@
 
     
     self.mediaPathString = path;
-    NSLog(@"mediaPathString: %@",[url path]);
     
     // remove the file if for some reason it's in the directory already
     if([[NSFileManager defaultManager] fileExistsAtPath:self.mediaPathString]){
-        BOOL removeIfFileExists = [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
+        [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
     }
     // used to set up presets if there are many to choose from
     
@@ -295,7 +255,6 @@
 
 -(void) postRequest: (NSURLRequest*)request{
     
-    //    self.mainConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     
     
     [NSURLConnection sendAsynchronousRequest:request queue:self.mediaQueue completionHandler:^(NSURLResponse *r, NSData *d, NSError *e){
@@ -310,6 +269,7 @@
         }else{
             NSString *errorStr = [NSString stringWithFormat:@"error from server"];
             [self.errors addObject:errorStr];// add the error to the errors array
+            
         }
         
     }];
@@ -328,35 +288,39 @@
     self.mediaData = nil;// release the data now that the upload has taken place
     // remove temporary file if it exists
     if([[NSFileManager defaultManager] fileExistsAtPath:self.mediaPathString]){
-        BOOL removeIfFileExists = [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
+        [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
         self.mediaPathString = nil;
     }
     // set the status of the object to uploaded
     NSDictionary *uploadedObject = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
-    [uploadedObject setValue:@"YES" forKey:@"status"];
-    
-    if([self checkMediaComplete]!= YES){
-        self->currentItemUploadIndex ++;
-        [self buildRequestAndUpload];// takes the next one and starts the upload process
-    }// called each time to check to see if the media has all been uploaded
-    else{
+    NSLog(@"uploadObject -- path:%@ type:%@ status:%@",[uploadedObject valueForKey:@"path"],[uploadedObject valueForKey:@"type"],[uploadedObject valueForKey:@"status"]);
+    // check the message and set the status to YES if upload worked for this item
+    if([message isEqualToString:@"file is valid"]){
+        [[self.mediaItems objectAtIndex:self->currentItemUploadIndex] setValue:@"YES" forKey:@"status"];
+        if(![self checkMediaComplete]){// if the media items are all done, then move on to the JSON
+            NSLog(@"currentItemUploadIndex: %d buildItems%d",self->currentItemUploadIndex, [self.mediaItems count]);
+            self->currentItemUploadIndex ++;
+            [self buildRequestAndUpload];// takes the next one and starts the upload process
+        }else{// if no message received from the server, then we are done and we need to either send the json or end the upload process
         // they have all been uploaded
         // close out the item uploading process
         // create an uploading post request for the json data
-        if([message isEqualToString:@"JSON uploaded"]){
-            // end everything and change status
-            
-            self.isUploading = NO;
-            self.uploadComplete = YES;
-            [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
-            [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
-            [self.delegate uploadDidCompleWithBuildID:self.buildID];
-        }else{// the JSON data has not been uploaded, so upload it
-            [self createJSONDataRequest];
+        // end everything and change status
+        NSLog(@"N_O_T r-e-t-u-r-n-e-d");
+            if(!self->_jsonSent){// temporary way to check whether JSON has been sent
+                [self createJSONDataRequest];// send the json to complete the upload
+                self->_jsonSent = YES;//
+            }
         }
-        
+    }else if([message isEqualToString:@"JSON"]){
+        self.isUploading = NO;
+        self.uploadComplete = YES;
+        [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
+        [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
+        [self.delegate uploadDidCompleWithBuildID:self.buildID];
     }
-    
+
+
 }
 // check to see if all the media is uploaded, if so, upload the text content as JSON
 - (BOOL) checkMediaComplete{
@@ -389,7 +353,7 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    NSString *baseurl =  @"http://192.168.1.5/Revolt/upload_media.php";
+    NSString *baseurl =  @"http://192.168.1.2/Revolt/upload_media.php";
     NSURL *url = [NSURL URLWithString:baseurl];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     if (!urlRequest) {
@@ -409,16 +373,14 @@
 
 - (void) createMediaRequestFromBuildItem{
     // data from the file in the directory
-    
+    // get the current buildItem's values
     NSDictionary *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
-    NSLog(@"mediaPathString: %@",self.mediaPathString);
-    self.mediaData = [NSData dataWithContentsOfFile:self.mediaPathString];
     NSError *err = nil;
-    NSData *testData = [NSData dataWithContentsOfFile:self.mediaPathString options:nil error:&err];
-    
+    self.mediaData = [NSData dataWithContentsOfFile:self.mediaPathString options:NSDataReadingMappedAlways error:&err]; // option indicates that it should map the file
     
     if(err != nil){
         NSLog(@"reason: %@ other: %@ suggestions: %@",[err localizedFailureReason], [err localizedDescription], [err localizedRecoverySuggestion]);
+        [self.delegate uploadDidFailWithReason:[err localizedDescription] andID:self.buildID];
     }
     // removing all the credential stuff for demo
     // create the dictionary
@@ -439,17 +401,18 @@
     //	[post_dict setObject:uname forKey:@"username"];
     //	[post_dict setObject:pword forKey:@"password"];
 	[post_dict setObject:@"Posted to localhost" forKey:@"message"];
-	[post_dict setObject:self.mediaData forKey:@"media"];
+	[post_dict setObject:self.mediaData forKey:@"mediaBen"];
     
+    // need to set this so it appears as the file and not underneath the media key when showing up on the server
     
 	NSData *postData = [self generateFormDataFromPostDictionary:post_dict withType:[b valueForKey:@"type"]];
     
     
-	NSString *baseurl =  @"http://192.168.1.5/Revolt/upload_media.php";
+	NSString *baseurl =  @"http://192.168.1.2/Revolt/upload_media.php";
     NSURL *url = [NSURL URLWithString:baseurl];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     if (!urlRequest) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [self.delegate uploadDidFailWithReason:@"Could not create the request" andID:self.buildID];
         
     }
     [urlRequest setHTTPMethod: @"POST"];
@@ -470,9 +433,6 @@
     NSObject *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
     NSString *mediaType =  [b valueForKey:@"type"];// get the media type
     
-    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"key: %@ - %@",key,obj);
-    }];
     
     for (int i = 0; i < [keys count]; i++)
     {
@@ -485,8 +445,10 @@
             NSString* formstring = nil;
             if([mediaType isEqualToString:@"video"]){
                 formstring = [NSString stringWithFormat:VIDEO_CONTENT, [keys objectAtIndex:i]];
+                NSLog(@"formstring-video: %@",formstring);
             }else{
                 formstring = [NSString stringWithFormat:IMAGE_CONTENT, [keys objectAtIndex:i]];
+                NSLog(@"formstring-image: %@",formstring);
             }
 			
 			[result appendData: DATA(formstring)];
@@ -498,6 +460,9 @@
 			NSString *formstring = [NSString stringWithFormat:STRING_CONTENT, [keys objectAtIndex:i]];
 			[result appendData: DATA(formstring)];
 			[result appendData:DATA(value)];
+            
+            NSLog(@"formstring non-image: %@",formstring);
+            
 		}
 		
 		NSString *formstring = @"\r\n";

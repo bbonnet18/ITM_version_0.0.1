@@ -10,13 +10,16 @@
 #import "Build.h"
 #import "MainEditorViewController.h"
 #import "Utilities.h"
-@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>{
+#import "TitleInfoViewController.h"
+@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol>{
     NSFetchedResultsController *_fetched;
     NSManagedObjectContext *_context;
+    NSIndexPath* _currentSelection;// reserved for the currently selected item indexPath
 }
 
 @property (strong, nonatomic) NSFetchedResultsController *fetched;
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
+
 
 
 @end

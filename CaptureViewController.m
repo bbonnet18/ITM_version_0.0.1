@@ -11,7 +11,7 @@
 
 
 @interface CaptureViewController ()
-
+-(NSString*) getOrientation:(UIImage*)img;// helper to check the orientation to determine if it's not up
 @end
 
 @implementation CaptureViewController
@@ -227,6 +227,7 @@
    
     CGImageRef ref = imgToUse.CGImage;
     ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+
     [lib writeImageToSavedPhotosAlbum:ref orientation:imgToUse.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
         
         if(!error){
@@ -375,7 +376,7 @@
                 NSString *requestedTimeString = (__bridge NSString*)CMTimeCopyDescription(NULL, startPoint);
                 NSLog(@"requested time %@, actual time%@", requestedTimeString, actualTimeString);
                 UIImage* imageToUse = [UIImage imageWithCGImage:halfWayImage];
-                NSLog(@"orientation %d",imageToUse.imageOrientation);
+                
                 if(UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation])){// done to correct video taken with the image orientation set to portrait, this will automatically assign a rotated orientation 
                     imageToUse = [UIImage imageWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationRight];
                 }
@@ -420,8 +421,6 @@
         UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1.0 orientation:UIImageOrientationUp];
         
         
-        NSLog(@" saved image orientation: %d",preview.imageOrientation);
-        
         //[self performSelectorOnMainThread:@selector(saveNewImage:) withObject:preview waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(removeOldThumbAndWriteNew:) withObject:preview waitUntilDone:NO];
 
@@ -458,7 +457,8 @@
             }
 
         }
-        NSLog(@"imageOrientation: %d", img.imageOrientation);
+       
+        NSLog(@"--- IMG ORIENTATION %@",[self getOrientation:img]);
         
         // create the path  and URL for the new thumbnail image, then write it to the home directory
         NSString *imageName = [NSString stringWithFormat:@"thumb_%@",[self.buildItemVals valueForKey:@"buildItemID"]];
@@ -620,5 +620,39 @@
     self.scroller.scrollIndicatorInsets = contentInsets;
 }
 
+// helper to determine orientation
+-(NSString*)getOrientation:(UIImage *)img
+{
+switch (img.imageOrientation) {
+    case UIImageOrientationDown:           // EXIF = 3
+    case UIImageOrientationDownMirrored:   // EXIF = 4
+        return [NSString stringWithFormat:@"DOWN %f x %f",img.size.width,img.size.height];
+        break;
+        
+    case UIImageOrientationLeft:           // EXIF = 6
+    case UIImageOrientationLeftMirrored:   // EXIF = 5
+        return [NSString stringWithFormat:@"LEFT %f x %f",img.size.width,img.size.height];
+        break;
+        
+    case UIImageOrientationRight:          // EXIF = 8
+    case UIImageOrientationRightMirrored:  // EXIF = 7
+        return [NSString stringWithFormat:@"RIGHT %f x %f",img.size.width,img.size.height];
+        break;
+}
 
+switch (img.imageOrientation) {
+    case UIImageOrientationUpMirrored:     // EXIF = 2
+    case UIImageOrientationDownMirrored:   // EXIF = 4
+        return [NSString stringWithFormat:@"UP/DOWN MIRRORED %f x %f",img.size.width,img.size.height];
+        break;
+        
+    case UIImageOrientationLeftMirrored:   // EXIF = 5
+    case UIImageOrientationRightMirrored:  // EXIF = 7
+        return [NSString stringWithFormat:@"LEFT/RIGHT MIRRORED %f x %f",img.size.width,img.size.height];
+        break;
+    case UIImageOrientationUp: // EXIF = 1
+        return [NSString stringWithFormat:@"UP %f x %f",img.size.width,img.size.height];
+}
+    return @"UP or UNKNOWN";
+}
 @end

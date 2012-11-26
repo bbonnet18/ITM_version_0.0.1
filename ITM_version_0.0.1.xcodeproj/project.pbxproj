@@ -79,6 +79,8 @@
 		90BC652C163F963400460A55 /* BuildItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BC652B163F963400460A55 /* BuildItem.m */; };
 		90BC65301640231F00460A55 /* HomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BC652E1640231E00460A55 /* HomeTableViewController.m */; };
 		90BC65311640231F00460A55 /* HomeTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90BC652F1640231E00460A55 /* HomeTableViewController.xib */; };
+		90E323131655CD8A0044F233 /* TitleInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E323111655CD8A0044F233 /* TitleInfoViewController.m */; };
+		90E323141655CD8A0044F233 /* TitleInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E323121655CD8A0044F233 /* TitleInfoViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +182,9 @@
 		90BC652D1640231E00460A55 /* HomeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTableViewController.h; sourceTree = "<group>"; };
 		90BC652E1640231E00460A55 /* HomeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTableViewController.m; sourceTree = "<group>"; };
 		90BC652F1640231E00460A55 /* HomeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeTableViewController.xib; sourceTree = "<group>"; };
+		90E323101655CD8A0044F233 /* TitleInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleInfoViewController.h; sourceTree = "<group>"; };
+		90E323111655CD8A0044F233 /* TitleInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleInfoViewController.m; sourceTree = "<group>"; };
+		90E323121655CD8A0044F233 /* TitleInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleInfoViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +292,9 @@
 		903C38C11623C7D1001845FE /* ITM_version_0.0.1 */ = {
 			isa = PBXGroup;
 			children = (
+				90E323101655CD8A0044F233 /* TitleInfoViewController.h */,
+				90E323111655CD8A0044F233 /* TitleInfoViewController.m */,
+				90E323121655CD8A0044F233 /* TitleInfoViewController.xib */,
 				903C38CA1623C7D1001845FE /* AppDelegate.h */,
 				903C38CB1623C7D1001845FE /* AppDelegate.m */,
 				90BC2D6516435E650040CBF0 /* Reachability.h */,
@@ -461,6 +469,7 @@
 				901BD895163E336A008721C3 /* plus@2x.png in Resources */,
 				90BC6526163F86BD00460A55 /* PublishViewController.xib in Resources */,
 				90BC65311640231F00460A55 /* HomeTableViewController.xib in Resources */,
+				90E323141655CD8A0044F233 /* TitleInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +527,7 @@
 				90BC652C163F963400460A55 /* BuildItem.m in Sources */,
 				90BC65301640231F00460A55 /* HomeTableViewController.m in Sources */,
 				90BC2D6716435E650040CBF0 /* Reachability.m in Sources */,
+				90E323131655CD8A0044F233 /* TitleInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

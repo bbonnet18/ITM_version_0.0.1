@@ -142,6 +142,7 @@
             // create an instance of uploader and assign it to the uploader instance variable so it can be acted on and tracked
             self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload andJSONData:jsonData buildID:idForBuild];
             self.uploader.delegate = self;// should probably set this before calling the method above, or set it with it.
+            [self.uploader buildRequestAndUpload];// start the upload process
         }else{
             
             NSLog(@"PROBLEM RETRIEVING mediaItems: %@",[error localizedDescription]);
@@ -150,11 +151,11 @@
     
     
 }
-
+// notification can be delivered multiple times to be sure not to allow the trigger multiple times
 - (void) published:(NSNotification*) buildID{
     
     
-    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] != YES){
     NSDictionary *myDictionary = [buildID userInfo];
     NSString * idForBuild = [myDictionary valueForKey:@"buildID"];
     
@@ -165,7 +166,7 @@
     Build * newBuild = [self getBuild:idForBuild];
     
         
-    if(self.isReachable){
+    //if(self.isReachable){
         if(newBuild != nil){
             [newBuild setStatus:@"uploading"];// set the status to uploading
             NSError *err = nil;
@@ -173,7 +174,7 @@
             if(!err){
                 [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
             }else{
-                [newBuild setStatus:@"edit"];// set the status to uploading
+                [newBuild setStatus:@"edit"];// set the status to edit
                 NSError *err2 = nil;
                 [self.managedObjectContext save:&err2];
                 if(!err2){
@@ -185,14 +186,15 @@
         }else{
             NSLog(@"problem retrieving build");
         }
-    }else{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network Unavailable" message:@"Unable to upload, no network available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertView show];
-        
-       
+//        }else{
+//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network Unavailable" message:@"Unable to upload, no network available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//            [alertView show];
+//        
+//       
+//        }
     }
 
-        
+    
 }
 // get a build with the id provided
 -(Build*) getBuild:(NSString*) buildID{
@@ -291,9 +293,10 @@
 
 -(void)uploadDidFailWithReason:(NSString *)reason andID:(NSString*)buildID{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self.uploader stopUpload];
     self.uploader = nil;
     
-    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:@"An error occured while uploading your files. Try again?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:[NSString stringWithFormat:@"An error occured while uploading your files. Try again? Error:%@",reason] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     [errorAlert show];
     
 }

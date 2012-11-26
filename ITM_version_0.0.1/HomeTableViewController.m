@@ -29,7 +29,7 @@
     // add observer for uploaded item
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadComplete:) name:@"UploadComplete" object:nil];
     
-    UIBarButtonItem* addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewBuildAndPopulate:)];
+    UIBarButtonItem* addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewBuild:)];
     self.navigationItem.rightBarButtonItem = addItem;
     
     NSError *error;
@@ -60,7 +60,7 @@
     UIView *parent = [thisBtn superview]; // get the parent
     if([parent isKindOfClass:[UITableViewCell class]]){// check to see if the parent is a UITableViewCell
         UITableViewCell *cell = (UITableViewCell*)parent;// if so, get the cell
-        indexPath = [self.tableView indexPathForCell:cell];// else get the index path
+        indexPath = [self.tableView indexPathForCell:cell];// get the index path
     }
     if(indexPath != nil){
         Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
@@ -70,19 +70,56 @@
         [self.navigationController pushViewController:bv animated:YES];
     }
 }
+// adds a new build with no info because it's new
+- (void) addNewBuild:(id)sender{
+    TitleInfoViewController *tv = [[TitleInfoViewController alloc] initWithNibName:@"TitleInfoViewController" bundle:[NSBundle mainBundle]];
+    tv.delegate = self;
+    tv.isNew = YES;
+    [self presentViewController:tv animated:YES completion:^{
+        
+    }];
+}
+// shows the build info screen populated and allows you to delete it. 
+- (void) showBuildInfo:(id)sender{
+    UIButton *thisBtn = (UIButton*)sender;//reference to the button
+    NSIndexPath *indexPath = nil;// instantiate the indexPath
+    UIView *parent = [thisBtn superview]; // get the parent
+    if([parent isKindOfClass:[UITableViewCell class]]){// check to see if the parent is a UITableViewCell
+        UITableViewCell *cell = (UITableViewCell*)parent;// if so, get the cell
+        indexPath = [self.tableView indexPathForCell:cell];// get the index path
+        
+    }
+    if(indexPath != nil){
+        self->_currentSelection = indexPath;// set the current selection
+        Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
+        
+        TitleInfoViewController* ti = [[TitleInfoViewController alloc] initWithNibName:@"TitleInfoViewController" bundle:[NSBundle mainBundle]];
+        NSLog(@"title %@",b.title);
+        ti.titleForBuild = b.title;
+        ti.delegate = self;
+        ti.descriptionForBuild = b.buildDescription;
+        ti.isNew = NO;
+        ti.buildID = b.buildID;
+        [self presentViewController:ti animated:YES completion:^{
+            
+        }];
+    }
 
-- (void) addNewBuildAndPopulate:(id)sender{
+    
+}
+
+- (void) addNewBuildWithTitle:(NSString*)title andDescription:(NSString*)description {
     Build *newBuild = (Build*) [NSEntityDescription insertNewObjectForEntityForName:@"Build" inManagedObjectContext:self.context];
     
     Utilities *u = [[Utilities alloc] init];
     
     NSDate *today = [NSDate date];
     newBuild.dateCreated = today;
-    newBuild.buildDescription = @"Type in your description";
+    newBuild.buildDescription = description;
     NSString *newBuildID = [u GetUUIDString];
     newBuild.buildID = newBuildID;
     newBuild.status = @"edit";
-    newBuild.title = @"New Event";
+    newBuild.title = title;
     
     NSError *err = nil;
     
@@ -98,6 +135,91 @@
 
 }
 
+- (void) deleteBuild:(id)sender{
+    UIButton *thisBtn = (UIButton*)sender;//reference to the button
+    NSIndexPath *indexPath = nil;// instantiate the indexPath
+    UIView *parent = [thisBtn superview]; // get the parent
+    if([parent isKindOfClass:[UITableViewCell class]]){// check to see if the parent is a UITableViewCell
+        UITableViewCell *cell = (UITableViewCell*)parent;// if so, get the cell
+        indexPath = [self.tableView indexPathForCell:cell];// get the index path
+    }
+    if(indexPath != nil){
+        Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
+        [self.context deleteObject:b];
+        NSError *err = nil;
+        
+        [self.context save:&err];
+        if(err!=nil){
+            NSLog(@"could not delete the build");
+        }else{
+            [self.tableView reloadData];
+        }
+    }
+}
+
+- (void) deletBuildWithBuildID:(NSString*)buildID{
+    NSEntityDescription *desc = [NSEntityDescription entityForName:@"Build" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:desc];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"buildID == %@",buildID];
+    [request setPredicate:predicate];
+    NSError *error = nil;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    if(!error){
+        Build* deleteObj = (Build*)[results objectAtIndex:0];
+        [self.context deleteObject:deleteObj];
+        NSError* err = nil;
+        [self.context save:&err];
+        
+        if(err){
+            NSLog(@"DELETE Failed");
+        }
+    }else{
+        NSLog(@"Exception : %@",[error localizedFailureReason]);
+    }
+}
+
+#pragma mark - TitleInfoProtocol methods
+
+-(void) userDidAddBuildWithTitle:(NSString *)title andDescription:(NSString *)description isNew:(BOOL) buildIsNew{// if it's new, then add and edit, if it's not, then simply dismiss
+    if(buildIsNew){
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self addNewBuildWithTitle:title andDescription:description];
+        }];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            Build *b = [self.fetched objectAtIndexPath:self->_currentSelection];// get the build
+            b.title = title;
+            b.buildDescription = description;
+            NSError* err = nil;
+            [self.context save:&err];
+            if(!err){
+                self->_currentSelection = nil;
+                [self.tableView reloadData];// reload the data and the table
+            }else{
+                NSLog(@"ERROR saving: %@",[err localizedDescription]);
+            }
+            // add functionality to change the build information and reload the data
+        }];
+    }
+    
+    
+}
+
+-(void) userDidCancel{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+-(void)userDidDeleteBuildWithID:(NSString *)buildId{
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self deletBuildWithBuildID:buildId];
+        [self.tableView reloadData];
+    }];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -131,10 +253,14 @@
     actionBtn.frame = CGRectMake(0.0, 0.0, 60.0, 25.0);
     cell.accessoryView = actionBtn;
     
-    return cell;
-
+    UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
+    infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
+    [cell addSubview:infoBtn];
     
     return cell;
+
+
 }
 
 /*

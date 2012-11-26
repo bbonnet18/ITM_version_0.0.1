@@ -198,7 +198,7 @@
     BuildItem* bi = [NSEntityDescription insertNewObjectForEntityForName:@"BuildItem" inManagedObjectContext:self.context];
     bi.orderNumber = orderNum;
     bi.buildItemID = [self.util GetUUIDString];
-    bi.status = @"edit";
+    bi.status = @"NO"; // this will set the upload status to NO since it hasn't been uploaded
     [bi setBuild:b];
     NSError* err;
     if(![self.context save:&err]){
