@@ -11,6 +11,8 @@
 #import "MainEditorViewController.h"
 #import "Utilities.h"
 #import "TitleInfoViewController.h"
+#import "UIImage+Resize.h"
+
 @interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol>{
     NSFetchedResultsController *_fetched;
     NSManagedObjectContext *_context;

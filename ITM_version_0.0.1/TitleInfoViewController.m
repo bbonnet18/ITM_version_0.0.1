@@ -31,14 +31,31 @@
 {
     [super viewDidLoad];
     NSString*actionBtnTitle = (self.isNew) ? @"Continue" : @"OK";
-    NSString*cancelBtnTitle = (self.isNew) ? @"Cancel" : @"Delete";
+    // add the delete button if it's not new
+    if(!self.isNew){
+        UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [deleteBtn addTarget:self action:@selector(deleteBuild:) forControlEvents:UIControlEventTouchUpInside];
+        [deleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
+        [deleteBtn sizeToFit];
+        
+        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y, deleteBtn.frame.size.width, deleteBtn.frame.size.height);
+        deleteBtn.frame = deleteBtnFrame;
+        [self.view addSubview:deleteBtn];
+    }
     
     [self.continueBtn setTitle:actionBtnTitle forState:UIControlStateNormal];
-    [self.cancelBtn setTitle:cancelBtnTitle forState:UIControlStateNormal];
+
+    
+    
     
     self.titleTxt.text = self.titleForBuild;
     self.descriptionTxt.text = self.descriptionForBuild;
     // Do any additional setup after loading the view from its nib.
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)didReceiveMemoryWarning

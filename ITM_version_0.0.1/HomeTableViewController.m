@@ -220,6 +220,53 @@
         [self.tableView reloadData];
     }];
 }
+// get the image preview thumbnail, by getting a list of the build items for this build and selecting the first item's thumbnail and scaling it to return
+- (UIImage*)getBuildItemPreview:(Build*)b{
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"build == %@",b];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"orderNumber" ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *error = nil;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    
+    if(error){
+        NSLog(@"ERROR GETTING BUILD ITEMS: %@",[error localizedFailureReason]);
+        return nil;
+    }
+    UIImage *returnImage = [UIImage imageNamed:@"placeholder1.jpg"];
+    if([results count] >0){// if we don't have any yet, just push in the placeholder
+        BuildItem *b = [results objectAtIndex:0];
+        UIImage *previewImage = [self loadPreviewImageFromThumbnailPath:b.thumbnailPath];
+        
+        returnImage = previewImage;
+    }
+    
+    return [returnImage thumbnailImage:30 transparentBorder:1 cornerRadius:5 interpolationQuality:0];
+}
+
+// take the path and return the image or a placeholder if the path is no good
+- (UIImage*)loadPreviewImageFromThumbnailPath:(NSString*) thumbnailPath{
+    UIImage* img = [UIImage imageNamed:@"placeholder1.jpg"];
+    if([thumbnailPath isEqualToString:@""] || [thumbnailPath isEqual:[NSNull null]]){
+        return img;
+    }else{
+        UIImage *returnImage = [UIImage imageWithContentsOfFile:thumbnailPath];
+        if(returnImage != nil){
+            img = returnImage;
+        }
+        return img;
+    }
+    
+}
+
+
+                                
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -257,6 +304,10 @@
     [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
     infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
     [cell addSubview:infoBtn];
+    UIImage *previewImg = [self getBuildItemPreview:b];
+    UIImageView *preview = [[UIImageView alloc] initWithFrame:CGRectMake(130.0,5.0, 30.0,30.0)];
+    [preview setImage:previewImg];
+    [cell addSubview:preview];
     
     return cell;
 
