@@ -30,9 +30,11 @@
 @property (strong, nonatomic) IBOutlet UITextView* descriptionTxt;
 @property (strong, nonatomic) NSString* titleForBuild;//the build title variable;
 @property (strong, nonatomic) NSString* descriptionForBuild;//the description for build
+@property (strong, nonatomic) NSString* thumbNailPath;// the path for the thumbnail if it has one
 @property (strong, nonatomic) IBOutlet UITextField* titleTxt;
 @property (strong, nonatomic) IBOutlet UIImageView* previewImg;//preview image
 @property (strong, nonatomic) id <TitleInfoProtocol> delegate;
+@property (strong, nonatomic) UIImage *preview;// actual preview image
 @property (strong, nonatomic) NSString *buildTitle;
 @property (strong, nonatomic) NSString *description;
 @property (strong, nonatomic) NSString *buildID;

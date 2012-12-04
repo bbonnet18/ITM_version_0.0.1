@@ -35,6 +35,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *previewBtn;// shown when a preview is possible
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
+@property (strong, nonatomic) IBOutlet UIButton* rotateBtn;//holds a reference to the rotation button
 @property (strong, nonatomic) UITextField *activeField;// used with the keyboard methods to adjust the scroll view so the keyboard can show along with the text field
 @property (strong, nonatomic) NSMutableDictionary *buildItemVals;// holds all the values passed in and this object is also passed back to the main editor
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
@@ -44,5 +45,6 @@
 - (IBAction)useLibrary:(id)sender;// this method will allow users to select videos or images from the library
 - (IBAction)save:(id)sender; // saves the values in the dictionary and calls the delegate methods
 - (IBAction)cancel:(id)sender; // cancels the editing process and calls the delegate methods
+- (IBAction)rotate:(id)sender;// rotates the image preview thumbnail
 @end
 

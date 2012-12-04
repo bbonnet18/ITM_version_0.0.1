@@ -12,6 +12,8 @@
 
 @interface CaptureViewController ()
 -(NSString*) getOrientation:(UIImage*)img;// helper to check the orientation to determine if it's not up
+-(UIImage*) rotateThumbnail;// gets the thumbnail image and rotates it
+
 @end
 
 @implementation CaptureViewController
@@ -655,4 +657,51 @@ switch (img.imageOrientation) {
 }
     return @"UP or UNKNOWN";
 }
+
+-(IBAction)rotate:(id)sender{
+    UIImage* img = [self rotateThumbnail];
+    [self.previewImageView setImage:img];
+}
+
+-(UIImage*) rotateThumbnail{
+    
+    UIImage *thumb = self.previewImageView.image;
+    CGImageRef imgRef = thumb.CGImage;
+    
+    CGFloat width = CGImageGetWidth(imgRef);// get the width to use for all
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width,width, CGImageGetBitsPerComponent(imgRef), 0, CGImageGetColorSpace(imgRef), CGImageGetBitmapInfo(imgRef));
+    // get the current transform
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformTranslate(transform, 0, width);// translate the origin
+    
+    transform = CGAffineTransformRotate(transform, DegreesToRadians(-90.0));// rotates the context
+    
+    CGContextConcatCTM(bitmapContext, transform);// concatinate the transforms so they take place
+    CGContextSetInterpolationQuality(bitmapContext, kCGInterpolationDefault);
+    CGContextDrawImage(bitmapContext, CGRectMake(0, 0, width, width), imgRef);// draw the image in the rotated context
+    CGImageRef newImg = CGBitmapContextCreateImage(bitmapContext);// create the new version
+    UIImage* newRotated = [UIImage imageWithCGImage:newImg];// get a UIImage to put in the previewImageView;
+    
+//    CGRect newRec = CGRectMake(100, 100,width,width);// size of the rectangle does matter
+//    NSLog(@"x:%f y:%f w:%f h:%f",newRec.origin.x,newRec.origin.y,newRec.size.width,newRec.size.height);
+//    
+//    UIImageView *newImgView = [[UIImageView alloc] initWithFrame:newRec];
+//    [newImgView setImage:newRotated];
+    CGContextRelease(bitmapContext);
+    CGImageRelease(newImg);
+   // [self.view addSubview:newImgView];
+    
+    return newRotated;
+
+}
+
+CGFloat DegreesToRadians(CGFloat degrees)
+{
+    return degrees * M_PI / 180;
+};
+
+CGFloat RadiansToDegrees(CGFloat radians)
+{
+    return radians * 180 / M_PI;
+};
 @end

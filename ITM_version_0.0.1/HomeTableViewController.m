@@ -100,6 +100,7 @@
         ti.descriptionForBuild = b.buildDescription;
         ti.isNew = NO;
         ti.buildID = b.buildID;
+        ti.preview = [self getBuildItemPreview:b withSize:100 andCorner:8];
         [self presentViewController:ti animated:YES completion:^{
             
         }];
@@ -221,7 +222,7 @@
     }];
 }
 // get the image preview thumbnail, by getting a list of the build items for this build and selecting the first item's thumbnail and scaling it to return
-- (UIImage*)getBuildItemPreview:(Build*)b{
+- (UIImage*)getBuildItemPreview:(Build*)b withSize:(NSInteger) imgSize andCorner:(NSInteger)cornerRadius{
     
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -247,7 +248,9 @@
         returnImage = previewImage;
     }
     
-    return [returnImage thumbnailImage:30 transparentBorder:1 cornerRadius:5 interpolationQuality:0];
+    
+    
+    return [returnImage thumbnailImage:imgSize transparentBorder:1 cornerRadius:cornerRadius  interpolationQuality:0];
 }
 
 // take the path and return the image or a placeholder if the path is no good
@@ -304,7 +307,7 @@
     [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
     infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
     [cell addSubview:infoBtn];
-    UIImage *previewImg = [self getBuildItemPreview:b];
+    UIImage *previewImg = [self getBuildItemPreview:b withSize:30 andCorner:5];
     UIImageView *preview = [[UIImageView alloc] initWithFrame:CGRectMake(130.0,5.0, 30.0,30.0)];
     [preview setImage:previewImg];
     [cell addSubview:preview];

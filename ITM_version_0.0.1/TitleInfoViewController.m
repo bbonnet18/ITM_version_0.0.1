@@ -8,6 +8,8 @@
 
 #import "TitleInfoViewController.h"
 #import "Utilities.h"
+#import "UIImage+Resize.h"
+
 @interface TitleInfoViewController ()
 
 @end
@@ -38,16 +40,15 @@
         [deleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
         [deleteBtn sizeToFit];
         
-        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y, deleteBtn.frame.size.width, deleteBtn.frame.size.height);
+        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, 335.0, deleteBtn.frame.size.width, deleteBtn.frame.size.height);
         deleteBtn.frame = deleteBtnFrame;
         [self.view addSubview:deleteBtn];
+        
     }
     
     [self.continueBtn setTitle:actionBtnTitle forState:UIControlStateNormal];
-
     
-    
-    
+    [self.previewImg setImage:self.preview];
     self.titleTxt.text = self.titleForBuild;
     self.descriptionTxt.text = self.descriptionForBuild;
     // Do any additional setup after loading the view from its nib.
@@ -124,6 +125,9 @@
 - (IBAction)deleteBuild:(id)sender{
     [self.delegate userDidDeleteBuildWithID:self.buildID];
 }
+
+
+
 
 
 @end
