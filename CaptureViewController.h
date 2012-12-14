@@ -15,9 +15,10 @@
 #import "ImageEditor.h"
 #import "UIImage+Resize.h"
 #import "Utilities.h"
+#import "TextEntryViewController.h"
 
 
-@interface CaptureViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate>{
+@interface CaptureViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate,ScreenTextEditor>{
     id <ImageEditor> _delegate;// invokes the delegate methods to return values and dismiss this view
     UITextField *_activeField;// used with the keyboard methods to adjust the scroll view so the keyboard can show along with the text field
 }
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *libraryBtn;
 @property (strong, nonatomic) IBOutlet UIButton *imageCaptureBtn;
 @property (strong, nonatomic) IBOutlet UIButton *previewBtn;// shown when a preview is possible
+@property (strong, nonatomic) IBOutlet UIButton *editBtn;// allows the user to enter text with the edit button
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
 @property (strong, nonatomic) IBOutlet UIButton* rotateBtn;//holds a reference to the rotation button
@@ -46,5 +48,7 @@
 - (IBAction)save:(id)sender; // saves the values in the dictionary and calls the delegate methods
 - (IBAction)cancel:(id)sender; // cancels the editing process and calls the delegate methods
 - (IBAction)rotate:(id)sender;// rotates the image preview thumbnail
+- (IBAction)editCaption:(id)sender;// allows the user to edit the caption text with a separate controller
+
 @end
 

@@ -212,7 +212,7 @@
     NSString *imageName = @"tempUploadImg";
     NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.jpg",imageName]];
     NSURL *url = [NSURL fileURLWithPath:path];
-
+    
     
     self.mediaPathString = path;
     

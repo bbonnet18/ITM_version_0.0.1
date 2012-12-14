@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MainEditorViewController.h"
 #import "PreviewImage.h"
-#import "HomeViewController.h"
 #import "Utilities.h"
 #import "Build.h"
 #import "MainNavViewController.h" 
-#import "ImageTestsViewController.h"
 #import "Uploader.h"
 #import "HomeTableViewController.h"
+
 
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate>{

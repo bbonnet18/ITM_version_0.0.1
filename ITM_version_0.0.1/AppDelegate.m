@@ -130,7 +130,7 @@
             
             for (BuildItem * b in mediaItems) {
                                 
-                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status", nil];
+                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status",b.imageRotation,@"imageRotation", nil];
                 [mediaItemsToUpload addObject:mediaObject];// add it to the array to be passed
                 
                 

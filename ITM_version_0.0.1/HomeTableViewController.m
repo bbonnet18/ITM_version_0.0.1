@@ -19,6 +19,15 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+       
+    }
+    return self;
+}
+
+-(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        self.title = @"Captures";
     }
     return self;
 }
@@ -66,6 +75,7 @@
         Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
         MainEditorViewController *bv = [[MainEditorViewController alloc] initWithNibName:@"MainEditorViewController" bundle:[NSBundle mainBundle]];
         [bv setBuildID:b.buildID];
+        bv.title = @"Edit";
         bv.context = self.context;// assign the context
         [self.navigationController pushViewController:bv animated:YES];
     }
@@ -290,32 +300,44 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     Build *b = [self.fetched objectAtIndexPath:indexPath];// get the group that corresponds with this index
-    
+    // add the features of the cell
     cell.textLabel.text = b.title;
+    cell.detailTextLabel.text = b.buildDescription;
     
-    UIButton *actionBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *actionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //[actionBtn setTitle:b.status forState:UIControlStateNormal];
+    UIImage* btnImg = nil;
+    if([b.status isEqualToString:@"edit"]){
+        btnImg = [UIImage imageNamed:@"pencil.png"];
+    }else if([b.status isEqualToString:@"view"]){
+        btnImg = [UIImage imageNamed:@"eye-open.png"];
+    }else{
+        btnImg = [UIImage imageNamed:@"export.png"];
+    }
+    [actionBtn setImage:btnImg forState:UIControlStateNormal];
     [actionBtn setTitle:b.status forState:UIControlStateNormal];
+    [actionBtn sizeToFit];
     [actionBtn addTarget:self action:@selector(showBuild:event:) forControlEvents:UIControlEventTouchUpInside];
     actionBtn.frame = CGRectMake(0.0, 0.0, 60.0, 25.0);
     cell.accessoryView = actionBtn;
+    
     
     UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
     [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
     infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
     [cell addSubview:infoBtn];
-    UIImage *previewImg = [self getBuildItemPreview:b withSize:30 andCorner:5];
-    UIImageView *preview = [[UIImageView alloc] initWithFrame:CGRectMake(130.0,5.0, 30.0,30.0)];
-    [preview setImage:previewImg];
-    [cell addSubview:preview];
+    
+    cell.imageView.image = [self getBuildItemPreview:b withSize:30 andCorner:5]; // get the preview image
     
     return cell;
 
 
 }
+
 
 /*
 // Override to support conditional editing of the table view.

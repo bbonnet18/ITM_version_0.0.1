@@ -2,7 +2,7 @@
 //  BuildItem.m
 //  ITM_version_0.0.1
 //
-//  Created by Lauren Bonnet on 10/30/12.
+//  Created by Lauren Bonnet on 12/4/12.
 //  Copyright (c) 2012 Ben Bonnet. All rights reserved.
 //
 
@@ -16,11 +16,12 @@
 @dynamic caption;
 @dynamic mediaPath;
 @dynamic orderNumber;
+@dynamic status;
 @dynamic thumbnailPath;
 @dynamic timeStamp;
 @dynamic title;
 @dynamic type;
-@dynamic status;
+@dynamic imageRotation;
 @dynamic build;
 
 @end

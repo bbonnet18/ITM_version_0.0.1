@@ -319,43 +319,16 @@
 
 // this method will build the thumbnail image for the video
 - (void) buildThumb:(NSURL*)assetURL{
-    //NSURL *assetURL = [NSURL fileURLWithPath:[self.buildItemVals valueForKey:@"mediaPath"]];//[self.buildItemVals valueForKey:@"mediaPath"];
-   // NSArray* keys = [NSArray arrayWithObjects:AVURLAssetPreferPreciseDurationAndTimingKey,AVURLAssetReferenceRestrictionsKey, nil];
-   // NSArray* objs = [NSArray arrayWithObjects:YES,AVAssetReferenceRestrictionForbidNone, nil];
-    //NSDictionary *options = @{ AVURLAssetPreferPreciseDurationAndTimingKey : @YES };
-    
-    //THE PROBLEM IS:
-    
-    //The urlStr below cannot be initialized when providing the assetURL from the captured video, it can only be initialized when coming from the library for some reason, even though the asset is being initialized from the same mediaPath variable
-    
-    // the problem may be due to the timing of it for some reason, it may not be able to get the duration yet?? 
-    
-//    NSString* newURLStr = [self.buildItemVals valueForKey:@"mediaPath"];
-//    NSURL *newURL = [NSURL URLWithString:newURLStr];
-//    
-//    NSString* url1Str = [newURL absoluteString];
-//    NSString* path1 = [newURL path];
-//    NSString* full1 = [newURL pathExtension];
-//    
-//    NSLog(@"URL 1--- %@",url1Str);
-//    NSLog(@"absolute 1---%@",path1);
-//    NSLog(@"full 1---- %@",full1);
-//    
-//    NSString* urlStr = [assetURL absoluteString];
-//    NSString* path = [assetURL path];
-//    NSString* full = [assetURL pathExtension];
-//    
-//    NSLog(@"URL --- %@",urlStr);
-//    NSLog(@"absolute ---%@",path);
-//    NSLog(@"full ---- %@",full);
+ 
             AVAsset *assetToUse =  (AVAsset*)[[AVURLAsset alloc] initWithURL:assetURL options:nil];
             Float64 durationSeconds = CMTimeGetSeconds([assetToUse duration]);
             CMTime startPoint = CMTimeMake(durationSeconds/2.0,600);
             CMTime actualTime;
             NSError *e = nil;
-            NSString *creationDateString = [[assetToUse.creationDate dateValue] description];
-            self.timeStampTxt.text = creationDateString;
-            [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
+            // get the date
+            NSString* createDate = [self getTimeStamp:[assetToUse.creationDate dateValue] ];
+            self.timeStampTxt.text = createDate;
+            [self.buildItemVals setValue:createDate forKey:@"timeStamp"];
     
             AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:assetToUse];
     
@@ -391,13 +364,15 @@
     
 }
 // shows the creation timestamp in the timestamp label
-- (void) showTimeStamp:(NSURL*)assetURL{
+- (NSString*) getTimeStamp:(NSDate*)assetCreationDate{
     
-    AVAsset *assetToUse =  (AVAsset*)[[AVURLAsset alloc] initWithURL:assetURL options:nil];
-    NSDate *creationDate = assetToUse.creationDate;
-    NSString *creationDateString = [assetToUse.creationDate stringValue];
-    self.timeStampTxt.text = creationDateString;
-    [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];// want short time
+    [formatter setDateStyle:NSDateFormatterMediumStyle];// just want the months and the day
+    NSString* dateString = [formatter stringFromDate:assetCreationDate];
+    return dateString;
+//    self.timeStampTxt.text = dateString;
+//    [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
    
 }
 
@@ -414,10 +389,9 @@
     [lib assetForURL:assetURL resultBlock:^(ALAsset *asset) {
         //UIImage *thumb = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]];//
         
+        NSDate *createDate = (NSDate*)[asset valueForProperty:ALAssetPropertyDate];
         //get this image and make it's orientation up
-        NSDate *date = [NSDate date];
-        NSLog(@"date desc: %@",[date description]);
-        NSString *creationDateString = date.description;
+        NSString *creationDateString = [self getTimeStamp:createDate];
         self.timeStampTxt.text = creationDateString;
         [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
         UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1.0 orientation:UIImageOrientationUp];
@@ -567,6 +541,18 @@
 - (void) alertViewCancel:(UIAlertView *)alertView{
    
 }
+
+#pragma mark - ScreenTextEditor protocol
+
+-(void)didFinishEditingText:(NSString *)editedText{
+    [self.buildItemVals setValue:editedText forKey:@"caption"];
+    self.captionTxt.text = editedText;
+}
+-(void) setDidFinishEditing:(BOOL)isFinished{
+    
+}
+
+
 #pragma mark - save and cancel methods
 
 - (IBAction)save:(id)sender{
@@ -660,7 +646,7 @@ switch (img.imageOrientation) {
 
 -(IBAction)rotate:(id)sender{
     UIImage* img = [self rotateThumbnail];
-    [self.previewImageView setImage:img];
+    [self removeOldThumbAndWriteNew:img]; 
 }
 
 -(UIImage*) rotateThumbnail{
@@ -682,14 +668,14 @@ switch (img.imageOrientation) {
     CGImageRef newImg = CGBitmapContextCreateImage(bitmapContext);// create the new version
     UIImage* newRotated = [UIImage imageWithCGImage:newImg];// get a UIImage to put in the previewImageView;
     
-//    CGRect newRec = CGRectMake(100, 100,width,width);// size of the rectangle does matter
-//    NSLog(@"x:%f y:%f w:%f h:%f",newRec.origin.x,newRec.origin.y,newRec.size.width,newRec.size.height);
-//    
-//    UIImageView *newImgView = [[UIImageView alloc] initWithFrame:newRec];
-//    [newImgView setImage:newRotated];
+    // update the buildItemVals' imageRotation value to reflect the change
+    NSNumber * rotation = [self.buildItemVals valueForKey:@"imageRotation"];
+    NSInteger rotationValue = [rotation integerValue];
+    rotationValue -= 90;
+    rotationValue = (rotationValue > -360) ? rotationValue : 0;
+    [self.buildItemVals setValue:[NSNumber numberWithInteger:rotationValue] forKey:@"imageRotation"];// set the buildItemVals value to the new imageRotation
     CGContextRelease(bitmapContext);
     CGImageRelease(newImg);
-   // [self.view addSubview:newImgView];
     
     return newRotated;
 
@@ -704,4 +690,17 @@ CGFloat RadiansToDegrees(CGFloat radians)
 {
     return radians * 180 / M_PI;
 };
+
+- (IBAction)editCaption:(id)sender{
+    TextEntryViewController *tv = [[TextEntryViewController alloc] initWithNibName:@"TextEntryViewController" bundle:[NSBundle mainBundle]];
+    tv.delegate = self;
+    
+    NSString *txt = ([self.utils checkValidString:[self.buildItemVals valueForKey:@"caption"]]) ? [self.buildItemVals valueForKey:@"caption"] : @"";
+    tv.textToEdit = txt;
+    [self presentViewController:tv animated:YES completion:^{
+        
+    }];
+}
+
+
 @end

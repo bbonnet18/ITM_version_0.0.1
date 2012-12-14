@@ -2,7 +2,7 @@
 //  BuildItem.h
 //  ITM_version_0.0.1
 //
-//  Created by Lauren Bonnet on 10/30/12.
+//  Created by Lauren Bonnet on 12/4/12.
 //  Copyright (c) 2012 Ben Bonnet. All rights reserved.
 //
 
@@ -17,11 +17,12 @@
 @property (nonatomic, retain) NSString * caption;
 @property (nonatomic, retain) NSString * mediaPath;
 @property (nonatomic, retain) NSNumber * orderNumber;
+@property (nonatomic, retain) NSString * status;
 @property (nonatomic, retain) NSString * thumbnailPath;
 @property (nonatomic, retain) NSString * timeStamp;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSString * status;
+@property (nonatomic, retain) NSNumber * imageRotation;
 @property (nonatomic, retain) Build *build;
 
 @end

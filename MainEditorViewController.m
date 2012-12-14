@@ -103,11 +103,11 @@
     CaptureViewController *cv = [[CaptureViewController alloc] initWithNibName:@"CaptureViewController" bundle:nil];
     cv.delegate = self;
     // set up the keys for the dictionary to provide to the 
-    NSArray *keys = [NSArray arrayWithObjects:@"buildItemID",@"thumbnailPath",@"mediaPath",@"type",@"title",@"caption",@"timeStamp", nil];
-    
+    NSArray *keys = [NSArray arrayWithObjects:@"buildItemID",@"thumbnailPath",@"mediaPath",@"type",@"title",@"caption",@"timeStamp",@"imageRotation", nil];
+    // get all the values from the build object
     NSDictionary * dic = [bi dictionaryWithValuesForKeys:keys];
     
-    NSLog(@"dic: itemID: %@ thumbnailPath: %@ mediaPath: %@ type: %@",[dic valueForKey:@"buildItemID"],[dic valueForKey:@"thumbnailPath"],[dic valueForKey:@"mediaPath"],[dic valueForKey:@"type"]);
+    NSLog(@"dic: itemID: %@ thumbnailPath: %@ mediaPath: %@ type: %@ imageRotation: %d",[dic valueForKey:@"buildItemID"],[dic valueForKey:@"thumbnailPath"],[dic valueForKey:@"mediaPath"],[dic valueForKey:@"type"], (int)[dic valueForKey:@"imageRotation"]);
     cv.buildItemVals = [NSMutableDictionary dictionaryWithDictionary:dic];
     [self presentViewController:cv animated:YES completion:^{
         
@@ -454,6 +454,7 @@
     NSString *caption = [changes valueForKey:@"caption"];
     NSString *timeStamp = [changes valueForKey:@"timeStamp"];
     NSString *title = [changes valueForKey:@"title"];
+    NSNumber* imageRotation = [changes valueForKey:@"imageRotation"];
     
     //make sure none of these are null and if they are, substitute an empty string
     
@@ -464,6 +465,7 @@
     bi.caption = ([caption isEqual:[NSNull null]] ? @"":caption);
     bi.timeStamp = ([timeStamp isEqual:[NSNull null]] ? @"":timeStamp);
     bi.title = ([title isEqualToString:@""] ? @"":title);
+    bi.imageRotation = imageRotation;
     NSError *err = nil;
     if(![self.context save:&err]){
         NSLog(@"error creating the test build object: %@", [err localizedFailureReason]);
