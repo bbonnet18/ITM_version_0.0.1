@@ -54,7 +54,10 @@
     
     // subclassed main nave controller from nav controller to override autorotation
     MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
+    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
+    [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
     self.navController = nav;
+    
     
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button

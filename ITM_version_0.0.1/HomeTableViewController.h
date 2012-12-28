@@ -12,6 +12,7 @@
 #import "Utilities.h"
 #import "TitleInfoViewController.h"
 #import "UIImage+Resize.h"
+#import "HomeTableCell.h"
 
 @interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol>{
     NSFetchedResultsController *_fetched;
@@ -21,7 +22,7 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetched;
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
-
+@property (strong, nonatomic) IBOutlet HomeTableCell* tblCell;// the custom cell
 
 
 @end

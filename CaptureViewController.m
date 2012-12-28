@@ -378,7 +378,7 @@
 
 - (void) loadPlaceholderThumb{
     
-    UIImage* placeholder = [UIImage imageNamed:@"placeholder1.jpg"];
+    UIImage* placeholder = [UIImage imageNamed:@"placeholder2.jpg"];
     self.previewImageView.image = placeholder;
     [self.indicator stopAnimating];
 }

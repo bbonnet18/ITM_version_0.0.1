@@ -3,6 +3,7 @@
     <entity name="Build" representedClassName="Build" syncable="YES">
         <attribute name="buildDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="buildID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="context" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
@@ -22,7 +23,7 @@
         <relationship name="build" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Build" inverseName="buildItems" inverseEntity="Build" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Build" positionX="160" positionY="192" width="128" height="135"/>
+        <element name="Build" positionX="160" positionY="192" width="128" height="150"/>
         <element name="BuildItem" positionX="160" positionY="192" width="128" height="210"/>
     </elements>
 </model>

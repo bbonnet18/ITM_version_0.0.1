@@ -7,6 +7,7 @@
 //
 
 #import "HomeTableViewController.h"
+#import "HomeTableCell.h"
 
 @interface HomeTableViewController ()
 
@@ -35,12 +36,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UITableViewHeaderFooterView *hv = [[UITableViewHeaderFooterView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50)];
+//    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50)];
+//    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x115.jpg"];
+//    bgView.image = bgImg;
+//    hv.backgroundView = bgView;
+    hv.backgroundColor = [UIColor lightGrayColor];
+    UILabel* l = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, self.tableView.frame.size.width/2, 30)];
+    l.text = @"Get Started";
+    [hv.contentView addSubview:l];
+    //self.tableView.tableHeaderView = hv;
+   
     // add observer for uploaded item
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadComplete:) name:@"UploadComplete" object:nil];
+    UIImage* addNewBtn = [UIImage imageNamed:@"addcontactpressed.png"];
     
-    UIBarButtonItem* addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewBuild:)];
-    self.navigationItem.rightBarButtonItem = addItem;
+    UIButton* newBuild = [UIButton buttonWithType:UIButtonTypeCustom];
+    newBuild.frame = CGRectMake(0, 0, 29.0,29.0);
+    [newBuild setBackgroundImage:addNewBtn forState:UIControlStateNormal];
     
+    [newBuild addTarget:self action:@selector(addNewBuild:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    UIBarButtonItem *addNew = [[UIBarButtonItem alloc] initWithCustomView:newBuild];// add the new button itself
+    
+    self.navigationItem.rightBarButtonItem = addNew;
+    // register the nib so we can load our custom tableviewcell
+    [self.tableView registerNib:[UINib nibWithNibName:@"HomeTableCell" bundle:nil] forCellReuseIdentifier:@"HomeCell"];
+       
     NSError *error;
     if(![self.fetched performFetch:&error]){
         NSLog(@"ERROR: %@", error);
@@ -297,16 +321,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
+    static NSString *CellIdentifier = @"HomeCell";// name of recently registered cell
+  
+    HomeTableCell *cell =  (HomeTableCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+   if (cell == nil) {
+       [[NSBundle mainBundle] loadNibNamed:@"HomeTableCell" owner:self options:nil];
+       
+   }
     
     Build *b = [self.fetched objectAtIndexPath:indexPath];// get the group that corresponds with this index
     // add the features of the cell
-    cell.textLabel.text = b.title;
-    cell.detailTextLabel.text = b.buildDescription;
+    cell.titleTxt.text = b.title;
+    cell.bgImg = [UIImage imageNamed:@"ambientlightblue-320x90.png"];//the background image
+    
+    cell.backgroundView = [[UIImageView alloc] initWithImage:cell.bgImg];
+    //cell.textLabel.text = b.title;
+    //cell.detailTextLabel.text = b.buildDescription;
     
     UIButton *actionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     //[actionBtn setTitle:b.status forState:UIControlStateNormal];
@@ -321,21 +351,41 @@
     [actionBtn setImage:btnImg forState:UIControlStateNormal];
     [actionBtn setTitle:b.status forState:UIControlStateNormal];
     [actionBtn sizeToFit];
+    
+    actionBtn.frame = cell.statusBtn.frame;
+    //cell.accessoryView = actionBtn;
+    [cell.statusBtn removeFromSuperview];
     [actionBtn addTarget:self action:@selector(showBuild:event:) forControlEvents:UIControlEventTouchUpInside];
-    actionBtn.frame = CGRectMake(0.0, 0.0, 60.0, 25.0);
-    cell.accessoryView = actionBtn;
+    cell.statusBtn = nil;
+    cell.statusBtn = actionBtn;
+    [cell addSubview:actionBtn];
     
-    
-    UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    UIImage* infoBtnImg = [UIImage imageNamed:@"file-info.png"];// get the info image
+    UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [infoBtn setImage:infoBtnImg forState:UIControlStateNormal];
+    [infoBtn setTitle:@"info" forState:UIControlStateNormal];
+    [infoBtn sizeToFit];// size it to fit the title and the image
+    infoBtn.frame = cell.infoBtn.frame;
+    [cell.infoBtn removeFromSuperview];
     [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
-    infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
+    cell.infoBtn = nil;
+    cell.infoBtn = infoBtn;
+    
     [cell addSubview:infoBtn];
+//    UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
+//    [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
+//    infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
+//    [cell addSubview:infoBtn];
     
     cell.imageView.image = [self getBuildItemPreview:b withSize:30 andCorner:5]; // get the preview image
     
     return cell;
 
 
+}
+// need this height set explicitely so that it renders correctly in the tableview
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 90.0;
 }
 
 

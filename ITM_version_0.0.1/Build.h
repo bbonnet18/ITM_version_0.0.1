@@ -2,7 +2,7 @@
 //  Build.h
 //  ITM_version_0.0.1
 //
-//  Created by Lauren Bonnet on 10/30/12.
+//  Created by Lauren Bonnet on 12/17/12.
 //  Copyright (c) 2012 Ben Bonnet. All rights reserved.
 //
 
@@ -16,8 +16,9 @@
 @property (nonatomic, retain) NSString * buildDescription;
 @property (nonatomic, retain) NSString * buildID;
 @property (nonatomic, retain) NSDate * dateCreated;
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * status;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * context;
 @property (nonatomic, retain) NSSet *buildItems;
 @end
 
