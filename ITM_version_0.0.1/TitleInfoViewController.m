@@ -39,18 +39,28 @@
         [deleteBtn addTarget:self action:@selector(deleteBuild:) forControlEvents:UIControlEventTouchUpInside];
         [deleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
         [deleteBtn sizeToFit];
-        
-        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, 335.0, deleteBtn.frame.size.width, deleteBtn.frame.size.height);
+        NSLog(@"%f",deleteBtn.frame.size.height);
+        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y - 88.0, deleteBtn.frame.size.width, deleteBtn.frame.size.height);
         deleteBtn.frame = deleteBtnFrame;
         [self.view addSubview:deleteBtn];
+        self.statusTxt.text = [self statusTxtForBuildStatus:self.status];
+        [self.statusImg setImage:[self statusImgForBuildStatus:self.status]];
+       [self.previewImg setImage:self.preview];
+        [self.previewImg sizeToFit];
+        self.titleTxt.text = self.titleForBuild;
+        self.descriptionTxt.text = self.descriptionForBuild;
+        
+    }else{
+        [self.statusImg setHidden:YES];
+        [self.statusTxt setHidden:YES];
+        [self.statusLabel setHidden:YES]; 
+        [self.previewImg setHidden:YES];
+        [self.previewLabel setHidden:YES];
         
     }
     
     [self.continueBtn setTitle:actionBtnTitle forState:UIControlStateNormal];
     
-    [self.previewImg setImage:self.preview];
-    self.titleTxt.text = self.titleForBuild;
-    self.descriptionTxt.text = self.descriptionForBuild;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -67,16 +77,19 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
+    if(self.activeView != nil){// resign the responder if the view is active
+        [self.activeView resignFirstResponder];
+    }
     return YES;
 }
 
 -(BOOL) textViewShouldEndEditing:(UITextView *)textView{
-    [textView resignFirstResponder];
+    [self doneEditingAction:textView];
     return YES;
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
-    [textView resignFirstResponder];
+    [self doneEditingAction:textView];
 }
 
 -(void) textViewDidBeginEditing:(UITextView *)textView{
@@ -86,18 +99,19 @@
 }
 
 - (void) setupDoneBtn{
+ // set it up so it has an image and 
+    self.doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIImage * doneBtnIcon = [UIImage imageNamed:@"TrustedCheckmark.png"];
+    [self.doneBtn setImage:doneBtnIcon forState:UIControlStateNormal];
+    [self.doneBtn setTitle:@" Done" forState:UIControlStateNormal];
+    [self.doneBtn sizeToFit];
+        
+    CGRect btnRec = CGRectMake(self.descriptionTxt.frame.origin.x + self.descriptionTxt.frame.size.width - self.doneBtn.frame.size.width, self.descriptionTxt.frame.origin.y - self.doneBtn.frame.size.height + 10.0, self.doneBtn.frame.size.width, self.doneBtn.frame.size.height - 10.0);
     
-    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [doneBtn setTitle:@"Done" forState:UIControlStateNormal];
-    [doneBtn sizeToFit];
-    CGRect descRec = self.descriptionTxt.frame;
-    descRec.origin.x = descRec.origin.x + descRec.size.width - doneBtn.frame.size.width;
-    descRec.origin.y = descRec.origin.y - doneBtn.frame.size.height;
-    descRec.size.width = doneBtn.frame.size.width;
-    descRec.size.height = doneBtn.frame.size.height;
-    doneBtn.frame = descRec;
-    [doneBtn addTarget:self action:@selector(doneEditingAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:doneBtn];
+    [self.doneBtn setFrame:btnRec];
+    [self.doneBtn addTarget:self action:@selector(doneEditingAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.doneBtn];
+    
 }
 
 - (void)doneEditingAction:(id)sender
@@ -105,8 +119,36 @@
 	// finish typing text/dismiss the keyboard by removing it as the first responder
     [self.activeView resignFirstResponder];
 	self.activeView = nil;
-    UIButton *b =  (UIButton*) sender;
-    [b removeFromSuperview];
+    [self.doneBtn removeFromSuperview];
+    
+}
+// returns the status text to show the user based on the status of the build - edit/view/uploading
+-(NSString*) statusTxtForBuildStatus:(NSString*) buildStatus{
+    NSString* status = nil;
+    
+    if([buildStatus isEqualToString:@"edit"]){
+        status = @"Editable - you can edit this item and then post it to your users.";
+    }else if([buildStatus isEqualToString:@"uploading"]){
+        status = @"Uploading - this item is uploading, stop the upload to continue editing.";
+    }else{
+        status = @"View - this item has been uploaded, you can view the item.";
+    }
+    return status;
+}
+
+-(UIImage*) statusImgForBuildStatus:(NSString*) buildStatus{
+    
+    UIImage* statusImg = nil;
+    
+    if([buildStatus isEqualToString:@"edit"]){
+        statusImg = [UIImage imageNamed:@"eye-open.png"];
+    }else if([buildStatus isEqualToString:@"uploading"]){
+        statusImg = [UIImage imageNamed:@"eye-close.png"];
+    }else{
+        statusImg = [UIImage imageNamed:@"pencil.png"];
+    }
+    return statusImg;
+    
 }
 // cancels the build process and dismissess the view controller
 - (IBAction)cancelBuild:(id)sender{
@@ -114,9 +156,8 @@
 }
 
 - (IBAction)continueToEdit:(id)sender{
-    Utilities *u = [[Utilities alloc] init];
     
-    if([u checkValidString:self.titleTxt.text]  && [u checkValidString:self.descriptionTxt.text]){
+    if([[Utilities sharedInstance] checkValidString:self.titleTxt.text]  && [[Utilities sharedInstance] checkValidString:self.descriptionTxt.text]){
         [self.delegate userDidAddBuildWithTitle:self.titleTxt.text andDescription:self.descriptionTxt.text isNew:self.isNew];
     }
     

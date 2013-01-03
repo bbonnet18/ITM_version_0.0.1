@@ -10,7 +10,16 @@
 
 @implementation Utilities
 
-
+// creation of singleton
++(Utilities*)sharedInstance{
+    static Utilities *sharedInstance = nil;
+    static dispatch_once_t oncePredicate;// use the one time dispatch queue to initialize the shared instance// this will only run one time
+    dispatch_once(&oncePredicate, ^{
+        sharedInstance = [[self alloc] init];//
+    });
+    
+    return sharedInstance;
+}
 
 - (NSString*) GetUUIDString{
     CFUUIDRef uid = CFUUIDCreate(NULL);

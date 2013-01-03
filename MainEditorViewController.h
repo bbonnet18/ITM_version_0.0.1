@@ -24,7 +24,6 @@
     NSString *_buildID;
     NSMutableArray * _previewImageArray;
     NSInteger _previewImageIndex;// used to hold the active item's index in the previewImageArray
-    Utilities *_utils;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
@@ -32,8 +31,6 @@
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
 @property (strong, nonatomic) NSMutableArray *orderArray;// array of build item ids (GUUID), used to populate everything
 @property (strong, nonatomic) NSMutableArray* previewImageArray;// holds all our PreviewImage objects
-@property (strong, nonatomic) Utilities *util;// used to get GUUIDs, and any other utilities that are universal to many of the classes
-
 - (void) setBuildItems;// sets all the items in the build so they can be manipulated 
 - (void) loadVisiblePages;// loads the pages into the scroll view
 - (void) setBuildID:(NSString*)buildID;// provided when the screen is initialized so we can get the build

@@ -32,7 +32,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.util = [[Utilities alloc] init];
     [self setBuildItems];// set the items by getting the build and it's items
     self->_previewImageIndex = 0;
     // Do any additional setup after loading the view from its nib.
@@ -41,7 +40,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    self.util = nil;
     self->_previewImageIndex = 0;
     // Dispose of any resources that can be recreated.
 }
@@ -197,7 +195,7 @@
     Build *b = [self getBuild];
     BuildItem* bi = [NSEntityDescription insertNewObjectForEntityForName:@"BuildItem" inManagedObjectContext:self.context];
     bi.orderNumber = orderNum;
-    bi.buildItemID = [self.util GetUUIDString];
+    bi.buildItemID = [[Utilities sharedInstance] GetUUIDString];
     bi.status = @"NO"; // this will set the upload status to NO since it hasn't been uploaded
     [bi setBuild:b];
     NSError* err;

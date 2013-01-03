@@ -41,7 +41,6 @@
 @property (strong, nonatomic) UITextField *activeField;// used with the keyboard methods to adjust the scroll view so the keyboard can show along with the text field
 @property (strong, nonatomic) NSMutableDictionary *buildItemVals;// holds all the values passed in and this object is also passed back to the main editor
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
-@property (strong, nonatomic) Utilities* utils;// reference to the utilities class
 - (IBAction)videoCapture:(id)sender;// this method will allow the user to capture video
 - (IBAction)imageCapture:(id)sender;// this method will allow the user to capture images
 - (IBAction)useLibrary:(id)sender;// this method will allow users to select videos or images from the library

@@ -23,7 +23,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.utils = [[Utilities alloc] init];
         // Custom initialization
     }
     return self;
@@ -50,13 +49,13 @@
 // populate the values on the screen and load the thumb and preview button
 - (void) populate{
     
-    if([self.utils checkValidString:[self.buildItemVals valueForKey:@"title"]]){
+    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"title"]]){
         self.titleTxt.text = [self.buildItemVals valueForKey:@"title"];
     }
-    if([self.utils checkValidString:[self.buildItemVals valueForKey:@"caption"]]){
+    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"caption"]]){
         self.captionTxt.text = [self.buildItemVals valueForKey:@"caption"];
     }
-    if([self.utils checkValidString:[self.buildItemVals valueForKey:@"timeStamp"]]){
+    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"timeStamp"]]){
         self.timeStampTxt.text = [self.buildItemVals valueForKey:@"timeStamp"];
     }
     UIImage *thumbnailImage = [self getThumbnail:[self.buildItemVals valueForKey:@"thumbnailPath"]];
@@ -65,7 +64,7 @@
     }else{
         [self showImageInThumb:thumbnailImage];
     }// build a preview button if the type is not nil
-    if([self.utils checkValidString:[self.buildItemVals valueForKey:@"type"]]){
+    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"type"]]){
         // if there's a type, then it can be previewed
         [self showPreviewBtn];
     }
@@ -423,7 +422,7 @@
         
         NSString * pathToThumb = [self.buildItemVals valueForKey:@"thumbnailPath"];
         // make sure it's not null
-        if([self.utils checkValidString:pathToThumb]){
+        if([[Utilities sharedInstance] checkValidString:pathToThumb]){
             NSLog(@"path is not null");
             NSError *error;
             NSFileManager *mgr = [NSFileManager defaultManager];
@@ -453,7 +452,7 @@
 -(UIImage*) getThumbnail:(NSString*) thumbnailPath{
     // get the url
     
-    if([self.utils checkValidString:thumbnailPath]){
+    if([[Utilities sharedInstance] checkValidString:thumbnailPath]){
         NSURL *imgURL = [NSURL URLWithString:thumbnailPath];
         if(imgURL != nil){
             UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[imgURL path]];
@@ -509,11 +508,11 @@
 // this method is used to attach to the button and will launch the preview based on the type and the media path
 - (void)preview{
     
-    if([self.utils checkValidString:[self.buildItemVals valueForKey:@"type"]]){
+    if([[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"type"]]){
         NSString *type = [self.buildItemVals valueForKey:@"type"];
         if([type isEqualToString:@"video"]){
             NSLog(@"buildItem.mediaPath: %@", [self.buildItemVals valueForKey:@"mediaPath"]);
-            if([self.utils checkValidString:[self.buildItemVals valueForKey:@"mediaPath"]]){
+            if([[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"mediaPath"]]){
                 NSURL *vidURL = [NSURL URLWithString:[self.buildItemVals valueForKey:@"mediaPath"]];
                 MPMoviePlayerViewController *mpvc = [[MPMoviePlayerViewController alloc] initWithContentURL:vidURL];
                 [mpvc shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientationPortrait == UIInterfaceOrientationLandscapeLeft)];
@@ -562,7 +561,7 @@
     
     // NEED to set the values in the buildItemVals dictionary to the values on the screen and in the values
     
-    if([self.utils checkValidString:[self.buildItemVals valueForKey:@"title"]] && [self.utils checkValidString:[self.buildItemVals valueForKey:@"caption"]] && [self.utils checkValidString:[self.buildItemVals valueForKey:@"timeStamp"]] && [self.utils checkValidString:[self.buildItemVals valueForKey:@"mediaPath"]] && [self.utils checkValidString:[self.buildItemVals valueForKey:@"type"]] && [self.utils checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]] ){
+    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"title"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"caption"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"timeStamp"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"mediaPath"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"type"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]] ){
         [self.delegate didEditItemWithDictionary:self.buildItemVals];
         
     }else{
@@ -695,7 +694,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     TextEntryViewController *tv = [[TextEntryViewController alloc] initWithNibName:@"TextEntryViewController" bundle:[NSBundle mainBundle]];
     tv.delegate = self;
     
-    NSString *txt = ([self.utils checkValidString:[self.buildItemVals valueForKey:@"caption"]]) ? [self.buildItemVals valueForKey:@"caption"] : @"";
+    NSString *txt = ([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"caption"]]) ? [self.buildItemVals valueForKey:@"caption"] : @"";
     tv.textToEdit = txt;
     [self presentViewController:tv animated:YES completion:^{
         

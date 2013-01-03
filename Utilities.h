@@ -10,6 +10,8 @@
 
 @interface Utilities : NSObject
 
++(Utilities*) sharedInstance;// returns the instance itself so it can be used like a singleton
+
 - (NSString*) GetUUIDString;// returns a UUID string for use in screen and image ids
 - (BOOL) checkValidString:(NSString*)str;// checks to see if a string is not null, not empty and is an actual string
 @end

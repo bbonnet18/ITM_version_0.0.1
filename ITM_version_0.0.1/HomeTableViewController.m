@@ -133,8 +133,12 @@
         ti.delegate = self;
         ti.descriptionForBuild = b.buildDescription;
         ti.isNew = NO;
+        ti.isEditable = ([b.status isEqualToString:@"edit"]) ? YES : NO;
+        ti.status = b.status;
         ti.buildID = b.buildID;
         ti.preview = [self getBuildItemPreview:b withSize:100 andCorner:8];
+        
+        
         [self presentViewController:ti animated:YES completion:^{
             
         }];
@@ -146,12 +150,11 @@
 - (void) addNewBuildWithTitle:(NSString*)title andDescription:(NSString*)description {
     Build *newBuild = (Build*) [NSEntityDescription insertNewObjectForEntityForName:@"Build" inManagedObjectContext:self.context];
     
-    Utilities *u = [[Utilities alloc] init];
     
     NSDate *today = [NSDate date];
     newBuild.dateCreated = today;
     newBuild.buildDescription = description;
-    NSString *newBuildID = [u GetUUIDString];
+    NSString *newBuildID = [[Utilities sharedInstance] GetUUIDString];
     newBuild.buildID = newBuildID;
     newBuild.status = @"edit";
     newBuild.title = title;
@@ -306,6 +309,7 @@
                                 
 #pragma mark - Table view data source
 
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
      return [self.fetched.sections count];// should always be 1
@@ -346,7 +350,7 @@
     }else if([b.status isEqualToString:@"view"]){
         btnImg = [UIImage imageNamed:@"eye-open.png"];
     }else{
-        btnImg = [UIImage imageNamed:@"export.png"];
+        btnImg = [UIImage imageNamed:@"eye-close.png"];
     }
     [actionBtn setImage:btnImg forState:UIControlStateNormal];
     [actionBtn setTitle:b.status forState:UIControlStateNormal];
@@ -429,6 +433,7 @@
 */
 
 #pragma mark - Table view delegate
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
