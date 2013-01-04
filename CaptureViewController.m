@@ -129,7 +129,7 @@
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeMovie,kUTTypeImage, nil];
-        //imagePicker.videoMaximumDuration = 60.0;// set max duration to prevent videos that are too long
+        imagePicker.videoMaximumDuration = 60.0;// set max duration to prevent videos that are too long
         imagePicker.allowsEditing = YES;
         [self presentViewController:imagePicker animated:YES completion:^{
             
@@ -255,15 +255,28 @@
 
 #pragma mark - textField delegate methods
 
--(void) textFieldDidEndEditing:(UITextField *)textField{
-    self->_activeField = nil;
-    [textField resignFirstResponder];
+-(BOOL) textFieldShouldEndEditing:(UITextField *)textField{
+    if(textField.tag != 8){
+        self->_activeField = nil;
+        [textField resignFirstResponder];
+    }
+    return YES;
 }
 
--(void) textFieldDidBeginEditing:(UITextField *)textField{
-    self->_activeField = textField;
-    
+- (BOOL) textFieldShouldBeginEditing:(UITextField *)textField{
+    NSLog(@"tag: %i",textField.tag);
+    if(textField.tag != 8){
+        self->_activeField = textField;
+        return YES;
+    }else{
+        
+        [textField resignFirstResponder];// resign it because we are launching the editor
+        [self editCaption:textField];
+        return NO;
+    }
+        
 }
+
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     self->_activeField = nil;
@@ -463,14 +476,17 @@
     return nil;
 }
 -(void)showPreviewBtn{
+    if([[self.buildItemVals valueForKey:@"type"] isEqualToString:@"video"]){// only show the preview if it's a video
     // if it's nil, then show it
-    if(self.previewBtn == nil){
-        self.previewBtn = [self buildPreviewButton];// build the preview button so the preview can happen
-        if(self.previewBtn != nil){
-            [self.view addSubview:self.previewBtn];
+        if(self.previewBtn == nil){
+            self.previewBtn = [self buildPreviewButton];// build the preview button so the preview can happen
+            if(self.previewBtn != nil){
+                [self.scroller addSubview:self.previewBtn];
+            }
         }
+    }else{
+        self.previewBtn = nil;
     }
-    
     
 
 }
@@ -484,7 +500,7 @@
     
     [previewButton addTarget:self action:@selector(preview) forControlEvents:UIControlEventTouchUpInside];
     
-    CGPoint location = CGPointMake(self.view.center.x - previewButton.frame.size.width/2, self.view.center.y - previewButton.frame.size.height/2);
+    CGPoint location = CGPointMake(self.scroller.center.x - previewButton.frame.size.width/2, self.scroller.center.y - previewButton.frame.size.height/2);
     CGRect newFrame = CGRectMake(location.x, location.y, previewButton.frame.size.width, previewButton.frame.size.height);
     previewButton.frame = newFrame;
     if(previewButton != nil){
@@ -521,10 +537,7 @@
                 
             }
 
-        }else if([type isEqualToString:@"image"]){
-            
-        }
-        
+        }        
     }
 }
 
@@ -598,6 +611,8 @@
         [self.scroller setContentOffset:scrollPoint animated:YES];
     }
 }
+
+
 
 // Called when the UIKeyboardWillHideNotification is sent
 - (void)hideKeyboard:(NSNotification*)note

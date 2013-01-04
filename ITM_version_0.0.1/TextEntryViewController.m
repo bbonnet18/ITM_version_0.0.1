@@ -7,6 +7,7 @@
 //
 
 #import "TextEntryViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface TextEntryViewController ()
 
@@ -21,8 +22,8 @@
 @synthesize textToEdit = _textToEdit;
 @synthesize charactersLimit = _charactersLimit;
 @synthesize totalLines = _totalLines;
-@synthesize charLimit = _charLimit;
-@synthesize linesLimit = _linesLimit;
+//@synthesize charLimit = _charLimit;
+//@synthesize linesLimit = _linesLimit;
 
 
 
@@ -49,6 +50,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeFrame:) name:UITextViewTextDidChangeNotification object:nil];
     self.mainTextView.text = self.textToEdit;
+    self.mainTextView.layer.borderWidth = 5.0f;// set the border for this textView
+    self.mainTextView.layer.borderColor = [[UIColor grayColor] CGColor];// set the color for the border
     self.totalLines = 0;
 
     // Do any additional setup after loading the view from its nib.
@@ -57,8 +60,8 @@
 - (void)viewDidUnload
 {
     [self setMainTextView:nil];
-    [self setCharLimit:nil];
-    [self setLinesLimit:nil];
+//    [self setCharLimit:nil];
+//    [self setLinesLimit:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:UIKeyboardWillShowNotification 
@@ -122,7 +125,7 @@
     
     NSInteger remainingChar = self.charactersLimit - newLength;// the available length remaining
     
-    self.charLimit.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithInt:remainingChar] stringValue]];
+    //self.charLimit.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithInt:remainingChar] stringValue]];
     
     if(newLength < self.charactersLimit){
         underCharLimit = YES;
@@ -130,7 +133,7 @@
     
     // Check to see if we're at the line limit and under the character limit
     if([self checkLines:text textInRange:range] == YES && underCharLimit == YES){
-        [self.mainTextView setBackgroundColor:[UIColor whiteColor]];
+        [self.mainTextView setBackgroundColor:[UIColor colorWithRed:0.58 green:0.82 blue:0.95 alpha:1.0]];
         return YES;
     }else{
         [self.mainTextView setBackgroundColor:[UIColor redColor]];
@@ -149,7 +152,7 @@
     CGSize textSize = [newText sizeWithFont:self.mainTextView.font constrainedToSize:textViewSize lineBreakMode:NSLineBreakByWordWrapping];
     
     
-    self.lines.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:textSize.height]];
+    //self.lines.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:textSize.height]];
     
     BOOL isDelete = NO;
 

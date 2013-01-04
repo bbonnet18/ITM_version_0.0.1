@@ -34,7 +34,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *libraryBtn;
 @property (strong, nonatomic) IBOutlet UIButton *imageCaptureBtn;
 @property (strong, nonatomic) IBOutlet UIButton *previewBtn;// shown when a preview is possible
-@property (strong, nonatomic) IBOutlet UIButton *editBtn;// allows the user to enter text with the edit button
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
 @property (strong, nonatomic) IBOutlet UIButton* rotateBtn;//holds a reference to the rotation button

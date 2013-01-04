@@ -38,9 +38,9 @@
 @property (nonatomic,assign) NSInteger lineLimit;
 @property (nonatomic, assign) NSInteger charactersLimit;
 @property (strong, nonatomic) NSNumber *totalLines;
-@property (strong, nonatomic) IBOutlet UILabel *charLimit;
-@property (strong, nonatomic) IBOutlet UILabel *linesLimit;
-@property (strong, nonatomic) IBOutlet UILabel *lines;
--(void) showTextToEdit:(NSString*)editText;// this is used when initializing so the text can be seen in the text view and to allow editing. 
+//@property (strong, nonatomic) IBOutlet UILabel *charLimit;
+//@property (strong, nonatomic) IBOutlet UILabel *linesLimit;
+//@property (strong, nonatomic) IBOutlet UILabel *lines;
+-(void) showTextToEdit:(NSString*)editText;// this is used when initializing so the text can be seen in the text view and to allow editing.
 -(BOOL) checkLines: (NSString*) textToAdd textInRange:(NSRange) range;// this will return true if the line number limit has not been met
 @end
