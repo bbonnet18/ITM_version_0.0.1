@@ -14,6 +14,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ImageEditor.h"
 #import "UIImage+Resize.h"
+#import "UIButton+Color.h"
 #import "Utilities.h"
 #import "TextEntryViewController.h"
 

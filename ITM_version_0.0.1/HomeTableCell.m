@@ -7,6 +7,7 @@
 //
 
 #import "HomeTableCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation HomeTableCell
 @synthesize titleTxt = _titleTxt;
@@ -22,14 +23,15 @@
     return self;
 }
 
+-(void) didMoveToSuperview{
+    
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:NO animated:NO];
 
     // Configure the view for the selected state
-}
--(IBAction)testBtn:(id)sender{
-    NSString* test = @"go";
 }
 
 

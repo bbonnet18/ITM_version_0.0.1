@@ -7,6 +7,7 @@
 //
 
 #import "Utilities.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation Utilities
 
@@ -44,6 +45,25 @@
     }
     
     return isValid;
+}
+
+-(UIButton*) createRoundedCustomBtnWithImage:(UIImage *)btnImg{
+    UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
+
+    
+    UIButton *newBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    newBtn.backgroundColor = btnTintColor;
+    [newBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    [newBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+   newBtn.layer.borderColor = [[UIColor blackColor] CGColor];
+    newBtn.layer.borderWidth = 0.5f;
+    newBtn.layer.cornerRadius = 10.0f;
+    [newBtn setImage:btnImg forState:UIControlStateNormal];
+    [newBtn sizeToFit];
+    newBtn.tintColor = btnTintColor;
+    newBtn.frame = CGRectMake(0.0, 0.0, 44.0, 44.0);
+    
+    return newBtn;
 }
 
 @end

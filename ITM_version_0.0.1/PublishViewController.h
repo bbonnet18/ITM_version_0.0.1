@@ -20,6 +20,7 @@
 @property (nonatomic, strong) id <PublishProtocol> delegate;// so the delegate can be set to enforce these methods
 @property (nonatomic, strong) IBOutlet UIButton * publishBtn;
 @property (nonatomic, strong) IBOutlet UIButton * cancelBtn;
+@property (nonatomic,strong) IBOutlet UITextView * infoTxt;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)publish:(id)sender;

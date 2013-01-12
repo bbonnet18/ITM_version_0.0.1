@@ -32,6 +32,16 @@
 {
     [super viewDidLoad];
     // this notification is from the video save process
+    UIImage* rotateImg = [UIImage imageNamed:@"rotate-right.png"];
+    
+
+    CGRect btnRect = self.rotateBtn.frame;
+    [self.rotateBtn removeFromSuperview];
+    self.rotateBtn = [UIButton createButtonWithImage:rotateImg color:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0]];
+    self.rotateBtn.frame = CGRectMake(btnRect.origin.x+10.0, btnRect.origin.y+10.0, self.rotateBtn.frame.size.width, self.rotateBtn.frame.size.height);
+    [self.rotateBtn addTarget:self action:@selector(rotate:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:self.rotateBtn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedWritingImage:) name:@"VideoSaved" object:nil];
     
@@ -390,7 +400,7 @@
 
 - (void) loadPlaceholderThumb{
     
-    UIImage* placeholder = [UIImage imageNamed:@"placeholder2.jpg"];
+    UIImage* placeholder = [UIImage imageNamed:@"rounded_placeholderNew.png"];
     self.previewImageView.image = placeholder;
     [self.indicator stopAnimating];
 }
@@ -454,6 +464,7 @@
         NSURL *url = [NSURL fileURLWithPath:path];
         [self.buildItemVals setValue:path forKey:@"thumbnailPath"];
         
+        
         UIImage * scaledImage = [img thumbnailImage:280 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
         [UIImageJPEGRepresentation(scaledImage, 0.75f) writeToURL:url atomically:YES];
         // show that image in the imageView
@@ -495,7 +506,9 @@
 - (UIButton*) buildPreviewButton{
     UIButton* previewButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [previewButton setTitle:@"Preview" forState:UIControlStateNormal];
+    //[previewButton setTitle:@"Preview" forState:UIControlStateNormal];
+    UIImage *prevImg = [UIImage imageNamed:@"Video-play-button.png"];
+    [previewButton setBackgroundImage:prevImg forState:UIControlStateNormal];// use the new background image
     [previewButton sizeToFit];
     
     [previewButton addTarget:self action:@selector(preview) forControlEvents:UIControlEventTouchUpInside];

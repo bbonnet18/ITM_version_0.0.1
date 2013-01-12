@@ -9,6 +9,7 @@
 #import "TitleInfoViewController.h"
 #import "Utilities.h"
 #import "UIImage+Resize.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface TitleInfoViewController ()
 
@@ -35,15 +36,22 @@
     NSString*actionBtnTitle = (self.isNew) ? @"Continue" : @"OK";
     // add the delete button if it's not new
     if(!self.isNew){
-        UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        
+        
+        UIImage *deleteImg = [UIImage imageNamed:@"delete.png"];
+        UIImage *deleteStretchedImg = [deleteImg resizableImageWithCapInsets:UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)];
+        UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [deleteBtn addTarget:self action:@selector(deleteBuild:) forControlEvents:UIControlEventTouchUpInside];
         [deleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
+        [deleteBtn setImage:[UIImage imageNamed:@"trash.png"] forState:UIControlStateNormal];
+        [deleteBtn setBackgroundImage:deleteStretchedImg forState:UIControlStateNormal];
         [deleteBtn sizeToFit];
-        NSLog(@"%f",deleteBtn.frame.size.height);
-        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y - 88.0, deleteBtn.frame.size.width, deleteBtn.frame.size.height);
+                NSLog(@"%f",deleteBtn.frame.size.height);
+        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y - 88.0, deleteBtn.frame.size.width+20, deleteBtn.frame.size.height);
         deleteBtn.frame = deleteBtnFrame;
         [self.view addSubview:deleteBtn];
         self.statusTxt.text = [self statusTxtForBuildStatus:self.status];
+        [self.statusLabel setTextAlignment:NSTextAlignmentLeft];
         [self.statusImg setImage:[self statusImgForBuildStatus:self.status]];
        [self.previewImg setImage:self.preview];
         [self.previewImg sizeToFit];
@@ -58,6 +66,10 @@
         [self.previewLabel setHidden:YES];
         
     }
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    
     
     [self.continueBtn setTitle:actionBtnTitle forState:UIControlStateNormal];
     

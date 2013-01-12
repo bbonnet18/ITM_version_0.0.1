@@ -42,12 +42,10 @@
 //    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x115.jpg"];
 //    bgView.image = bgImg;
 //    hv.backgroundView = bgView;
-    hv.backgroundColor = [UIColor lightGrayColor];
+    hv.contentView.backgroundColor = [UIColor lightGrayColor];
     UILabel* l = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, self.tableView.frame.size.width/2, 30)];
     l.text = @"Get Started";
     [hv.contentView addSubview:l];
-    //self.tableView.tableHeaderView = hv;
-   
     // add observer for uploaded item
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadComplete:) name:@"UploadComplete" object:nil];
     UIImage* addNewBtn = [UIImage imageNamed:@"addcontactpressed.png"];
@@ -64,7 +62,27 @@
     self.navigationItem.rightBarButtonItem = addNew;
     // register the nib so we can load our custom tableviewcell
     [self.tableView registerNib:[UINib nibWithNibName:@"HomeTableCell" bundle:nil] forCellReuseIdentifier:@"HomeCell"];
-       
+    
+    //UIImage *bgimage = [UIImage imageNamed:@"iosBG.jpg"];
+    //UIImageView *bgView = [[UIImageView alloc] initWithImage:bgimage];
+    
+    //self.tableView.backgroundView = bgView;
+    
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
+    // set the bar appearance
+    UIOffset shadowOff = UIOffsetMake(0.5, 0.5);
+    NSValue *shadowValue = [NSValue valueWithBytes:&shadowOff objCType:@encode(UIOffset)];
+    
+   
+    NSArray *vals = [NSArray arrayWithObjects:[UIColor blackColor],[UIColor blackColor],shadowValue,nil];
+    NSArray *keys = [NSArray arrayWithObjects:UITextAttributeTextColor,UITextAttributeTextShadowColor,UITextAttributeTextShadowOffset, nil];
+    NSDictionary *appearanceDic = [NSDictionary dictionaryWithObjects:vals forKeys:keys];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:appearanceDic];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.99 green:0.93 blue:0.79 alpha:1.0];
+    [self.navigationController.navigationBar.backItem.backBarButtonItem setTintColor:[UIColor blueColor]];
+    
+    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0]];
     NSError *error;
     if(![self.fetched performFetch:&error]){
         NSLog(@"ERROR: %@", error);
@@ -99,8 +117,12 @@
         Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
         MainEditorViewController *bv = [[MainEditorViewController alloc] initWithNibName:@"MainEditorViewController" bundle:[NSBundle mainBundle]];
         [bv setBuildID:b.buildID];
+        
         bv.title = @"Edit";
         bv.context = self.context;// assign the context
+        
+        
+        
         [self.navigationController pushViewController:bv animated:YES];
     }
 }
@@ -336,14 +358,18 @@
     Build *b = [self.fetched objectAtIndexPath:indexPath];// get the group that corresponds with this index
     // add the features of the cell
     cell.titleTxt.text = b.title;
-    cell.bgImg = [UIImage imageNamed:@"ambientlightblue-320x90.png"];//the background image
+       //cell.bgImg = [UIImage imageNamed:@"ambientlightblue-320x90.png"];//the background image
     
-    cell.backgroundView = [[UIImageView alloc] initWithImage:cell.bgImg];
+    //cell.backgroundView = [[UIImageView alloc] initWithImage:cell.bgImg];
     //cell.textLabel.text = b.title;
     //cell.detailTextLabel.text = b.buildDescription;
+    UIImage* infoBtnImg = [UIImage imageNamed:@"file-info.png"];// get the info image
+    UIImage* stretchedImg = [UIImage imageNamed:@"uiglassbutton-template.png"];
+    UIImage* stretchedBtnImg = [stretchedImg stretchableImageWithLeftCapWidth:12.0 topCapHeight:0];
     
     UIButton *actionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //[actionBtn setTitle:b.status forState:UIControlStateNormal];
+    
+    [actionBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
     UIImage* btnImg = nil;
     if([b.status isEqualToString:@"edit"]){
         btnImg = [UIImage imageNamed:@"pencil.png"];
@@ -364,8 +390,9 @@
     cell.statusBtn = actionBtn;
     [cell addSubview:actionBtn];
     
-    UIImage* infoBtnImg = [UIImage imageNamed:@"file-info.png"];// get the info image
+    
     UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [infoBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
     [infoBtn setImage:infoBtnImg forState:UIControlStateNormal];
     [infoBtn setTitle:@"info" forState:UIControlStateNormal];
     [infoBtn sizeToFit];// size it to fit the title and the image

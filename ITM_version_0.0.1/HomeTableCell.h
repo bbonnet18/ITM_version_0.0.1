@@ -14,6 +14,4 @@
 @property (nonatomic,strong) IBOutlet UIButton* statusBtn;// the button representing the status
 @property (nonatomic, strong) IBOutlet UIImage* bgImg;// background image
 @property (nonatomic, strong) IBOutlet UIButton* infoBtn;// activates the info screen
--(IBAction)testBtn:(id)sender;
-
 @end

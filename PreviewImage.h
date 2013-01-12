@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @protocol PreviewImageProtocol
 
 - (void) editItem:(NSInteger) itemNumber;// brings back the item number so it can be edited

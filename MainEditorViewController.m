@@ -282,7 +282,7 @@
         // create a buildItem to get started
         BuildItem *b = [self createBuildItemWithOrderNumber:[NSNumber numberWithInt:0]];
         
-        UIImage* img = [UIImage imageNamed:@"placeholder1.jpg"];// get an image to send to the preview image instance when initiating
+        UIImage* img = [UIImage imageNamed:@"rounded_placeholderNew.png"];// get an image to send to the preview image instance when initiating
         CGRect frame = self.scroller.bounds;
         frame.origin.x = 0.0f;// set it to the first item
         frame.origin.y = 0.0f;
@@ -304,7 +304,7 @@
 }
 // take the path and return the image or a placeholder if the path is no good
 - (UIImage*)loadPreviewImageFromThumbnailPath:(NSString*) thumbnailPath{
-    UIImage* img = [UIImage imageNamed:@"placeholder1.jpg"];
+    UIImage* img = [UIImage imageNamed:@"rounded_placeholderNew.png"];
     if([thumbnailPath isEqualToString:@""] || [thumbnailPath isEqual:[NSNull null]]){
         return img;
     }else{
@@ -488,6 +488,7 @@
 -(IBAction)publish:(id)sender{
     PublishViewController *pv = [[PublishViewController alloc] initWithNibName:@"PublishViewController" bundle:[NSBundle mainBundle]];
     pv.delegate = self;
+    pv.title = @"Publish";
     [self presentViewController:pv animated:YES completion:^{
         
     }];
