@@ -7,19 +7,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "373514519.478647"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "55"
-         endingLineNumber = "55"
-         landmarkName = "-application:didFinishLaunchingWithOptions:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "MainEditorViewController.m"
          timestampString = "378868850.097399"
          startingColumnNumber = "9223372036854775807"
@@ -658,11 +645,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "302"
-         endingLineNumber = "302"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
          landmarkName = "-finishedWritingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -671,11 +658,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "443"
-         endingLineNumber = "443"
+         startingLineNumber = "449"
+         endingLineNumber = "449"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -684,11 +671,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "162"
-         endingLineNumber = "162"
+         startingLineNumber = "168"
+         endingLineNumber = "168"
          landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -697,11 +684,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "215"
-         endingLineNumber = "215"
+         startingLineNumber = "221"
+         endingLineNumber = "221"
          landmarkName = "-saveVideoToLibrary:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -710,11 +697,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "304"
-         endingLineNumber = "304"
+         startingLineNumber = "310"
+         endingLineNumber = "310"
          landmarkName = "-finishedWritingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -723,11 +710,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "452"
-         endingLineNumber = "452"
+         startingLineNumber = "458"
+         endingLineNumber = "458"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -736,37 +723,37 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "457"
+         endingLineNumber = "457"
+         landmarkName = "-removeOldThumbAndWriteNew:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "468"
+         endingLineNumber = "468"
+         landmarkName = "-removeOldThumbAndWriteNew:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "451"
          endingLineNumber = "451"
-         landmarkName = "-removeOldThumbAndWriteNew:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "462"
-         endingLineNumber = "462"
-         landmarkName = "-removeOldThumbAndWriteNew:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "445"
-         endingLineNumber = "445"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -983,11 +970,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "473"
-         endingLineNumber = "473"
+         startingLineNumber = "479"
+         endingLineNumber = "479"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -996,11 +983,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "433"
-         endingLineNumber = "433"
+         startingLineNumber = "439"
+         endingLineNumber = "439"
          landmarkName = "-showImageInThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1009,11 +996,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "446"
-         endingLineNumber = "446"
+         startingLineNumber = "452"
+         endingLineNumber = "452"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1022,11 +1009,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "449"
-         endingLineNumber = "449"
+         startingLineNumber = "455"
+         endingLineNumber = "455"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1035,11 +1022,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "447"
-         endingLineNumber = "447"
+         startingLineNumber = "453"
+         endingLineNumber = "453"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1048,11 +1035,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "448"
-         endingLineNumber = "448"
+         startingLineNumber = "454"
+         endingLineNumber = "454"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1074,11 +1061,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "410"
-         endingLineNumber = "410"
+         startingLineNumber = "416"
+         endingLineNumber = "416"
          landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1087,33 +1074,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "238"
-         endingLineNumber = "238"
-         landmarkName = "-saveImageToLibrary:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "197"
-         endingLineNumber = "197"
-         landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "244"
@@ -1126,46 +1087,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "423"
-         endingLineNumber = "423"
-         landmarkName = "-saveThumb:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "419"
-         endingLineNumber = "419"
-         landmarkName = "-saveThumb:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "199"
-         endingLineNumber = "199"
-         landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "203"
@@ -1178,37 +1100,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "202"
-         endingLineNumber = "202"
-         landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "223"
-         endingLineNumber = "223"
-         landmarkName = "-saveVideoToLibrary:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "239"
-         endingLineNumber = "239"
+         startingLineNumber = "250"
+         endingLineNumber = "250"
          landmarkName = "-saveImageToLibrary:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1217,12 +1113,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "225"
-         endingLineNumber = "225"
-         landmarkName = "-saveVideoToLibrary:"
+         startingLineNumber = "429"
+         endingLineNumber = "429"
+         landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1230,12 +1126,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "316"
-         endingLineNumber = "316"
-         landmarkName = "-finishedWritingImage:"
+         startingLineNumber = "425"
+         endingLineNumber = "425"
+         landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1243,76 +1139,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "317"
-         endingLineNumber = "317"
-         landmarkName = "-finishedWritingImage:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "324"
-         endingLineNumber = "324"
-         landmarkName = "-finishedWritingImage:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "463"
-         endingLineNumber = "463"
-         landmarkName = "-removeOldThumbAndWriteNew:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "461"
-         endingLineNumber = "461"
-         landmarkName = "-removeOldThumbAndWriteNew:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "385"
-         endingLineNumber = "385"
-         landmarkName = "-buildThumb:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
+         startingLineNumber = "205"
+         endingLineNumber = "205"
          landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1321,11 +1152,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "173"
-         endingLineNumber = "173"
+         startingLineNumber = "209"
+         endingLineNumber = "209"
          landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1334,11 +1165,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "221"
-         endingLineNumber = "221"
+         startingLineNumber = "208"
+         endingLineNumber = "208"
+         landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "229"
+         endingLineNumber = "229"
          landmarkName = "-saveVideoToLibrary:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1347,12 +1191,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "382"
-         endingLineNumber = "382"
-         landmarkName = "-buildThumb:"
+         startingLineNumber = "245"
+         endingLineNumber = "245"
+         landmarkName = "-saveImageToLibrary:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1360,11 +1204,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "307"
-         endingLineNumber = "307"
+         startingLineNumber = "231"
+         endingLineNumber = "231"
+         landmarkName = "-saveVideoToLibrary:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "322"
+         endingLineNumber = "322"
          landmarkName = "-finishedWritingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1373,7 +1230,150 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "323"
+         endingLineNumber = "323"
+         landmarkName = "-finishedWritingImage:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "330"
+         endingLineNumber = "330"
+         landmarkName = "-finishedWritingImage:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "469"
+         endingLineNumber = "469"
+         landmarkName = "-removeOldThumbAndWriteNew:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "467"
+         endingLineNumber = "467"
+         landmarkName = "-removeOldThumbAndWriteNew:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "391"
+         endingLineNumber = "391"
+         landmarkName = "-buildThumb:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "171"
+         endingLineNumber = "171"
+         landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "179"
+         endingLineNumber = "179"
+         landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "227"
+         endingLineNumber = "227"
+         landmarkName = "-saveVideoToLibrary:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
+         landmarkName = "-buildThumb:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "313"
+         endingLineNumber = "313"
+         landmarkName = "-finishedWritingImage:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "371"
+         endingLineNumber = "371"
+         landmarkName = "-buildThumb:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "365"
@@ -1386,85 +1386,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "359"
-         endingLineNumber = "359"
-         landmarkName = "-buildThumb:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "364"
-         endingLineNumber = "364"
-         landmarkName = "-buildThumb:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "220"
-         endingLineNumber = "220"
-         landmarkName = "-saveVideoToLibrary:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "345"
-         endingLineNumber = "345"
-         landmarkName = "-buildThumb:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "312"
-         endingLineNumber = "312"
-         landmarkName = "-finishedWritingImage:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "311"
-         endingLineNumber = "311"
-         landmarkName = "-finishedWritingImage:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "370"
@@ -1477,11 +1399,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "346"
-         endingLineNumber = "346"
+         startingLineNumber = "226"
+         endingLineNumber = "226"
+         landmarkName = "-saveVideoToLibrary:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "351"
+         endingLineNumber = "351"
          landmarkName = "-buildThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1490,11 +1425,63 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "320"
-         endingLineNumber = "320"
+         startingLineNumber = "318"
+         endingLineNumber = "318"
+         landmarkName = "-finishedWritingImage:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "317"
+         endingLineNumber = "317"
+         landmarkName = "-finishedWritingImage:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "376"
+         endingLineNumber = "376"
+         landmarkName = "-buildThumb:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "352"
+         endingLineNumber = "352"
+         landmarkName = "-buildThumb:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CaptureViewController.m"
+         timestampString = "379826688.980297"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "326"
+         endingLineNumber = "326"
          landmarkName = "-finishedWritingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1542,11 +1529,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "479"
-         endingLineNumber = "479"
+         startingLineNumber = "485"
+         endingLineNumber = "485"
          landmarkName = "-getThumbnail:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1607,11 +1594,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "589"
-         endingLineNumber = "589"
+         startingLineNumber = "595"
+         endingLineNumber = "595"
          landmarkName = "-save:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1620,11 +1607,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "518"
-         endingLineNumber = "518"
+         startingLineNumber = "524"
+         endingLineNumber = "524"
          landmarkName = "-buildPreviewButton"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1633,11 +1620,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "510"
-         endingLineNumber = "510"
+         startingLineNumber = "516"
+         endingLineNumber = "516"
          landmarkName = "-buildPreviewButton"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1646,11 +1633,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "351"
-         endingLineNumber = "351"
+         startingLineNumber = "357"
+         endingLineNumber = "357"
          landmarkName = "-buildThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1659,11 +1646,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "350"
-         endingLineNumber = "350"
+         startingLineNumber = "356"
+         endingLineNumber = "356"
          landmarkName = "-buildThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1672,11 +1659,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "585"
-         endingLineNumber = "585"
+         startingLineNumber = "591"
+         endingLineNumber = "591"
          landmarkName = "-save:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1685,11 +1672,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "535"
-         endingLineNumber = "535"
+         startingLineNumber = "541"
+         endingLineNumber = "541"
          landmarkName = "-checkValidString:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1698,11 +1685,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "555"
-         endingLineNumber = "555"
+         startingLineNumber = "561"
+         endingLineNumber = "561"
          landmarkName = "-preview"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1815,11 +1802,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "389"
-         endingLineNumber = "389"
+         startingLineNumber = "395"
+         endingLineNumber = "395"
          landmarkName = "-getTimeStamp:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1828,11 +1815,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "472"
-         endingLineNumber = "472"
+         startingLineNumber = "478"
+         endingLineNumber = "478"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1841,11 +1828,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "468"
-         endingLineNumber = "468"
+         startingLineNumber = "474"
+         endingLineNumber = "474"
          landmarkName = "-removeOldThumbAndWriteNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1854,11 +1841,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "381"
-         endingLineNumber = "381"
+         startingLineNumber = "387"
+         endingLineNumber = "387"
          landmarkName = "-buildThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1867,11 +1854,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "418"
-         endingLineNumber = "418"
+         startingLineNumber = "424"
+         endingLineNumber = "424"
          landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1880,11 +1867,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "416"
-         endingLineNumber = "416"
+         startingLineNumber = "422"
+         endingLineNumber = "422"
          landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1906,11 +1893,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "591"
-         endingLineNumber = "591"
+         startingLineNumber = "597"
+         endingLineNumber = "597"
          landmarkName = "-save:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1919,11 +1906,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "592"
-         endingLineNumber = "592"
+         startingLineNumber = "598"
+         endingLineNumber = "598"
          landmarkName = "-save:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1932,11 +1919,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "595"
-         endingLineNumber = "595"
+         startingLineNumber = "601"
+         endingLineNumber = "601"
          landmarkName = "-save:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2036,11 +2023,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "541"
-         endingLineNumber = "541"
+         startingLineNumber = "547"
+         endingLineNumber = "547"
          landmarkName = "-preview"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2101,11 +2088,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "277"
-         endingLineNumber = "277"
+         startingLineNumber = "282"
+         endingLineNumber = "282"
          landmarkName = "-uploadDidCompleWithBuildID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2114,11 +2101,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "233"
-         endingLineNumber = "233"
+         startingLineNumber = "238"
+         endingLineNumber = "238"
          landmarkName = "-generateJSONFromBuild:withItems:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2153,11 +2140,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "162"
-         endingLineNumber = "162"
+         startingLineNumber = "167"
+         endingLineNumber = "167"
          landmarkName = "-published:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2166,11 +2153,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "256"
-         endingLineNumber = "256"
+         startingLineNumber = "261"
+         endingLineNumber = "261"
          landmarkName = "-generateJSONFromBuild:withItems:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2322,11 +2309,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "377"
-         endingLineNumber = "377"
+         startingLineNumber = "383"
+         endingLineNumber = "383"
          landmarkName = "-buildThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2335,11 +2322,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "420"
-         endingLineNumber = "420"
+         startingLineNumber = "426"
+         endingLineNumber = "426"
          landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2348,11 +2335,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "421"
-         endingLineNumber = "421"
+         startingLineNumber = "427"
+         endingLineNumber = "427"
          landmarkName = "-saveThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2361,11 +2348,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "377"
-         endingLineNumber = "377"
+         startingLineNumber = "383"
+         endingLineNumber = "383"
          landmarkName = "-buildThumb:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2595,11 +2582,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "166"
-         endingLineNumber = "166"
+         startingLineNumber = "171"
+         endingLineNumber = "171"
          landmarkName = "-published:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2608,11 +2595,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "298"
-         endingLineNumber = "298"
+         startingLineNumber = "303"
+         endingLineNumber = "303"
          landmarkName = "-uploadDidFailWithReason:andID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2621,11 +2608,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "217"
-         endingLineNumber = "217"
+         startingLineNumber = "222"
+         endingLineNumber = "222"
          landmarkName = "-getBuild:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2686,11 +2673,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "173"
-         endingLineNumber = "173"
+         startingLineNumber = "178"
+         endingLineNumber = "178"
          landmarkName = "-published:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2699,11 +2686,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "172"
-         endingLineNumber = "172"
+         startingLineNumber = "177"
+         endingLineNumber = "177"
          landmarkName = "-published:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2712,38 +2699,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "104"
-         endingLineNumber = "104"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
          landmarkName = "-reachabilityChanged:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "85"
-         endingLineNumber = "85"
-         landmarkName = "-application:didFinishLaunchingWithOptions:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "83"
-         endingLineNumber = "83"
-         landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -3115,11 +3076,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "180"
-         endingLineNumber = "180"
+         startingLineNumber = "185"
+         endingLineNumber = "185"
          landmarkName = "-published:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3128,11 +3089,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "178"
-         endingLineNumber = "178"
+         startingLineNumber = "183"
+         endingLineNumber = "183"
          landmarkName = "-published:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3141,11 +3102,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "148"
-         endingLineNumber = "148"
+         startingLineNumber = "153"
+         endingLineNumber = "153"
          landmarkName = "-startUploadProcessWithBuild:withBuildID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3180,25 +3141,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
+         timestampString = "379732876.159526"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "96"
-         endingLineNumber = "96"
+         startingLineNumber = "101"
+         endingLineNumber = "101"
          landmarkName = "-reachabilityChanged:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "ITM_version_0.0.1/AppDelegate.m"
-         timestampString = "377409595.402808"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "74"
-         endingLineNumber = "74"
-         landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -3258,11 +3206,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "242"
-         endingLineNumber = "242"
+         startingLineNumber = "248"
+         endingLineNumber = "248"
          landmarkName = "-saveImageToLibrary:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3271,11 +3219,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "662"
-         endingLineNumber = "662"
+         startingLineNumber = "668"
+         endingLineNumber = "668"
          landmarkName = "-getOrientation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3284,11 +3232,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "645"
-         endingLineNumber = "645"
+         startingLineNumber = "651"
+         endingLineNumber = "651"
          landmarkName = "-getOrientation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3297,11 +3245,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "650"
-         endingLineNumber = "650"
+         startingLineNumber = "656"
+         endingLineNumber = "656"
          landmarkName = "-getOrientation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3310,11 +3258,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "655"
-         endingLineNumber = "655"
+         startingLineNumber = "661"
+         endingLineNumber = "661"
          landmarkName = "-getOrientation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3323,11 +3271,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "667"
-         endingLineNumber = "667"
+         startingLineNumber = "673"
+         endingLineNumber = "673"
          landmarkName = "-getOrientation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3336,11 +3284,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "670"
-         endingLineNumber = "670"
+         startingLineNumber = "676"
+         endingLineNumber = "676"
          landmarkName = "-getOrientation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3388,11 +3336,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "170"
-         endingLineNumber = "170"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
          landmarkName = "-continueToEdit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3401,11 +3349,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "101"
-         endingLineNumber = "101"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
          landmarkName = "-textViewShouldEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3414,11 +3362,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "96"
-         endingLineNumber = "96"
+         startingLineNumber = "100"
+         endingLineNumber = "100"
          landmarkName = "-textFieldShouldReturn:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3427,11 +3375,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "105"
-         endingLineNumber = "105"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
          landmarkName = "-textViewDidEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3440,11 +3388,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "112"
-         endingLineNumber = "112"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
          landmarkName = "@implementation TitleInfoViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -3466,11 +3414,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "170"
-         endingLineNumber = "170"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
          landmarkName = "-continueToEdit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3479,11 +3427,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "74"
-         endingLineNumber = "74"
+         startingLineNumber = "78"
+         endingLineNumber = "78"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3505,11 +3453,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "179"
-         endingLineNumber = "179"
+         startingLineNumber = "183"
+         endingLineNumber = "183"
          landmarkName = "-deleteBuild:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3557,11 +3505,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "682"
-         endingLineNumber = "682"
+         startingLineNumber = "688"
+         endingLineNumber = "688"
          landmarkName = "-rotateThumbnail"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3570,11 +3518,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "677"
-         endingLineNumber = "677"
+         startingLineNumber = "683"
+         endingLineNumber = "683"
          landmarkName = "-rotate:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3607,11 +3555,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "723"
-         endingLineNumber = "723"
+         startingLineNumber = "729"
+         endingLineNumber = "729"
          landmarkName = "-editCaption:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3659,11 +3607,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "727"
-         endingLineNumber = "727"
+         startingLineNumber = "733"
+         endingLineNumber = "733"
          landmarkName = "-editCaption:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3672,11 +3620,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "726"
-         endingLineNumber = "726"
+         startingLineNumber = "732"
+         endingLineNumber = "732"
          landmarkName = "-editCaption:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3685,11 +3633,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "395"
-         endingLineNumber = "395"
+         startingLineNumber = "401"
+         endingLineNumber = "401"
          landmarkName = "-getTimeStamp:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3789,11 +3737,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "115"
-         endingLineNumber = "115"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
          landmarkName = "-setupDoneBtn"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3815,11 +3763,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "104"
-         endingLineNumber = "104"
+         startingLineNumber = "108"
+         endingLineNumber = "108"
          landmarkName = "-textViewDidEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3828,11 +3776,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379402445.747645"
+         timestampString = "379709017.304812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "99"
-         endingLineNumber = "99"
+         startingLineNumber = "103"
+         endingLineNumber = "103"
          landmarkName = "-textViewShouldEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3867,11 +3815,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "624"
-         endingLineNumber = "624"
+         startingLineNumber = "630"
+         endingLineNumber = "630"
          landmarkName = "-showKeyboard:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3880,11 +3828,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "622"
-         endingLineNumber = "622"
+         startingLineNumber = "628"
+         endingLineNumber = "628"
          landmarkName = "-showKeyboard:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3893,11 +3841,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "634"
-         endingLineNumber = "634"
+         startingLineNumber = "640"
+         endingLineNumber = "640"
          landmarkName = "-hideKeyboard:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3906,11 +3854,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "612"
-         endingLineNumber = "612"
+         startingLineNumber = "618"
+         endingLineNumber = "618"
          landmarkName = "-showKeyboard:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3919,11 +3867,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "CaptureViewController.m"
-         timestampString = "379572702.309784"
+         timestampString = "379826688.980297"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "621"
-         endingLineNumber = "621"
+         startingLineNumber = "627"
+         endingLineNumber = "627"
          landmarkName = "-showKeyboard:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3938,6 +3886,84 @@
          startingLineNumber = "159"
          endingLineNumber = "159"
          landmarkName = "-deleteItem:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/LoginViewController.m"
+         timestampString = "379732708.2582"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "41"
+         endingLineNumber = "41"
+         landmarkName = "-btnLoginRegisterTapped:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/LoginViewController.m"
+         timestampString = "379732377.860798"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "39"
+         endingLineNumber = "39"
+         landmarkName = "-btnLoginRegisterTapped:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/LoginViewController.m"
+         timestampString = "379733179.973003"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "47"
+         endingLineNumber = "47"
+         landmarkName = "-btnLoginRegisterTapped:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/LoginViewController.m"
+         timestampString = "379733259.960674"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "38"
+         endingLineNumber = "38"
+         landmarkName = "-btnLoginRegisterTapped:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/LoginViewController.m"
+         timestampString = "379733294.929378"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "52"
+         endingLineNumber = "52"
+         landmarkName = "-btnLoginRegisterTapped:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/LoginViewController.m"
+         timestampString = "379733372.188014"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "79"
+         endingLineNumber = "79"
+         landmarkName = "-btnLoginRegisterTapped:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

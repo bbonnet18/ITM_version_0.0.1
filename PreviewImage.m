@@ -40,7 +40,7 @@
         UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
         
         UIImage *editImg = [UIImage imageNamed:@"hammer-square.png"];
-        self.editBtn =  [UIButton createButtonWithImage:editImg color:btnTintColor];//[[Utilities sharedInstance] createRoundedCustomBtnWithImage:editImg];
+        self.editBtn =  [UIButton createButtonWithImage:editImg color:btnTintColor title:@"edit"];//[[Utilities sharedInstance] createRoundedCustomBtnWithImage:editImg];
 //        self.editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //        self.editBtn.backgroundColor = btnTintColor;
 //        [self.editBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];

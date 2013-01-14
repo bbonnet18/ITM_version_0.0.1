@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "Reachability.h"
 
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -30,43 +31,14 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
 
-
-    
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]  && [[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
-        NSString* uploadingBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastUploadingBuildID"];
-        
-        
-        // this should be encapsulated in another method, so it can be called from here and from the published function
-        
-        Build * newBuild = [self getBuild:uploadingBuildID];
-        
-        [self startUploadProcessWithBuild:newBuild withBuildID:uploadingBuildID];
-        
-    }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
-    self.uploadQueue = [[NSOperationQueue alloc] init];// set the background queue
-
-    
-    HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
-    hc.context = self.managedObjectContext;
-    
-    
-    // subclassed main nave controller from nav controller to override autorotation
-    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
-    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
-    [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
-    self.navController = nav;
-    
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
+    self.uploadQueue = [[NSOperationQueue alloc] init];// set the background queue
     
+        // reachability blocks and initialization
     Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
     
     reach.reachableBlock = ^(Reachability * reachability)
@@ -80,12 +52,45 @@
     reach.unreachableBlock = ^(Reachability * reachability)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-             NSLog(@"--- BLOCK --- is NOT  Reachable");
+            NSLog(@"--- BLOCK --- is NOT  Reachable");
             self.isReachable = NO;
         });
     };
     
     [reach startNotifier];
+    
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]  && [[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        NSString* uploadingBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastUploadingBuildID"];
+        
+        
+        // this should be encapsulated in another method, so it can be called from here and from the published function
+        
+        Build * newBuild = [self getBuild:uploadingBuildID];
+        
+        [self startUploadProcessWithBuild:newBuild withBuildID:uploadingBuildID];
+        
+    }
+    
+        // This will call the login screen if the user isn't logged in
+    if(![[API sharedInstance] isAuthorized]){
+        // enter login script
+        LoginViewController *lv = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        self.window.rootViewController = lv;
+        
+    }else{
+        HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
+        hc.context = self.managedObjectContext;
+        
+        
+        // subclassed main nave controller from nav controller to override autorotation
+        MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
+        UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
+        [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
+        self.navController = nav;
+        
+        self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
+    }
     
     return YES;
 

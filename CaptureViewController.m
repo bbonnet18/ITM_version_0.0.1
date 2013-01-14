@@ -37,7 +37,7 @@
 
     CGRect btnRect = self.rotateBtn.frame;
     [self.rotateBtn removeFromSuperview];
-    self.rotateBtn = [UIButton createButtonWithImage:rotateImg color:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0]];
+    self.rotateBtn = [UIButton createButtonWithImage:rotateImg color:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0] title:@"rotate"];
     self.rotateBtn.frame = CGRectMake(btnRect.origin.x+10.0, btnRect.origin.y+10.0, self.rotateBtn.frame.size.width, self.rotateBtn.frame.size.height);
     [self.rotateBtn addTarget:self action:@selector(rotate:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -134,7 +134,13 @@
     // check to see if the camera roll is available on this device
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         // just like the previous, create the imagePicker, set this as it's delegate and set the sourceType to the camera roll, then allow images as the media type and specify no for editing, and present the new view controller modally
-       
+        
+//#if TARGET_IPHONE_SIMULATOR
+//        
+//#else
+//        
+//#endif
+//
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;

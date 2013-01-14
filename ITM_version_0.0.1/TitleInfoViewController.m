@@ -38,14 +38,18 @@
     if(!self.isNew){
         
         
-        UIImage *deleteImg = [UIImage imageNamed:@"delete.png"];
-        UIImage *deleteStretchedImg = [deleteImg resizableImageWithCapInsets:UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)];
+        //UIImage *deleteImg = [UIImage imageNamed:@"delete.png"];
+        //UIImage *deleteStretchedImg = [deleteImg resizableImageWithCapInsets:UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)];
         UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        deleteBtn.layer.cornerRadius = 8.0f;
         [deleteBtn addTarget:self action:@selector(deleteBuild:) forControlEvents:UIControlEventTouchUpInside];
         [deleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
         [deleteBtn setImage:[UIImage imageNamed:@"trash.png"] forState:UIControlStateNormal];
-        [deleteBtn setBackgroundImage:deleteStretchedImg forState:UIControlStateNormal];
+        //[deleteBtn setBackgroundImage:deleteStretchedImg forState:UIControlStateNormal];
+        [deleteBtn setTintColor:[UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0]];
+        deleteBtn.layer.backgroundColor = [[UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0] CGColor];
         [deleteBtn sizeToFit];
+        
                 NSLog(@"%f",deleteBtn.frame.size.height);
         CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y - 88.0, deleteBtn.frame.size.width+20, deleteBtn.frame.size.height);
         deleteBtn.frame = deleteBtnFrame;
