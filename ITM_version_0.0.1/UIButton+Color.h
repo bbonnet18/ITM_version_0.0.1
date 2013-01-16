@@ -11,6 +11,6 @@
 
 @interface UIButton (Color)
 
-// creates a button with the image in the middle and the provided background color
-+ (UIButton*) createButtonWithImage:(UIImage*) img color:(UIColor*) bgColor  title:(NSString*) title;//
+// creates a button with the image on the top and the provided background color and title
++ (UIButton*) createButtonWithImage:(UIImage*) img color:(UIColor*) bgColor  title:(NSString*) title;
 @end

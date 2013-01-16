@@ -35,84 +35,38 @@
         NSInteger topEdge = 10;
         NSInteger bottomEdge = frame.size.height - 10;
         
-        
-// need a method to create these buttons
         UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
         
         UIImage *editImg = [UIImage imageNamed:@"hammer-square.png"];
-        self.editBtn =  [UIButton createButtonWithImage:editImg color:btnTintColor title:@"edit"];//[[Utilities sharedInstance] createRoundedCustomBtnWithImage:editImg];
-//        self.editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.editBtn.backgroundColor = btnTintColor;
-//        [self.editBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-//        [self.editBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-//        self.editBtn.layer.borderColor = [[UIColor blackColor] CGColor];
-//        self.editBtn.layer.borderWidth = 0.5f;
-//        self.editBtn.layer.cornerRadius = 10.0f;
-//         [self.editBtn setImage:editImg forState:UIControlStateNormal];
-//        [self.editBtn sizeToFit];
-//        self.editBtn.tintColor = btnTintColor;
+        self.editBtn =  [UIButton createButtonWithImage:editImg color:btnTintColor title:nil];
         self.editBtn.frame = CGRectMake(frame.size.width/2 - self.editBtn.frame.size.width - 10.0, topEdge, self.editBtn.frame.size.width, self.editBtn.frame.size.height);
         [self.editBtn addTarget:self action:@selector(editItem:) forControlEvents:UIControlEventTouchUpInside];
         
         
         
         UIImage *deleteImg = [UIImage imageNamed:@"deleteIcon.png"];
-        self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.deleteBtn.backgroundColor = btnTintColor;
-        [self.deleteBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-        [self.deleteBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-        self.deleteBtn.layer.borderColor = [[UIColor blackColor] CGColor];
-        self.deleteBtn.layer.borderWidth = 0.5f;
-        self.deleteBtn.layer.cornerRadius = 10.0f;
-        //self.deleteBtn.frame = CGRectMake(frame.size.width/2, topEdge, 80.0,80.0);
-        [self.deleteBtn setImage:deleteImg forState:UIControlStateNormal];
-//        CGFloat leftInset = 40.0 - deleteImg.size.width/2;
-//        CGFloat topInset = 10.0;
-//        CGFloat bottomInset = self.deleteBtn.frame.size.height/2;
-//        CGFloat rightInset = leftInset+deleteImg.size.width;
-//        [self.deleteBtn setImageEdgeInsets:UIEdgeInsetsMake(topInset, leftInset, bottomInset, rightInset)];
-//        leftInset = 10.0;
-//        topInset = self.deleteBtn.frame.size.height/2;
-//        bottomInset = 10.0;
-//        rightInset = 10.0;
-//        [self.deleteBtn setTitleEdgeInsets:UIEdgeInsetsMake(topInset, leftInset, bottomInset, rightInset)];
-//        [self.deleteBtn setTitle:@"edit" forState:UIControlStateNormal];
-//        //[self.deleteBtn sizeToFit];
-//        
-//        //
-        [self.deleteBtn sizeToFit];
-         //self.deleteBtn.tintColor = btnTintColor;
-        self.deleteBtn.frame = CGRectMake(frame.size.width/2 + 10.0, topEdge, 44.0, 44.0);
+        self.deleteBtn = [UIButton createButtonWithImage:deleteImg color:[UIColor redColor] title:nil];//[UIButton buttonWithType:UIButtonTypeCustom];
+        self.deleteBtn.frame = CGRectMake(frame.size.width/2 + 10.0, topEdge, self.deleteBtn.frame.size.width, self.deleteBtn.frame.size.height);
         [self.deleteBtn addTarget:self action:@selector(deleteItem:) forControlEvents:UIControlEventTouchUpInside];
         
         UIImage * addBeforeImg = [UIImage imageNamed:@"add_before.png"];
         UIImage * addAfterImg = [UIImage imageNamed:@"add_after.png"];
         
-        self.addAfterBtn = [[Utilities sharedInstance] createRoundedCustomBtnWithImage:addAfterImg];//[UIButton buttonWithType:UIButtonTypeRoundedRect];
-        
-        //[self.addAfterBtn setImage:addAfterImg forState:UIControlStateNormal];
-        //[self.addAfterBtn sizeToFit];
-       
+        self.addAfterBtn = [UIButton createButtonWithImage:addAfterImg color:btnTintColor title:nil];
         [self.addAfterBtn addTarget:self action:@selector(addAfter:) forControlEvents:UIControlEventTouchUpInside];
-        
         
         CGRect addBtnFrame = CGRectMake(rightEdge - self.addAfterBtn.frame.size.width, topEdge, self.addAfterBtn.frame.size.width, self.addAfterBtn.frame.size.height);
         self.addAfterBtn.frame = addBtnFrame;
         
-        UIButton *btn = 
-        
-        self.addBeforeBtn = [[Utilities sharedInstance] createRoundedCustomBtnWithImage:addBeforeImg];//[UIButton buttonWithType:UIButtonTypeRoundedRect];
-       // [self.addBeforeBtn setImage:addBeforeImg forState:UIControlStateNormal];
-        //[self.addBeforeBtn sizeToFit];
-       // self.addBeforeBtn.tintColor = btnTintColor;
+        self.addBeforeBtn = [UIButton createButtonWithImage:addBeforeImg color:btnTintColor title:nil];
         [self.addBeforeBtn addTarget:self action:@selector(addBefore:) forControlEvents:UIControlEventTouchUpInside];
-        
+
         addBtnFrame = CGRectMake(leftEdge, topEdge, self.addBeforeBtn.frame.size.width, self.addBeforeBtn.frame.size.height);
         self.addBeforeBtn.frame = addBtnFrame;
         
         self.previewImageView = [[UIImageView alloc] initWithImage:img];
         [self.previewImageView sizeToFit];
-        CGRect previewImageFrame = CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, 80, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height);
+        CGRect previewImageFrame = CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, 70, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height);
         self.previewImageView.frame = previewImageFrame;
         
         

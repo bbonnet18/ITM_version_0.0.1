@@ -40,8 +40,13 @@
     self.rotateBtn = [UIButton createButtonWithImage:rotateImg color:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0] title:@"rotate"];
     self.rotateBtn.frame = CGRectMake(btnRect.origin.x+10.0, btnRect.origin.y+10.0, self.rotateBtn.frame.size.width, self.rotateBtn.frame.size.height);
     [self.rotateBtn addTarget:self action:@selector(rotate:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.view addSubview:self.rotateBtn];
+    // if it's a new one, set the rotate btn to hidden
+    if(![[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]]){
+        [self.rotateBtn setHidden:YES];
+    }
+    
+    if([self.buildItemVals valueForKey:@"thumbnailPath"])
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedWritingImage:) name:@"VideoSaved" object:nil];
     
@@ -208,6 +213,7 @@
             [self performSelectorOnMainThread:@selector(saveThumb:) withObject:assetURL waitUntilDone:NO];
         }
     }
+    [self.rotateBtn setHidden:NO];// unhide the button if it's hidden
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -578,9 +584,6 @@
 -(void)didFinishEditingText:(NSString *)editedText{
     [self.buildItemVals setValue:editedText forKey:@"caption"];
     self.captionTxt.text = editedText;
-}
--(void) setDidFinishEditing:(BOOL)isFinished{
-    
 }
 
 

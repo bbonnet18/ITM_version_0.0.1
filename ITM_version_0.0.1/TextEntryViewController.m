@@ -32,7 +32,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        [self.delegate setDidFinishEditing:NO];
+        //[self.delegate setDidFinishEditing:NO];
         self.lineLimit = 2; 
         self.charactersLimit = 250;
         self->_heightLimit = 50;
@@ -53,6 +53,8 @@
     self.mainTextView.layer.borderWidth = 5.0f;// set the border for this textView
     self.mainTextView.layer.borderColor = [[UIColor grayColor] CGColor];// set the color for the border
     self.totalLines = 0;
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.mainTextView becomeFirstResponder];
 
     // Do any additional setup after loading the view from its nib.
 }
@@ -229,7 +231,7 @@
 	// finish typing text/dismiss the keyboard by removing it as the first responder
     [self.mainTextView resignFirstResponder];
 	self.navigationItem.rightBarButtonItem = nil;
-    [self.navigationController setNavigationBarHidden:YES];
+    
 }
 
 // handles changing the frame so the text can work in either orientation

@@ -11,7 +11,6 @@
 @protocol ScreenTextEditor
 @required
 - (void) didFinishEditingText:(NSString*) editedText;//
-- (void) setDidFinishEditing:(BOOL) isFinished;
 @end
 
 @interface TextEntryViewController : UIViewController <UITextViewDelegate>

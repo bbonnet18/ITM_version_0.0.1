@@ -10,17 +10,20 @@
 
 @protocol  PublishProtocol
 @required
--(void) userDidPublish;// simply verifies to the delegate that the user wants to publish
+-(void) userDidPublishWithEmails:(NSArray*) emails;// simply verifies to the delegate that the user wants to publish
 -(void) userDidCancel;// cancel, don't publish
 
 @end
 
-@interface PublishViewController : UIViewController
+@interface PublishViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) id <PublishProtocol> delegate;// so the delegate can be set to enforce these methods
 @property (nonatomic, strong) IBOutlet UIButton * publishBtn;
 @property (nonatomic, strong) IBOutlet UIButton * cancelBtn;
 @property (nonatomic,strong) IBOutlet UITextView * infoTxt;
+@property (nonatomic, strong) UITextView *activeView;// used to keep track 
+@property (nonatomic, strong) IBOutlet UITextView *emailsTxt;// holds emails for people to send to
+@property (strong, nonatomic) IBOutlet UIButton *doneBtn; // used when editing the emails
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)publish:(id)sender;
