@@ -29,13 +29,13 @@
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];// handle uploads from the publish screen
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(published:) name:@"UserDidUpload" object:nil];
+
     self.uploadQueue = [[NSOperationQueue alloc] init];// set the background queue
     
         // reachability blocks and initialization
@@ -68,7 +68,7 @@
         
         Build * newBuild = [self getBuild:uploadingBuildID];
         
-        [self startUploadProcessWithBuild:newBuild withBuildID:uploadingBuildID];
+        [self startUploadProcessWithBuild:newBuild withDistroEmails:nil];
         
     }
     
@@ -112,7 +112,7 @@
 
 
 
-- (void) startUploadProcessWithBuild: (Build*) newBuild withBuildID:(NSString*) idForBuild{
+- (void) startUploadProcessWithBuild: (Build*) newBuild withDistroEmails:(NSArray*) distroEmails{
     
     if(newBuild != nil){
         
@@ -148,7 +148,8 @@
             // get the JSON data from the build
             NSData * jsonData = [self generateJSONFromBuild:newBuild withItems:mediaItems];
             // create an instance of uploader and assign it to the uploader instance variable so it can be acted on and tracked
-            self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload andJSONData:jsonData buildID:idForBuild];
+            self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload andJSONData:jsonData buildID:newBuild.buildID];
+            self.uploader.emailsToDistribute = distroEmails;
             self.uploader.delegate = self;// should probably set this before calling the method above, or set it with it.
             [self.uploader buildRequestAndUpload];// start the upload process
         }else{
@@ -166,9 +167,11 @@
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] != YES){
     NSDictionary *myDictionary = [buildID userInfo];
     NSString * idForBuild = [myDictionary valueForKey:@"buildID"];
-    
+    NSArray *emails = [myDictionary valueForKey:@"emails"];
+       
     // save this a reference to the last uploaded buildID so it can be re-launched the next time if it quits
     [[NSUserDefaults standardUserDefaults] setValue:idForBuild forKey:@"lastUploadingBuildID"];
+    [[NSUserDefaults standardUserDefaults] setValue:emails forKey:@"lastUploadingEmails"];
     
     self.uploader = nil;
     Build * newBuild = [self getBuild:idForBuild];
@@ -180,7 +183,7 @@
             NSError *err = nil;
             [self.managedObjectContext save:&err];
             if(!err){
-                [self startUploadProcessWithBuild:newBuild withBuildID:idForBuild];
+                [self startUploadProcessWithBuild:newBuild withDistroEmails:emails];
             }else{
                 [newBuild setStatus:@"edit"];// set the status to edit
                 NSError *err2 = nil;
@@ -284,7 +287,8 @@
     
     Build *b = [self getBuild:buildID];
     
-    b.status = @"view";
+    b.status = @"edit";
+    b.publishDate = [NSDate date];// this is set to the device's date and time, in the long run, this should be set and returned from the server
     
     NSError *err = nil;
     

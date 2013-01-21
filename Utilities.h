@@ -14,5 +14,6 @@
 
 - (NSString*) GetUUIDString;// returns a UUID string for use in screen and image ids
 - (BOOL) checkValidString:(NSString*)str;// checks to see if a string is not null, not empty and is an actual string
-- (UIButton*) createRoundedCustomBtnWithImage:(UIImage*)btnImg;//builds a rounded custom button
+- (NSString*) getTimeStamp:(NSDate*) dateForString;// returns a date as a formatted string
+//- (UIButton*) createRoundedCustomBtnWithImage:(UIImage*)btnImg;//builds a rounded custom button
 @end

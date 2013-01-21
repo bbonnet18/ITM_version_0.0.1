@@ -17,7 +17,7 @@
 
 @implementation PublishViewController
 
-@synthesize doneBtn, emailsTxt, infoTxt, publishBtn, cancelBtn;
+@synthesize doneBtn, emailsTxt, infoTxt, publishBtn, cancelBtn, titleLabel, publishDateLabel, publishDateStr, titleLabelStr;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -31,6 +31,10 @@
 {
     [super viewDidLoad]; 
     
+    
+    titleLabel.text = titleLabelStr;
+    publishDateLabel.text = publishDateStr;
+    
     self.emailsTxt.layer.borderColor = [[UIColor colorWithRed:0.09 green:0.49 blue:0.57 alpha:1.0] CGColor];
     self.emailsTxt.layer.borderWidth = 2.0f;
     self.emailsTxt.layer.cornerRadius = 5.0f;
@@ -43,14 +47,15 @@
     canelBtn.tintColor = [UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0];
     [canelBtn sizeToFit];
     
-    CGRect cancelBtnRect = CGRectMake(self.view.frame.size.width/2, self.cancelBtn.frame.origin.y, canelBtn.frame.size.width + 20.0, canelBtn.frame.size.height + 20.0);
-    canelBtn.frame = cancelBtnRect;
-    cancelBtnRect = CGRectMake(cancelBtnRect.origin.x - (canelBtn.frame.size.width / 2), cancelBtnRect.origin.y, cancelBtnRect.size.width, cancelBtnRect.size.height);
-    canelBtn.frame = cancelBtnRect;
+//    CGRect cancelBtnRect = CGRectMake(self.view.frame.size.width/2, self.publishBtn.frame.origin.y + self.publishBtn.frame.size.height+ 10, canelBtn.frame.size.width + 20.0, canelBtn.frame.size.height);
+//    canelBtn.frame = cancelBtnRect;
+//    cancelBtnRect = CGRectMake(cancelBtnRect.origin.x - (canelBtn.frame.size.width / 2), cancelBtnRect.origin.y, cancelBtnRect.size.width, cancelBtnRect.size.height);
+    canelBtn.frame = self.cancelBtn.frame;
     [canelBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     [self.cancelBtn removeFromSuperview];
     self.cancelBtn = canelBtn;
     [self.view addSubview:self.cancelBtn];
+    
     //self.infoTxt.backgroundColor = [UIColor blueColor];
     // Do any additional setup after loading the view from its nib.
 }
@@ -68,11 +73,9 @@
 
 - (IBAction)publish:(id)sender{
     NSArray *emailsToShare = [self emailsToShare];
-    [emailsToShare enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSLog(@"email: %@ - index: %i",obj,idx);
-    }];
-    
-    [self.delegate userDidPublishWithEmails:[self emailsToShare]];
+    if(emailsToShare != nil){
+        [self.delegate userDidPublishWithEmails:emailsToShare];
+    }
     
 }
 
@@ -83,7 +86,7 @@
 -(NSArray*) emailsToShare{
     NSMutableArray* emails = nil;
     
-    if(![self.emailsTxt.text isEqualToString:@""]){
+    if(![self.emailsTxt.text isEqualToString:@""]){ // will not be null because the instance already exist when the screen is loaded
         NSArray * emailEntries = [self.emailsTxt.text componentsSeparatedByString:@"," ];
         emails = [[NSMutableArray alloc] initWithCapacity:[emailEntries count]];
         for (NSString *email in emailEntries) {
@@ -91,7 +94,7 @@
             if([self isValidEmail:trimmed]){
                 [emails addObject:trimmed];// add it if it's valid
             }else{
-                [[[UIAlertView alloc] initWithTitle:@"Error - Emails" message:@"There is an error in one or more of your email addresses" delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+                [[[UIAlertView alloc] initWithTitle:@"Error - Emails" message:@"There is an error in one or more of your email addresses. Make sure each is a valid email and make sure they are separated with a comma." delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
                 return nil;
             }
         }

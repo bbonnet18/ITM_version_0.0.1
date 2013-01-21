@@ -488,7 +488,11 @@
 -(IBAction)publish:(id)sender{
     PublishViewController *pv = [[PublishViewController alloc] initWithNibName:@"PublishViewController" bundle:[NSBundle mainBundle]];
     pv.delegate = self;
-    pv.title = @"Publish";
+    NSDate *d = ([self getBuild].publishDate != nil) ? [self getBuild].publishDate : nil;
+    
+    NSLog(@"date: %@", [d description]);
+    pv.titleLabelStr = (d != nil) ? @"Re-Publish" : @"Publish";
+    pv.publishDateStr = (d != nil) ? [NSString stringWithFormat:@"last published: %@",[[Utilities sharedInstance] getTimeStamp:d]] : @"";
     [self presentViewController:pv animated:YES completion:^{
         
     }];
@@ -496,10 +500,10 @@
 
 #pragma Publish Protocol methods
 
--(void) userDidPublish{
+-(void) userDidPublishWithEmails:(NSArray *)emails{
     
     // create a build dicitionary with the buildID and send it off
-     NSDictionary *holder = [NSDictionary dictionaryWithObjectsAndKeys:self->_buildID,@"buildID",@"message to Ben",@"newMsg"            , nil];
+     NSDictionary *holder = [NSDictionary dictionaryWithObjectsAndKeys:self->_buildID,@"buildID",emails,@"emails", nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidUpload" object:nil userInfo:holder];
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"dismissed the publish screen");

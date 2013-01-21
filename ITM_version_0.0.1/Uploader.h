@@ -41,6 +41,7 @@
     NSData *_jsonData;// this will be used to hold the JSON that we get from the init function
     BOOL _uploadComplete;// used to track whether completely done uploading, initially set to NO
     BOOL _jsonSent;// private flag used temporarily while we set up the server side
+    NSArray *_emailsToDistribute;// holds all the distribution emails if the user provided any
 }
 
 @property (strong, nonatomic) id <UploadProtocol> delegate;
@@ -60,7 +61,7 @@
 @property (strong, nonatomic) NSURLConnection *mainConn;
 @property (strong, nonatomic) NSData *jsonData;
 @property (assign, nonatomic) BOOL uploadComplete;
-
+@property (strong, nonatomic) NSArray *emailsToDistribute;// handles all the emails from the user when there are emails to distribute this to
 
 // this method takes in an array of dictionary objects and a JSONData object and starts the process of uploading
 - (id) initWithBuildItems:(NSArray*) buildItemVals andJSONData:(NSData*) jsonData buildID:(NSString*) idNum;

@@ -24,6 +24,10 @@
 @property (nonatomic, strong) UITextView *activeView;// used to keep track 
 @property (nonatomic, strong) IBOutlet UITextView *emailsTxt;// holds emails for people to send to
 @property (strong, nonatomic) IBOutlet UIButton *doneBtn; // used when editing the emails
+@property (nonatomic, strong) NSString *titleLabelStr;// actual title label
+@property (nonatomic, strong) IBOutlet UILabel *titleLabel;// used to show whether this is a publish or a republish
+@property (nonatomic, strong) NSString *publishDateStr;// actual publish date string
+@property (nonatomic, strong) IBOutlet UILabel *publishDateLabel;// used to show the last published date if there is one
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)publish:(id)sender;

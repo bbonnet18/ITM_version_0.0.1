@@ -360,7 +360,7 @@
             CMTime actualTime;
             NSError *e = nil;
             // get the date
-            NSString* createDate = [self getTimeStamp:[assetToUse.creationDate dateValue] ];
+            NSString* createDate = [[Utilities sharedInstance] getTimeStamp:[assetToUse.creationDate dateValue]];//[self getTimeStamp:[assetToUse.creationDate dateValue] ];
             self.timeStampTxt.text = createDate;
             [self.buildItemVals setValue:createDate forKey:@"timeStamp"];
     
@@ -398,17 +398,17 @@
     
 }
 // shows the creation timestamp in the timestamp label
-- (NSString*) getTimeStamp:(NSDate*)assetCreationDate{
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];// want short time
-    [formatter setDateStyle:NSDateFormatterMediumStyle];// just want the months and the day
-    NSString* dateString = [formatter stringFromDate:assetCreationDate];
-    return dateString;
-//    self.timeStampTxt.text = dateString;
-//    [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
-   
-}
+//- (NSString*) getTimeStamp:(NSDate*)assetCreationDate{
+//    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setTimeStyle:NSDateFormatterShortStyle];// want short time
+//    [formatter setDateStyle:NSDateFormatterMediumStyle];// just want the months and the day
+//    NSString* dateString = [formatter stringFromDate:assetCreationDate];
+//    return dateString;
+////    self.timeStampTxt.text = dateString;
+////    [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
+//   
+//}
 
 - (void) loadPlaceholderThumb{
     
@@ -425,7 +425,7 @@
         
         NSDate *createDate = (NSDate*)[asset valueForProperty:ALAssetPropertyDate];
         //get this image and make it's orientation up
-        NSString *creationDateString = [self getTimeStamp:createDate];
+        NSString *creationDateString = [[Utilities sharedInstance] getTimeStamp:createDate];//[self getTimeStamp:createDate];
         self.timeStampTxt.text = creationDateString;
         [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
         UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1.0 orientation:UIImageOrientationUp];

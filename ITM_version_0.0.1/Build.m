@@ -2,8 +2,8 @@
 //  Build.m
 //  ITM_version_0.0.1
 //
-//  Created by Lauren Bonnet on 12/17/12.
-//  Copyright (c) 2012 Ben Bonnet. All rights reserved.
+//  Created by Lauren Bonnet on 1/20/13.
+//  Copyright (c) 2013 Ben Bonnet. All rights reserved.
 //
 
 #import "Build.h"
@@ -14,10 +14,12 @@
 
 @dynamic buildDescription;
 @dynamic buildID;
+@dynamic context;
 @dynamic dateCreated;
 @dynamic status;
 @dynamic title;
-@dynamic context;
+@dynamic applicationID;
+@dynamic publishDate;
 @dynamic buildItems;
 
 @end

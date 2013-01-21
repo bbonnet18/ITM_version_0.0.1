@@ -47,23 +47,35 @@
     return isValid;
 }
 
--(UIButton*) createRoundedCustomBtnWithImage:(UIImage *)btnImg{
-    UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
-
+- (NSString*) getTimeStamp:(NSDate*)dateForString{
     
-    UIButton *newBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    newBtn.backgroundColor = btnTintColor;
-    [newBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-    [newBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-   newBtn.layer.borderColor = [[UIColor blackColor] CGColor];
-    newBtn.layer.borderWidth = 0.5f;
-    newBtn.layer.cornerRadius = 10.0f;
-    [newBtn setImage:btnImg forState:UIControlStateNormal];
-    [newBtn sizeToFit];
-    newBtn.tintColor = btnTintColor;
-    newBtn.frame = CGRectMake(0.0, 0.0, 44.0, 44.0);
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];// want short time
+    [formatter setDateStyle:NSDateFormatterMediumStyle];// just want the months and the day
+    NSString* dateString = [formatter stringFromDate:dateForString];
+    return dateString;
+    //    self.timeStampTxt.text = dateString;
+    //    [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
     
-    return newBtn;
 }
+
+//-(UIButton*) createRoundedCustomBtnWithImage:(UIImage *)btnImg{
+//    UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
+//
+//    
+//    UIButton *newBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    newBtn.backgroundColor = btnTintColor;
+//    [newBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+//    [newBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+//   newBtn.layer.borderColor = [[UIColor blackColor] CGColor];
+//    newBtn.layer.borderWidth = 0.5f;
+//    newBtn.layer.cornerRadius = 10.0f;
+//    [newBtn setImage:btnImg forState:UIControlStateNormal];
+//    [newBtn sizeToFit];
+//    newBtn.tintColor = btnTintColor;
+//    newBtn.frame = CGRectMake(0.0, 0.0, 44.0, 44.0);
+//    
+//    return newBtn;
+//}
 
 @end

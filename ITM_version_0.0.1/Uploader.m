@@ -13,7 +13,7 @@
 #define IMAGE_CONTENT @"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n"
 #define STRING_CONTENT @"Content-Disposition: form-data; name=\"%@\"\r\n\r\n"
 #define MULTIPART @"multipart/form-data; boundary=------------0x0x0x0x0x0x0x0x"
-
+#define SERVER_Path @"http://localhost/" 
 
 #import "Uploader.h"
 
@@ -34,6 +34,7 @@
 @synthesize mainConn = _mainConn;
 @synthesize jsonData = _jsonData;
 @synthesize uploadComplete = _uploadComplete;
+@synthesize emailsToDistribute = _emailsToDistribute;
 
 // class methods
 
@@ -41,7 +42,7 @@
     
      if ( self = [super init] ) {
          self->currentItemUploadIndex = 0;// set to zero to get things started
-         
+        
          // check the user defaults to see if it was already uploading, get the last index if it was
          if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]){
              NSInteger lastUploadIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"uploadIndex"];
@@ -49,8 +50,6 @@
          }else{// set it to uploading now
              [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];
          }
-         
-
          
          
          self.buildID = idNum;// set this so we can store it and return it
@@ -120,6 +119,10 @@
 
 // kicks off the process to build the upload request for video, image and audio data by checking each media type and calling the createMediaDataFromPath method
 -  (void) buildRequestAndUpload{
+    
+    [self.emailsToDistribute enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@"- - - - - EMAIL: %@", obj);
+    }];
     
     NSDictionary *itemToUpload = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
     
@@ -317,6 +320,9 @@
         self.uploadComplete = YES;
         [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
         [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
+        // kill the values for the emails and buildID
+         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
+         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
         [self.delegate uploadDidCompleWithBuildID:self.buildID];
     }
 
@@ -353,7 +359,7 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    NSString *baseurl =  @"http://192.168.1.2/Revolt/upload_media.php";
+    NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];   //@"http://192.168.1.7/Revolt/upload_media.php";
     NSURL *url = [NSURL URLWithString:baseurl];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     if (!urlRequest) {
@@ -408,7 +414,7 @@
 	NSData *postData = [self generateFormDataFromPostDictionary:post_dict withType:[b valueForKey:@"type"]];
     
     
-	NSString *baseurl =  @"http://192.168.1.2/Revolt/upload_media.php";
+	NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];//@"http://192.168.1.7/Revolt/upload_media.php";
     NSURL *url = [NSURL URLWithString:baseurl];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     if (!urlRequest) {
