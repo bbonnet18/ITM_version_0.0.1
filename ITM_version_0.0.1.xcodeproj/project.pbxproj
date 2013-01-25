@@ -140,6 +140,10 @@
 		908BCB2E167ED5C0003C61CD /* addcontactpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB2C167ED5C0003C61CD /* addcontactpressed.png */; };
 		908BCB2F167ED5C0003C61CD /* addcontactpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB2D167ED5C0003C61CD /* addcontactpressed@2x.png */; };
 		908BCB31167EDC83003C61CD /* mysteriousblue-300x50.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB30167EDC83003C61CD /* mysteriousblue-300x50.png */; };
+		909B783316AE4BCB00A2D6D4 /* bg_for_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783116AE4BCB00A2D6D4 /* bg_for_app.png */; };
+		909B783416AE4BCB00A2D6D4 /* bg_for_app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783216AE4BCB00A2D6D4 /* bg_for_app@2x.png */; };
+		909B783716AF89EF00A2D6D4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783616AF89EF00A2D6D4 /* Default@2x.png */; };
+		909B783916AF8A0B00A2D6D4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783816AF8A0B00A2D6D4 /* Default-568h@2x.png */; };
 		90A71326169BC6B400AD045B /* PLVideoEditButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90A71325169BC6B300AD045B /* PLVideoEditButton@2x.png */; };
 		90A71329169BC74800AD045B /* PLVideoEditButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 90A71328169BC74800AD045B /* PLVideoEditButton.png */; };
 		90A7132C169BC99500AD045B /* Video-play-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 90A7132A169BC99400AD045B /* Video-play-button.png */; };
@@ -341,6 +345,10 @@
 		908BCB2C167ED5C0003C61CD /* addcontactpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addcontactpressed.png; sourceTree = "<group>"; };
 		908BCB2D167ED5C0003C61CD /* addcontactpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addcontactpressed@2x.png"; sourceTree = "<group>"; };
 		908BCB30167EDC83003C61CD /* mysteriousblue-300x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mysteriousblue-300x50.png"; sourceTree = "<group>"; };
+		909B783116AE4BCB00A2D6D4 /* bg_for_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_for_app.png; sourceTree = "<group>"; };
+		909B783216AE4BCB00A2D6D4 /* bg_for_app@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_for_app@2x.png"; sourceTree = "<group>"; };
+		909B783616AF89EF00A2D6D4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		909B783816AF8A0B00A2D6D4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		90A71325169BC6B300AD045B /* PLVideoEditButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PLVideoEditButton@2x.png"; path = "../../../Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.0.sdk/System/Library/PrivateFrameworks/PhotoLibrary.framework/PLVideoEditButton@2x.png"; sourceTree = "<group>"; };
 		90A71328169BC74800AD045B /* PLVideoEditButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PLVideoEditButton.png; path = ../../../Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.0.sdk/System/Library/PrivateFrameworks/PhotoLibrary.framework/PLVideoEditButton.png; sourceTree = "<group>"; };
 		90A7132A169BC99400AD045B /* Video-play-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Video-play-button.png"; path = "../../../Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.0.sdk/System/Library/PrivateFrameworks/ChatKit.framework/Video-play-button.png"; sourceTree = "<group>"; };
@@ -468,6 +476,8 @@
 		903C38AA1623C7D1001845FE = {
 			isa = PBXGroup;
 			children = (
+				909B783816AF8A0B00A2D6D4 /* Default-568h@2x.png */,
+				909B783616AF89EF00A2D6D4 /* Default@2x.png */,
 				9029375416A1D8C700939839 /* AFNetworking */,
 				900F3F6316953862007A8986 /* Default.png */,
 				900F3F611695383D007A8986 /* Icon@2x.png */,
@@ -587,6 +597,8 @@
 				903C38D11623C7D1001845FE /* Default-568h@2x.png */,
 				903C38CD1623C7D1001845FE /* Default.png */,
 				903C38CF1623C7D1001845FE /* Default@2x.png */,
+				909B783116AE4BCB00A2D6D4 /* bg_for_app.png */,
+				909B783216AE4BCB00A2D6D4 /* bg_for_app@2x.png */,
 				90144C1B169D34060039EEA1 /* delete.png */,
 				90144C1C169D34060039EEA1 /* delete@2x.png */,
 				90144C3D169E5D240039EEA1 /* deleteIcon.png */,
@@ -872,6 +884,10 @@
 				90E3C00F16A110E80004A881 /* cloud-minus@2x.png in Resources */,
 				90E3C01016A110E80004A881 /* cloud-minus.png in Resources */,
 				9029377D16A232F000939839 /* LoginViewController.xib in Resources */,
+				909B783316AE4BCB00A2D6D4 /* bg_for_app.png in Resources */,
+				909B783416AE4BCB00A2D6D4 /* bg_for_app@2x.png in Resources */,
+				909B783716AF89EF00A2D6D4 /* Default@2x.png in Resources */,
+				909B783916AF8A0B00A2D6D4 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

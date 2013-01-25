@@ -2101,11 +2101,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "426"
-         endingLineNumber = "426"
+         startingLineNumber = "484"
+         endingLineNumber = "484"
          landmarkName = "@implementation HomeTableViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -2114,11 +2114,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380602273.751342"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "130"
-         endingLineNumber = "130"
+         startingLineNumber = "150"
+         endingLineNumber = "150"
          landmarkName = "-addNewBuild:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2153,11 +2153,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "159"
-         endingLineNumber = "159"
+         startingLineNumber = "172"
+         endingLineNumber = "172"
          landmarkName = "-createVideoDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2166,11 +2166,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "167"
-         endingLineNumber = "167"
+         startingLineNumber = "180"
+         endingLineNumber = "180"
          landmarkName = "-createVideoDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2179,11 +2179,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "131"
-         endingLineNumber = "131"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
          landmarkName = "-buildRequestAndUpload"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2192,11 +2192,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "210"
-         endingLineNumber = "210"
+         startingLineNumber = "223"
+         endingLineNumber = "223"
          landmarkName = "-createImageDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2205,11 +2205,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "383"
-         endingLineNumber = "383"
+         startingLineNumber = "396"
+         endingLineNumber = "396"
          landmarkName = "-createMediaRequestFromBuildItem"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2218,11 +2218,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "205"
-         endingLineNumber = "205"
+         startingLineNumber = "218"
+         endingLineNumber = "218"
          landmarkName = "-createImageDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2231,11 +2231,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "223"
-         endingLineNumber = "223"
+         startingLineNumber = "236"
+         endingLineNumber = "236"
          landmarkName = "-saveTempImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2244,11 +2244,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "230"
-         endingLineNumber = "230"
+         startingLineNumber = "243"
+         endingLineNumber = "243"
          landmarkName = "-saveTempImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2257,11 +2257,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "228"
-         endingLineNumber = "228"
+         startingLineNumber = "241"
+         endingLineNumber = "241"
          landmarkName = "-saveTempImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2270,11 +2270,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "263"
-         endingLineNumber = "263"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
          landmarkName = "-postRequest:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2283,11 +2283,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "269"
-         endingLineNumber = "269"
+         startingLineNumber = "282"
+         endingLineNumber = "282"
          landmarkName = "-postRequest:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2426,11 +2426,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "453"
-         endingLineNumber = "453"
+         startingLineNumber = "466"
+         endingLineNumber = "466"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2439,11 +2439,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "443"
-         endingLineNumber = "443"
+         startingLineNumber = "456"
+         endingLineNumber = "456"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2452,11 +2452,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "452"
-         endingLineNumber = "452"
+         startingLineNumber = "465"
+         endingLineNumber = "465"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2465,11 +2465,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "448"
-         endingLineNumber = "448"
+         startingLineNumber = "461"
+         endingLineNumber = "461"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2478,11 +2478,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "445"
-         endingLineNumber = "445"
+         startingLineNumber = "458"
+         endingLineNumber = "458"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2491,11 +2491,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "350"
-         endingLineNumber = "350"
+         startingLineNumber = "363"
+         endingLineNumber = "363"
          landmarkName = "-checkMediaComplete"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2504,11 +2504,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "348"
-         endingLineNumber = "348"
+         startingLineNumber = "361"
+         endingLineNumber = "361"
          landmarkName = "-checkMediaComplete"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2517,11 +2517,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "294"
-         endingLineNumber = "294"
+         startingLineNumber = "307"
+         endingLineNumber = "307"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2530,11 +2530,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "293"
-         endingLineNumber = "293"
+         startingLineNumber = "306"
+         endingLineNumber = "306"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2543,11 +2543,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "357"
-         endingLineNumber = "357"
+         startingLineNumber = "370"
+         endingLineNumber = "370"
          landmarkName = "-createJSONDataRequest"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2556,11 +2556,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "356"
-         endingLineNumber = "356"
+         startingLineNumber = "369"
+         endingLineNumber = "369"
          landmarkName = "-createJSONDataRequest"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2608,11 +2608,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "385"
-         endingLineNumber = "385"
+         startingLineNumber = "398"
+         endingLineNumber = "398"
          landmarkName = "-createMediaRequestFromBuildItem"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2634,11 +2634,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380602273.751342"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "102"
-         endingLineNumber = "102"
+         startingLineNumber = "118"
+         endingLineNumber = "118"
          landmarkName = "@implementation HomeTableViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -2647,11 +2647,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "388"
-         endingLineNumber = "388"
+         startingLineNumber = "401"
+         endingLineNumber = "401"
          landmarkName = "-createMediaRequestFromBuildItem"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2699,11 +2699,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380602273.751342"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
          landmarkName = "-uploadComplete:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2712,11 +2712,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "481"
-         endingLineNumber = "481"
+         startingLineNumber = "494"
+         endingLineNumber = "494"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2725,11 +2725,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "375"
-         endingLineNumber = "375"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
          landmarkName = "-createJSONDataRequest"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2738,11 +2738,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "429"
-         endingLineNumber = "429"
+         startingLineNumber = "442"
+         endingLineNumber = "442"
          landmarkName = "-createMediaRequestFromBuildItem"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2751,11 +2751,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "428"
-         endingLineNumber = "428"
+         startingLineNumber = "441"
+         endingLineNumber = "441"
          landmarkName = "-createMediaRequestFromBuildItem"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2764,11 +2764,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "158"
-         endingLineNumber = "158"
+         startingLineNumber = "171"
+         endingLineNumber = "171"
          landmarkName = "-createVideoDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2777,11 +2777,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "183"
-         endingLineNumber = "183"
+         startingLineNumber = "196"
+         endingLineNumber = "196"
          landmarkName = "-createVideoDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2790,11 +2790,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "482"
-         endingLineNumber = "482"
+         startingLineNumber = "495"
+         endingLineNumber = "495"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2803,11 +2803,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "302"
-         endingLineNumber = "302"
+         startingLineNumber = "315"
+         endingLineNumber = "315"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2816,20 +2816,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "301"
-         endingLineNumber = "301"
-         landmarkName = "-doneUploading:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "314"
@@ -2842,11 +2829,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "300"
-         endingLineNumber = "300"
+         startingLineNumber = "327"
+         endingLineNumber = "327"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2855,11 +2842,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "306"
-         endingLineNumber = "306"
+         startingLineNumber = "313"
+         endingLineNumber = "313"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2868,11 +2855,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "351"
-         endingLineNumber = "351"
+         startingLineNumber = "319"
+         endingLineNumber = "319"
+         landmarkName = "-doneUploading:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/Uploader.m"
+         timestampString = "380524107.408622"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "364"
+         endingLineNumber = "364"
          landmarkName = "-checkMediaComplete"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2881,11 +2881,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "312"
-         endingLineNumber = "312"
+         startingLineNumber = "325"
+         endingLineNumber = "325"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2894,11 +2894,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "295"
-         endingLineNumber = "295"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2907,11 +2907,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "298"
-         endingLineNumber = "298"
+         startingLineNumber = "311"
+         endingLineNumber = "311"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2920,11 +2920,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "305"
-         endingLineNumber = "305"
+         startingLineNumber = "318"
+         endingLineNumber = "318"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2933,11 +2933,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "303"
-         endingLineNumber = "303"
+         startingLineNumber = "316"
+         endingLineNumber = "316"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2946,11 +2946,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "455"
-         endingLineNumber = "455"
+         startingLineNumber = "468"
+         endingLineNumber = "468"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2959,11 +2959,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "457"
-         endingLineNumber = "457"
+         startingLineNumber = "470"
+         endingLineNumber = "470"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2972,11 +2972,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "454"
-         endingLineNumber = "454"
+         startingLineNumber = "467"
+         endingLineNumber = "467"
          landmarkName = "-generateFormDataFromPostDictionary:withType:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2985,11 +2985,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "270"
-         endingLineNumber = "270"
+         startingLineNumber = "283"
+         endingLineNumber = "283"
          landmarkName = "-postRequest:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2998,11 +2998,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "229"
-         endingLineNumber = "229"
+         startingLineNumber = "242"
+         endingLineNumber = "242"
          landmarkName = "-saveTempImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3011,11 +3011,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "186"
-         endingLineNumber = "186"
+         startingLineNumber = "199"
+         endingLineNumber = "199"
          landmarkName = "-createVideoDataFromPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3024,11 +3024,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "132"
-         endingLineNumber = "132"
+         startingLineNumber = "145"
+         endingLineNumber = "145"
          landmarkName = "-buildRequestAndUpload"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3050,11 +3050,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "127"
-         endingLineNumber = "127"
+         startingLineNumber = "140"
+         endingLineNumber = "140"
          landmarkName = "-buildRequestAndUpload"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3072,7 +3072,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/AppDelegate.m"
@@ -3141,11 +3141,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "304"
-         endingLineNumber = "304"
+         startingLineNumber = "317"
+         endingLineNumber = "317"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3154,11 +3154,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "338"
-         endingLineNumber = "338"
+         startingLineNumber = "351"
+         endingLineNumber = "351"
          landmarkName = "-checkMediaComplete"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3167,11 +3167,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "339"
-         endingLineNumber = "339"
+         startingLineNumber = "352"
+         endingLineNumber = "352"
          landmarkName = "-checkMediaComplete"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3180,11 +3180,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "319"
-         endingLineNumber = "319"
+         startingLineNumber = "332"
+         endingLineNumber = "332"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3284,11 +3284,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "185"
-         endingLineNumber = "185"
+         startingLineNumber = "215"
+         endingLineNumber = "215"
          landmarkName = "-addNewBuildWithTitle:andDescription:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3297,11 +3297,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "172"
-         endingLineNumber = "172"
+         startingLineNumber = "202"
+         endingLineNumber = "202"
          landmarkName = "-addNewBuildWithTitle:andDescription:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3310,11 +3310,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "190"
-         endingLineNumber = "190"
+         startingLineNumber = "220"
+         endingLineNumber = "220"
          landmarkName = "-addNewBuildWithTitle:andDescription:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3323,11 +3323,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "174"
-         endingLineNumber = "174"
+         startingLineNumber = "175"
+         endingLineNumber = "175"
          landmarkName = "-continueToEdit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3336,11 +3336,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "105"
-         endingLineNumber = "105"
+         startingLineNumber = "106"
+         endingLineNumber = "106"
          landmarkName = "-textViewShouldEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3349,11 +3349,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
+         startingLineNumber = "101"
+         endingLineNumber = "101"
          landmarkName = "-textFieldShouldReturn:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3362,11 +3362,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "109"
-         endingLineNumber = "109"
+         startingLineNumber = "110"
+         endingLineNumber = "110"
          landmarkName = "-textViewDidEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3375,11 +3375,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "116"
-         endingLineNumber = "116"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
          landmarkName = "@implementation TitleInfoViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -3388,11 +3388,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "266"
-         endingLineNumber = "266"
+         startingLineNumber = "296"
+         endingLineNumber = "296"
          landmarkName = "-userDidAddBuildWithTitle:andDescription:isNew:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3401,11 +3401,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "174"
-         endingLineNumber = "174"
+         startingLineNumber = "175"
+         endingLineNumber = "175"
          landmarkName = "-continueToEdit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3414,11 +3414,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "78"
-         endingLineNumber = "78"
+         startingLineNumber = "79"
+         endingLineNumber = "79"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3427,11 +3427,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "278"
-         endingLineNumber = "278"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
          landmarkName = "-userDidDeleteBuildWithID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3440,11 +3440,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "183"
-         endingLineNumber = "183"
+         startingLineNumber = "184"
+         endingLineNumber = "184"
          landmarkName = "-deleteBuild:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3453,11 +3453,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "312"
-         endingLineNumber = "312"
+         startingLineNumber = "342"
+         endingLineNumber = "342"
          landmarkName = "-getBuildItemPreview:withSize:andCorner:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3466,11 +3466,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "310"
-         endingLineNumber = "310"
+         startingLineNumber = "340"
+         endingLineNumber = "340"
          landmarkName = "-getBuildItemPreview:withSize:andCorner:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3620,11 +3620,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380602273.751342"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
+         startingLineNumber = "128"
+         endingLineNumber = "128"
          landmarkName = "-showBuild:event:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3659,11 +3659,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "388"
-         endingLineNumber = "388"
+         startingLineNumber = "443"
+         endingLineNumber = "443"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3672,11 +3672,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "352"
-         endingLineNumber = "352"
+         startingLineNumber = "395"
+         endingLineNumber = "395"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3685,11 +3685,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "353"
-         endingLineNumber = "353"
+         startingLineNumber = "396"
+         endingLineNumber = "396"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3698,11 +3698,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/HomeTableViewController.m"
-         timestampString = "379571329.184734"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "350"
-         endingLineNumber = "350"
+         startingLineNumber = "393"
+         endingLineNumber = "393"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3711,11 +3711,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "119"
-         endingLineNumber = "119"
+         startingLineNumber = "120"
+         endingLineNumber = "120"
          landmarkName = "-setupDoneBtn"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3737,11 +3737,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
          landmarkName = "-textViewDidEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3750,11 +3750,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/TitleInfoViewController.m"
-         timestampString = "379709017.304812"
+         timestampString = "380775667.45989"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
+         startingLineNumber = "104"
+         endingLineNumber = "104"
          landmarkName = "-textViewShouldEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4062,11 +4062,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ITM_version_0.0.1/Uploader.m"
-         timestampString = "380437954.057127"
+         timestampString = "380524107.408622"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "291"
-         endingLineNumber = "291"
+         startingLineNumber = "304"
+         endingLineNumber = "304"
          landmarkName = "-doneUploading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4146,6 +4146,97 @@
          startingLineNumber = "45"
          endingLineNumber = "45"
          landmarkName = "-initWithBuildItems:andJSONData:buildID:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/HomeTableViewController.h"
+         timestampString = "380522823.227164"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "34"
+         endingLineNumber = "34"
+         landmarkName = "delegate"
+         landmarkType = "19">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/HomeTableViewController.m"
+         timestampString = "380775667.45989"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "198"
+         endingLineNumber = "198"
+         landmarkName = "-unlockBuild:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/AppDelegate.m"
+         timestampString = "380524187.430761"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "344"
+         endingLineNumber = "344"
+         landmarkName = "-stopUpload"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/AppDelegate.m"
+         timestampString = "380524188.95674"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "345"
+         endingLineNumber = "345"
+         landmarkName = "-stopUpload"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/Uploader.m"
+         timestampString = "380524199.818472"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
+         landmarkName = "-cancelUpload"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/TextEntryViewController.m"
+         timestampString = "380785543.799052"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "296"
+         endingLineNumber = "296"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ITM_version_0.0.1/TextEntryViewController.m"
+         timestampString = "380785543.799052"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "286"
+         endingLineNumber = "286"
+         landmarkName = "-closeScreen:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

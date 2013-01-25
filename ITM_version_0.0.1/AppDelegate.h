@@ -19,7 +19,7 @@
 
 
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate>{
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate,UploadControl>{
     BOOL _isReachable;
 }
 

@@ -61,6 +61,7 @@
         [self.previewImg sizeToFit];
         self.titleTxt.text = self.titleForBuild;
         self.descriptionTxt.text = self.descriptionForBuild;
+        self.datePublishedLabel.text = self.datePublished;
         
     }else{
         [self.statusImg setHidden:YES];

@@ -17,6 +17,7 @@
 // notifies the delegate that the upload is done and provides it with the original buildID provided to it
 - (void) uploadDidCompleWithBuildID:(NSString*) buildID;
 - (void) uploadDidFailWithReason:(NSString*) reason andID:(NSString*)buildID;
+- (void) uploadWasCancelledForID:(NSString*) buildID;
 
 @end
 
@@ -71,6 +72,8 @@
 
 // resumes the upload process from the current point
 - (void) resumeUpload;
+
+- (void) cancelUpload;// cancels an upload for good
 
 - (void) buildRequestAndUpload;// starts the process to upload 
 @end

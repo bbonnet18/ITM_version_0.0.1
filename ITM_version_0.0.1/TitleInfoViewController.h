@@ -41,9 +41,13 @@
 @property (strong, nonatomic) id <TitleInfoProtocol> delegate;
 @property (strong, nonatomic) UIImage *preview;// actual preview image
 @property (strong, nonatomic) IBOutlet UILabel* previewLabel;// label for the preview image
+
+@property (strong, nonatomic) IBOutlet UILabel *datePublishedLabel;
+
 @property (strong, nonatomic) NSString *buildTitle;
 @property (strong, nonatomic) NSString *description;
 @property (strong, nonatomic) NSString *buildID;
+@property (strong, nonatomic) NSString *datePublished;// the date this item was published
 @property (strong, nonatomic) UITextView *activeView;// the text view, we use this to track when the view is active so we can use the done button
 @property (strong, nonatomic) IBOutlet UIButton *doneBtn; // used when editing the description text
 @property (nonatomic, assign) BOOL isNew;

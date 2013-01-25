@@ -83,6 +83,19 @@
     
 }
 
+-(void) cancelUpload{
+    
+    self.isUploading = NO;
+    [self.mediaQueue cancelAllOperations];
+    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
+    [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
+    // kill the values for the emails and buildID
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
+    [self.delegate uploadWasCancelledForID:self.buildID];
+    
+}
+
 
 - (void) resumeUpload{
     // check if uploadComplete

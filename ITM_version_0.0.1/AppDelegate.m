@@ -81,7 +81,7 @@
     }else{
         HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
         hc.context = self.managedObjectContext;
-        
+        hc.delegate = self;
         
         // subclassed main nave controller from nav controller to override autorotation
         MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
@@ -313,6 +313,37 @@
     
 }
 
+-(void) uploadWasCancelledForID:(NSString *)buildID{
+  
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.uploader = nil;
+    
+    Build *b = [self getBuild:buildID];
+    
+    b.status = @"edit";
+    
+    NSError *err = nil;
+    
+    [self.managedObjectContext save:&err];
+    
+    if(!err){
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadAborted" object:nil userInfo:nil];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Stopping your upload" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+
+    
+    
+    
+    
+    
+}
+
+// UploadControl delegate
+- (void) stopUpload{
+    [self.uploader cancelUpload];
+}
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
 

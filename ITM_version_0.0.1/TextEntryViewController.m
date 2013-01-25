@@ -282,11 +282,18 @@
 }
 
 
-- (IBAction)save:(id)sender {
-    [self.mainTextView resignFirstResponder];
-    [self.delegate didFinishEditingText:self.mainTextView.text];
+- (void) closeScreen:(NSTimer*)timer{
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+
+- (IBAction)save:(id)sender {
+    [self.mainTextView resignFirstResponder];
+    self.mainTextView.editable = NO;
+    self.mainTextView.dataDetectorTypes = UIDataDetectorTypeAll;
+    [self.delegate didFinishEditingText:self.mainTextView.text];
+    NSTimer *pauseTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(closeScreen:) userInfo:nil repeats:NO];
+    
 }
 @end

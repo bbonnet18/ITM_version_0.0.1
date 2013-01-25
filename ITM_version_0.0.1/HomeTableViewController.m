@@ -11,7 +11,11 @@
 
 @interface HomeTableViewController ()
 
+-(void) unlockBuild:(id)sender;// unlocks the build so it can be edited
+
 @end
+
+
 
 @implementation HomeTableViewController
 
@@ -48,13 +52,22 @@
     [hv.contentView addSubview:l];
     // add observer for uploaded item
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadComplete:) name:@"UploadComplete" object:nil];
-    UIImage* addNewBtn = [UIImage imageNamed:@"addcontactpressed.png"];
+    UIImage* addNewBtnImg = [UIImage imageNamed:@"addcontactpressed.png"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadCancelled) name:@"UploadAborted" object:nil];
+
+    
     
     UIButton* newBuild = [UIButton buttonWithType:UIButtonTypeCustom];
+   
+//    newBuild.layer.borderColor = [[UIColor grayColor] CGColor];
+//    newBuild.layer.borderWidth = 2.0f;
+//    newBuild.layer.cornerRadius = 5.0f;
     newBuild.frame = CGRectMake(0, 0, 29.0,29.0);
-    [newBuild setBackgroundImage:addNewBtn forState:UIControlStateNormal];
+    [newBuild setImage: addNewBtnImg forState:UIControlStateNormal];
     
     [newBuild addTarget:self action:@selector(addNewBuild:) forControlEvents:UIControlEventTouchUpInside];
+    [newBuild setTitle:@"Create" forState:UIControlStateNormal];
     
     
     UIBarButtonItem *addNew = [[UIBarButtonItem alloc] initWithCustomView:newBuild];// add the new button itself
@@ -68,8 +81,11 @@
     
     //self.tableView.backgroundView = bgView;
     
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
+//    self.tableView.backgroundColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
     // set the bar appearance
+    UIImage *bgImg = [UIImage imageNamed:@"bg_for_app.png"];
+    UIImageView *bgImgView = [[UIImageView alloc] initWithImage:bgImg];
+    [self.tableView setBackgroundView:bgImgView];
     UIOffset shadowOff = UIOffsetMake(0.5, 0.5);
     NSValue *shadowValue = [NSValue valueWithBytes:&shadowOff objCType:@encode(UIOffset)];
     
@@ -101,6 +117,10 @@
 }
 
 - (void) uploadComplete:(NSNotification*) note{
+    [self.tableView reloadData];
+}
+
+- (void) uploadCancelled{
     [self.tableView reloadData];
 }
 
@@ -159,6 +179,8 @@
         ti.status = b.status;
         ti.buildID = b.buildID;
         ti.preview = [self getBuildItemPreview:b withSize:100 andCorner:8];
+        ti.datePublished = (b.publishDate != nil) ? [[Utilities sharedInstance] getTimeStamp:b.publishDate] : @"Not yet published";
+        NSLog(@"datePublished :%@",ti.datePublished);
         
         
         [self presentViewController:ti animated:YES completion:^{
@@ -167,6 +189,14 @@
     }
 
     
+}
+
+
+// allows the user to unlock a build that is currently locked for uploading purposes
+-(void) unlockBuild:(id)sender{
+    
+   UIAlertView *av =  [[UIAlertView alloc] initWithTitle:@"Stop Upload?" message:@"Tap stop upload to stop the upload so you can edit your items. Tap cancel to allow the upload to continue" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"stop upload",nil, nil];
+    [av show];
 }
 
 - (void) addNewBuildWithTitle:(NSString*)title andDescription:(NSString*)description {
@@ -327,6 +357,19 @@
     
 }
 
+#pragma AlertViewDelegate Methods
+
+-(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0:
+            break;
+        case 1:
+            [self.delegate stopUpload];
+            break;
+        default:
+            break;
+    }
+}
 
                                 
 #pragma mark - Table view data source
@@ -355,6 +398,11 @@
        
    }
     
+    cell.layer.borderColor = [[UIColor grayColor] CGColor];  //colorWithRed:0.99 green:0.92 blue:0.79 alpha:1.0] CGColor]; // this is the tan color
+    cell.contentView.layer.cornerRadius = 8.0f;
+    cell.contentView.layer.borderWidth = 2.0f;
+    [cell.contentView setBackgroundColor:[UIColor colorWithRed:0.09 green:0.48 blue:0.56 alpha:1.0]];
+    
     Build *b = [self.fetched objectAtIndexPath:indexPath];// get the group that corresponds with this index
     // add the features of the cell
     cell.titleTxt.text = b.title;
@@ -364,35 +412,45 @@
     //cell.textLabel.text = b.title;
     //cell.detailTextLabel.text = b.buildDescription;
     UIImage* infoBtnImg = [UIImage imageNamed:@"file-info.png"];// get the info image
-    UIImage* stretchedImg = [UIImage imageNamed:@"uiglassbutton-template.png"];
-    UIImage* stretchedBtnImg = [stretchedImg stretchableImageWithLeftCapWidth:12.0 topCapHeight:0];
+//    UIImage* stretchedImg = [UIImage imageNamed:@"uiglassbutton-template.png"];
+//    UIImage* stretchedBtnImg = [stretchedImg stretchableImageWithLeftCapWidth:12.0 topCapHeight:0];
     
     UIButton *actionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    [actionBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
+    actionBtn.layer.backgroundColor = [[UIColor colorWithRed:0.99 green:0.92 blue:0.79 alpha:1.0] CGColor];
+    actionBtn.layer.cornerRadius = 8.0f;
+    [actionBtn setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
+    //[actionBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
     UIImage* btnImg = nil;
     if([b.status isEqualToString:@"edit"]){
         btnImg = [UIImage imageNamed:@"pencil.png"];
-    }else if([b.status isEqualToString:@"view"]){
-        btnImg = [UIImage imageNamed:@"eye-open.png"];
-    }else{
+        [actionBtn addTarget:self action:@selector(showBuild:event:) forControlEvents:UIControlEventTouchUpInside];
+        [actionBtn setTitle:b.status forState:UIControlStateNormal];
+    }
+//    else if([b.status isEqualToString:@"view"]){
+//        btnImg = [UIImage imageNamed:@"eye-open.png"];
+//    }
+    else{
         btnImg = [UIImage imageNamed:@"eye-close.png"];
+        [actionBtn addTarget:self action:@selector(unlockBuild:) forControlEvents:UIControlEventTouchUpInside];
+        [actionBtn setTitle:@"stop" forState:UIControlStateNormal];
     }
     [actionBtn setImage:btnImg forState:UIControlStateNormal];
-    [actionBtn setTitle:b.status forState:UIControlStateNormal];
+    //[actionBtn setTitle:b.status forState:UIControlStateNormal];
     [actionBtn sizeToFit];
     
     actionBtn.frame = cell.statusBtn.frame;
     //cell.accessoryView = actionBtn;
     [cell.statusBtn removeFromSuperview];
-    [actionBtn addTarget:self action:@selector(showBuild:event:) forControlEvents:UIControlEventTouchUpInside];
     cell.statusBtn = nil;
     cell.statusBtn = actionBtn;
     [cell addSubview:actionBtn];
     
     
     UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [infoBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
+    //[infoBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
+    infoBtn.layer.backgroundColor = [[UIColor colorWithRed:0.99 green:0.92 blue:0.79 alpha:1.0] CGColor];
+    infoBtn.layer.cornerRadius = 8.0f;
+    [infoBtn setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
     [infoBtn setImage:infoBtnImg forState:UIControlStateNormal];
     [infoBtn setTitle:@"info" forState:UIControlStateNormal];
     [infoBtn sizeToFit];// size it to fit the title and the image

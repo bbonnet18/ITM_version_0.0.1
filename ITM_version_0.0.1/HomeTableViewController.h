@@ -14,15 +14,23 @@
 #import "UIImage+Resize.h"
 #import "HomeTableCell.h"
 
-@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol>{
+@protocol UploadControl
+@required
+
+-(void) stopUpload;// stops the current upload
+
+@end
+
+@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol, UIAlertViewDelegate>{
     NSFetchedResultsController *_fetched;
     NSManagedObjectContext *_context;
     NSIndexPath* _currentSelection;// reserved for the currently selected item indexPath
+    id<UploadControl> _delegate;
 }
 
 @property (strong, nonatomic) NSFetchedResultsController *fetched;
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
 @property (strong, nonatomic) IBOutlet HomeTableCell* tblCell;// the custom cell
-
+@property (strong, nonatomic) id<UploadControl> delegate;// delegate to stop uploads
 
 @end
