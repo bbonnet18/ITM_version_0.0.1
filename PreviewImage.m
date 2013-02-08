@@ -65,16 +65,29 @@
         self.addBeforeBtn.frame = addBtnFrame;
         
         self.previewImageView = [[UIImageView alloc] initWithImage:img];
+        
         [self.previewImageView sizeToFit];
-        CGRect previewImageFrame = CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, 70, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height);
+        CGRect previewImageFrame = CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, 90, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height);
         self.previewImageView.frame = previewImageFrame;
         
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, self.addBeforeBtn.frame.origin.y + self.addBeforeBtn.frame.size.height + 2.0, self.previewImageView.frame.size.width, 20.0)];
+        self.titleLabel.layer.cornerRadius = 5.0f;
+        //self.titleLabel.layer.borderColor = [[UIColor clearColor] CGColor];
+        self.titleLabel.layer.borderWidth = 1.0f;
+        self.titleLabel.backgroundColor = [UIColor clearColor];
+        self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+
         
+        self.layer.borderColor = [[UIColor whiteColor] CGColor];
+        self.layer.borderWidth = 2.0f;
+        self.layer.cornerRadius = 8.0f;
+    
         
         [self addSubview:self.editBtn];
         [self addSubview:self.deleteBtn];
         [self addSubview:self.addAfterBtn];
         [self addSubview:self.addBeforeBtn];
+        [self addSubview:self.titleLabel];
         [self addSubview:self.previewImageView];
         
 
@@ -90,6 +103,14 @@
         [self.addBeforeBtn setEnabled:NO];
     }
     self->_itemNumber = itemNumber;
+}
+
+-(void)updateTitleLabel:(NSString *)labelText{
+    self.titleLabel.text = labelText;
+}
+
+-(void) updateDescriptionLabel:(NSString *)labelText{
+    self.descriptionLabel.text = labelText;
 }
 
 -(IBAction)addAfter:(id)sender{

@@ -38,7 +38,7 @@
 -(BuildItem*) getBuildItem:(NSString*)buildItemID;// gets and returns a build item with buildItemID
 -(BuildItem*) createBuildItemWithOrderNumber:(NSNumber*) orderNum;// creates a build item and inserts it into the
 // context, returns the build item
--(UIImage*)getPreviewImage:(NSString*)path;// gets and returns an image for a path
+//-(UIImage*)getPreviewImage:(NSString*)path;// gets and returns an image for a path
 -(IBAction)publish:(id)sender;// attempts to publish the build
 
 @end

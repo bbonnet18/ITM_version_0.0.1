@@ -14,7 +14,7 @@
 #import "MainNavViewController.h" 
 #import "Uploader.h"
 #import "HomeTableViewController.h"
-#import "API.h"
+#import "ITMServiceClient.h"
 #import "LoginViewController.h"
 
 

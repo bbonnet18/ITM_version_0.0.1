@@ -1,4 +1,4 @@
-//
+        //
 //  LoginViewController.m
 //  ITM_version_0.0.1
 //
@@ -32,7 +32,18 @@
 {
    
     [userName becomeFirstResponder];
+    [self testNew];
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void) testNew{
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"hello",@"greeting",[NSNumber numberWithInt:18],@"idNumber",@"goodbye",@"fairwell",nil];
+   
+    
+    [[ITMServiceClient sharedInstance] JSONCommandWithParameters:dic onCompletion:^(NSDictionary *json) {
+        NSString* testString = @"testing";
+    }];
 }
 
 -(IBAction)btnLoginRegisterTapped:(id)sender{
@@ -57,7 +68,7 @@
 
     }
     // cast sender as a button and check the tag to see if it's a register
-    NSString *command = (((UIButton*)sender).tag == 1) ? @"register":@"login";// register button has a tag of 1
+    NSString *command = (((UIButton*)sender).tag == 1) ? @"register":@"login";// login button has a tag of 1, register is not an option at this point
     
     // create the commands dictionary
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:command,@"command",userName.text,@"username",hashedPassword,@"password", nil];
@@ -66,7 +77,7 @@
     [[ITMServiceClient sharedInstance] commandWithParameters:params onCompletion:^(NSDictionary *json) {
         NSDictionary* res = [[json objectForKey:@"result"] objectAtIndex:0];
         
-        if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"IdUser"] intValue]>0) {
+        if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"userID"] intValue]>0) {
             //success
             [[ITMServiceClient sharedInstance] setUser:res];// setting the user information
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];// remove this screen

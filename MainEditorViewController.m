@@ -182,7 +182,7 @@
     for (BuildItem *bi in buildItemArray) {
         NSLog(@"build item id: %@",bi.buildItemID);
         // create a dictionary to hold the value of the thumbnailPath and the buildItemID
-        NSDictionary* itemVals = [NSDictionary dictionaryWithObjectsAndKeys:bi.buildItemID,@"buildItemID",bi.thumbnailPath,@"thumbnailPath", nil];
+        NSDictionary* itemVals = [NSDictionary dictionaryWithObjectsAndKeys:bi.buildItemID,@"buildItemID",bi.thumbnailPath,@"thumbnailPath",bi.title,@"title", nil];
         NSLog(@"buildItemID: %@  , %@",[itemVals objectForKey:@"buildItemID"],[itemVals objectForKey:@"thumbnailPath"]);
         [idsToReturn addObject:itemVals];
     }
@@ -401,7 +401,7 @@
         //pImg.contentMode = UIViewContentModeCenter;//UIViewContentModeScaleAspectFit;
         pImg.delegate = self;
         pImg.itemNumber = page;
-        
+        [pImg updateTitleLabel:[buildIDDic valueForKey:@"title"]];
         
         
         [self.scroller addSubview:pImg];
@@ -432,14 +432,14 @@
 }
 
 // helper method, just get's the image for the path and returns it. If it's nil, returns nil
--(UIImage*)getPreviewImage:(NSString*)path{
-    
-    UIImage *returnImage = [UIImage imageWithContentsOfFile:path];
-    if(returnImage == nil){
-        return nil;
-    }
-    return returnImage;
-}
+//-(UIImage*)getPreviewImage:(NSString*)path{
+//    
+//    UIImage *returnImage = [UIImage imageWithContentsOfFile:path];
+//    if(returnImage == nil){
+//        return nil;
+//    }
+//    return returnImage;
+//}
 
 
 #pragma mark PreviewImage protocol methods

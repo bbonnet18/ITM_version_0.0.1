@@ -78,7 +78,6 @@
 		9029376E16A1D8C700939839 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9029376316A1D8C700939839 /* AFURLConnectionOperation.m */; };
 		9029376F16A1D8C700939839 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9029376516A1D8C700939839 /* AFXMLRequestOperation.m */; };
 		9029377016A1D8C700939839 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 9029376716A1D8C700939839 /* UIImageView+AFNetworking.m */; };
-		9029377816A1EC0100939839 /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = 9029377716A1EC0100939839 /* API.m */; };
 		9029377C16A232F000939839 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9029377A16A232F000939839 /* LoginViewController.m */; };
 		9029377D16A232F000939839 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9029377B16A232F000939839 /* LoginViewController.xib */; };
 		903C38BA1623C7D1001845FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C38B91623C7D1001845FE /* UIKit.framework */; };
@@ -135,6 +134,7 @@
 		9059FA71168D675D00BAE222 /* notepad2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9059FA6F168D675D00BAE222 /* notepad2@2x.png */; };
 		9059FA74168D67AB00BAE222 /* file-info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9059FA72168D67AB00BAE222 /* file-info.png */; };
 		9059FA75168D67AB00BAE222 /* file-info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9059FA73168D67AB00BAE222 /* file-info@2x.png */; };
+		9068FB3416C1ED340061C288 /* ITMServiceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9068FB3316C1ED340061C288 /* ITMServiceClient.m */; };
 		9068FDAC1693831700217D80 /* TrustedCheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9068FDAA1693831700217D80 /* TrustedCheckmark.png */; };
 		9068FDAD1693831700217D80 /* TrustedCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9068FDAB1693831700217D80 /* TrustedCheckmark@2x.png */; };
 		908BCB2E167ED5C0003C61CD /* addcontactpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB2C167ED5C0003C61CD /* addcontactpressed.png */; };
@@ -275,8 +275,6 @@
 		9029376516A1D8C700939839 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		9029376616A1D8C700939839 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		9029376716A1D8C700939839 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		9029377616A1EC0100939839 /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
-		9029377716A1EC0100939839 /* API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = API.m; sourceTree = "<group>"; };
 		9029377916A232F000939839 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		9029377A16A232F000939839 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		9029377B16A232F000939839 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -340,6 +338,8 @@
 		9059FA6F168D675D00BAE222 /* notepad2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notepad2@2x.png"; sourceTree = "<group>"; };
 		9059FA72168D67AB00BAE222 /* file-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file-info.png"; sourceTree = "<group>"; };
 		9059FA73168D67AB00BAE222 /* file-info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file-info@2x.png"; sourceTree = "<group>"; };
+		9068FB3216C1ED340061C288 /* ITMServiceClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITMServiceClient.h; sourceTree = "<group>"; };
+		9068FB3316C1ED340061C288 /* ITMServiceClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITMServiceClient.m; sourceTree = "<group>"; };
 		9068FDAA1693831700217D80 /* TrustedCheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TrustedCheckmark.png; sourceTree = "<group>"; };
 		9068FDAB1693831700217D80 /* TrustedCheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TrustedCheckmark@2x.png"; sourceTree = "<group>"; };
 		908BCB2C167ED5C0003C61CD /* addcontactpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addcontactpressed.png; sourceTree = "<group>"; };
@@ -548,14 +548,14 @@
 				90E323101655CD8A0044F233 /* TitleInfoViewController.h */,
 				90E323111655CD8A0044F233 /* TitleInfoViewController.m */,
 				90E323121655CD8A0044F233 /* TitleInfoViewController.xib */,
-				9029377616A1EC0100939839 /* API.h */,
-				9029377716A1EC0100939839 /* API.m */,
 				9029377916A232F000939839 /* LoginViewController.h */,
 				9029377A16A232F000939839 /* LoginViewController.m */,
 				9029377B16A232F000939839 /* LoginViewController.xib */,
 				903C38CA1623C7D1001845FE /* AppDelegate.h */,
 				903C38CB1623C7D1001845FE /* AppDelegate.m */,
 				90BC2D6516435E650040CBF0 /* Reachability.h */,
+				9068FB3216C1ED340061C288 /* ITMServiceClient.h */,
+				9068FB3316C1ED340061C288 /* ITMServiceClient.m */,
 				90BC2D6616435E650040CBF0 /* Reachability.m */,
 				90BC652D1640231E00460A55 /* HomeTableViewController.h */,
 				90BC652E1640231E00460A55 /* HomeTableViewController.m */,
@@ -954,9 +954,9 @@
 				9029376E16A1D8C700939839 /* AFURLConnectionOperation.m in Sources */,
 				9029376F16A1D8C700939839 /* AFXMLRequestOperation.m in Sources */,
 				9029377016A1D8C700939839 /* UIImageView+AFNetworking.m in Sources */,
-				9029377816A1EC0100939839 /* API.m in Sources */,
 				9029377C16A232F000939839 /* LoginViewController.m in Sources */,
 				900FE4D416ACE91D001F08D0 /* Build.m in Sources */,
+				9068FB3416C1ED340061C288 /* ITMServiceClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

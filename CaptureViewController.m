@@ -477,7 +477,7 @@
         [self.buildItemVals setValue:path forKey:@"thumbnailPath"];
         
         
-        UIImage * scaledImage = [img thumbnailImage:280 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
+        UIImage * scaledImage = [img thumbnailImage:230 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
         [UIImageJPEGRepresentation(scaledImage, 0.75f) writeToURL:url atomically:YES];
         // show that image in the imageView
         [self performSelectorOnMainThread:@selector(showImageInThumb:) withObject:scaledImage waitUntilDone:NO];
@@ -626,12 +626,12 @@
     
     // If active text field is hidden by keyboard, scroll it so it's visible
     // Your application might not need or want this behavior.
-    CGRect aRect = self.view.frame;
-    aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, self->_activeField.frame.origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, self->_activeField.frame.origin.y-kbSize.height);
-        [self.scroller setContentOffset:scrollPoint animated:YES];
-    }
+//    CGRect aRect = self.view.frame;
+//    aRect.size.height -= kbSize.height;
+//    if (!CGRectContainsPoint(aRect, self->_activeField.frame.origin) ) {
+//        CGPoint scrollPoint = CGPointMake(0.0, self->_activeField.frame.origin.y-kbSize.height);
+//        [self.scroller setContentOffset:scrollPoint animated:YES];
+//    }
 }
 
 

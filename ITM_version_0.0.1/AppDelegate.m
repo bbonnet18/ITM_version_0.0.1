@@ -73,7 +73,7 @@
     }
     
         // This will call the login screen if the user isn't logged in
-    if(![[API sharedInstance] isAuthorized]){
+    if(![[ITMServiceClient sharedInstance] isAuthorized]){
         // enter login script
         LoginViewController *lv = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         self.window.rootViewController = lv;
@@ -138,7 +138,7 @@
             
             for (BuildItem * b in mediaItems) {
                                 
-                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status",b.imageRotation,@"imageRotation", nil];
+                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status",b.imageRotation,@"imageRotation", b.caption,@"caption",b.title,@"title", b.orderNumber,@"orderNumber", nil];
                 [mediaItemsToUpload addObject:mediaObject];// add it to the array to be passed
                 
                 
@@ -258,7 +258,8 @@
     [buildDictionary setObject:itemArray forKey:@"buildItems"];
     NSError *error;
     // create json data
-    NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:0 error:&error];
+    
     NSString *stringData = [[NSString alloc] initWithData:buildData encoding:NSUTF8StringEncoding];
     
     if(!error){

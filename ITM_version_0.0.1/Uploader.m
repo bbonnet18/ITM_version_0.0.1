@@ -16,6 +16,7 @@
 #define SERVER_Path @"http://localhost/" 
 
 #import "Uploader.h"
+#import "ITMServiceClient.h"
 
 
 @implementation Uploader
@@ -51,6 +52,7 @@
              [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];
          }
          
+         self.jsonData = jsonData;// add the json data
          
          self.buildID = idNum;// set this so we can store it and return it
          // initialize the library that we'll use to get assets
@@ -136,11 +138,14 @@
     [self.emailsToDistribute enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSLog(@"- - - - - EMAIL: %@", obj);
     }];
+    NSLog(@"buildData = %@", self.jsonData);
     
     NSDictionary *itemToUpload = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
     
     NSString *typeForMedia = [itemToUpload valueForKey:@"type"];
     NSString *mediaPath = [itemToUpload valueForKey:@"path"];
+    //add title, caption, screenID and buildID to this
+    
     if([typeForMedia isEqualToString: @"image"]){
         [self createImageDataFromPath:mediaPath];
     }else{
@@ -269,37 +274,36 @@
 }
 
 
--(void) postRequest: (NSURLRequest*)request{
-    
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:self.mediaQueue completionHandler:^(NSURLResponse *r, NSData *d, NSError *e){
-        NSString *str = [[NSString alloc] initWithData: d encoding:NSUTF8StringEncoding];// make sure the response returned by the server is
-        // going to contain the id number of the screen that was uploaded, so we can check it off
-        
-        // we were either successful or unsuccessful, in either event, we need to
-        // set the network activity indicator to off
-        NSString *result = [NSString stringWithFormat:@"%@",d];
-        if(![result isEqualToString:@"error"]){
-            [self performSelectorOnMainThread:@selector(doneUploading:) withObject:str waitUntilDone:NO];
-        }else{
-            NSString *errorStr = [NSString stringWithFormat:@"error from server"];
-            [self.errors addObject:errorStr];// add the error to the errors array
-            
-        }
-        
-    }];
-    
-    
-    
-    
-}
+//-(void) postRequest: (NSURLRequest*)request{
+//    
+//    NSLog(@"data: %@",[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);
+//    
+//    [NSURLConnection sendAsynchronousRequest:request queue:self.mediaQueue completionHandler:^(NSURLResponse *r, NSData *d, NSError *e){
+//        NSString *str = [[NSString alloc] initWithData: d encoding:NSUTF8StringEncoding];// make sure the response returned by the server is
+//        // going to contain the id number of the screen that was uploaded, so we can check it off
+//        
+//        // we were either successful or unsuccessful, in either event, we need to
+//        // set the network activity indicator to off
+//        NSString *result = [NSString stringWithFormat:@"%@",d];
+//        if(![result isEqualToString:@"error"]){
+//            [self performSelectorOnMainThread:@selector(doneUploading:) withObject:str waitUntilDone:NO];
+//        }else{
+//            NSString *errorStr = [NSString stringWithFormat:@"error from server"];
+//            [self.errors addObject:errorStr];// add the error to the errors array
+//            
+//        }
+//        
+//    }];
+//    
+//    
+//    
+//    
+//}
 
 
 
 // called when the item is done uploading, set's the currently uploading item's uploaded property to YES
 - (void) doneUploading:(NSString*)message{
-    
   
     self.mediaData = nil;// release the data now that the upload has taken place
     // remove temporary file if it exists
@@ -367,26 +371,42 @@
 // gets the JSON data and creates a request, appending the data to the request and uploading it
 - (void) createJSONDataRequest{
     NSData *buildData = self.jsonData;
+    NSError *err = nil;
+    NSMutableDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:buildData options:NSJSONWritingPrettyPrinted error:&err];
     
-    
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];   //@"http://192.168.1.7/Revolt/upload_media.php";
-    NSURL *url = [NSURL URLWithString:baseurl];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-    if (!urlRequest) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
+    [jsonDic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"key %@ val: %@",key,obj);
+    }];
+    if(!err){
+        [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
+        [[ITMServiceClient sharedInstance] JSONCommandWithParameters:jsonDic onCompletion:^(NSDictionary *json) {
+             [self performSelectorOnMainThread:@selector(doneUploading:) withObject:@"JSON" waitUntilDone:NO];
+        }];
     }
-    //-- probably need to change the content type and/or the encoding of the data, most likely the content type to reflect JSON string data
-    [urlRequest setHTTPMethod: @"POST"];
-    [urlRequest setValue:MULTIPART forHTTPHeaderField: @"Content-Type"];
-    // set a post variable that uniquely indicates this object, may need to include that in the dictionary to begin with for each item uploaded and for the JSON upload
-    [urlRequest setHTTPBody:buildData];
-    // post the request to the server
-    [self postRequest:urlRequest];
     
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    
+//    NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];   //@"http://192.168.1.7/Revolt/upload_media.php";
+//    NSURL *url = [NSURL URLWithString:baseurl];
+//    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+//    if (!urlRequest) {
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//        
+//    }
+//    //-- probably need to change the content type and/or the encoding of the data, most likely the content type to reflect JSON string data
+//    [urlRequest setHTTPMethod: @"POST"];
+//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    
+//    [urlRequest setValue:[NSString stringWithFormat:@"%d",[buildData length]] forHTTPHeaderField:@"Content-Length"];
+//
+//    // set a post variable that uniquely indicates this object, may need to include that in the dictionary to begin with for each item uploaded and for the JSON upload
+//    
+//    [urlRequest setHTTPBody:buildData];
+//    // post the request to the server
+//
+//    [self postRequest:urlRequest];
+
     
 }
 
@@ -394,6 +414,8 @@
     // data from the file in the directory
     // get the current buildItem's values
     NSDictionary *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
+    
+    // should be able to get all the values now from here, i.e. caption, title, screenID, orderNumber, and pull buildID from the global var
     NSError *err = nil;
     self.mediaData = [NSData dataWithContentsOfFile:self.mediaPathString options:NSDataReadingMappedAlways error:&err]; // option indicates that it should map the file
     
@@ -416,29 +438,41 @@
     //	if (!uname || !pword || (!uname.length) || (!pword.length)){
     //		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //    }
+    
+    [b enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"%@ - %@",key,obj);
+    }];
+    
 	NSMutableDictionary* post_dict = [[NSMutableDictionary alloc] init];
-    //	[post_dict setObject:uname forKey:@"username"];
-    //	[post_dict setObject:pword forKey:@"password"];
-	[post_dict setObject:@"Posted to localhost" forKey:@"message"];
-	[post_dict setObject:self.mediaData forKey:@"mediaBen"];
+    [post_dict setObject:[b valueForKey:@"type"] forKey:@"type"];// set the type
+    [post_dict setObject:[[b valueForKey:@"orderNumber"] stringValue] forKey:@"orderNumber"];// order number
+    [post_dict setObject:[b valueForKey:@"title"] forKey:@"title"];
+    [post_dict setObject:[b valueForKey:@"caption"] forKey:@"caption"];
+    [post_dict setObject:self.buildID forKey:@"buildID"];
+	[post_dict setObject:self.mediaData forKey:@"file"];
     
     // need to set this so it appears as the file and not underneath the media key when showing up on the server
-    
-	NSData *postData = [self generateFormDataFromPostDictionary:post_dict withType:[b valueForKey:@"type"]];
-    
-    
-	NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];//@"http://192.168.1.7/Revolt/upload_media.php";
-    NSURL *url = [NSURL URLWithString:baseurl];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-    if (!urlRequest) {
-        [self.delegate uploadDidFailWithReason:@"Could not create the request" andID:self.buildID];
-        
-    }
-    [urlRequest setHTTPMethod: @"POST"];
-	[urlRequest setValue:MULTIPART forHTTPHeaderField: @"Content-Type"];
-    [urlRequest setHTTPBody:postData];
-    
-    [self postRequest:urlRequest];
+    NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
+    [[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
+    [[ITMServiceClient sharedInstance] commandWithParameters:post_dict onCompletion:^(NSDictionary *json) {
+        NSLog(@"data:%@",[json objectForKey:@"successful"]);
+        [self performSelectorOnMainThread:@selector(doneUploading:) withObject:@"file is valid" waitUntilDone:NO];
+    }];
+//	NSData *postData = [self generateFormDataFromPostDictionary:post_dict withType:[b valueForKey:@"type"]];
+//    
+//    
+//	NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];//@"http://192.168.1.7/Revolt/upload_media.php";
+//    NSURL *url = [NSURL URLWithString:baseurl];
+//    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+//    if (!urlRequest) {
+//        [self.delegate uploadDidFailWithReason:@"Could not create the request" andID:self.buildID];
+//        
+//    }
+//    [urlRequest setHTTPMethod: @"POST"];
+//	[urlRequest setValue:MULTIPART forHTTPHeaderField: @"Content-Type"];
+//    [urlRequest setHTTPBody:postData];
+//    
+//    [self postRequest:urlRequest];
     
 }
 
@@ -460,6 +494,7 @@
 		
 		if ([value isKindOfClass:[NSData class]])
 		{
+
 			// handle video data
             NSString* formstring = nil;
             if([mediaType isEqualToString:@"video"]){

@@ -31,11 +31,15 @@
 @property (strong, nonatomic) UIImage *previewImage;// actual preivew image that will be shown in the previewImageView
 @property (strong, nonatomic) id <PreviewImageProtocol> delegate;// delegate to send messages to for each button action
 @property (nonatomic, assign) NSInteger itemNumber; // string representing the index
+@property (strong, nonatomic) UILabel *titleLabel;// the title of the item
+@property (strong, nonatomic) UILabel *descriptionLabel;// the description of the item
 
 -(id) initWithFrame:(CGRect)frame andImage:(UIImage*)img;// new initializer to handle the initialization with an image provided
 -(IBAction)addAfter:(id)sender;
 -(IBAction)addBefore:(id)sender;
 -(IBAction)editItem:(id)sender;
 -(IBAction)deleteItem:(id)sender;
+-(void) updateTitleLabel:(NSString *)labelText;//updates the label
+-(void) updateDescriptionLabel:(NSString*)labelText;// updates the label
 
 @end
