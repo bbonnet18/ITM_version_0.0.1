@@ -148,10 +148,10 @@
             // get the JSON data from the build
             NSData * jsonData = [self generateJSONFromBuild:newBuild withItems:mediaItems];
             // create an instance of uploader and assign it to the uploader instance variable so it can be acted on and tracked
-            self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload andJSONData:jsonData buildID:newBuild.buildID];
+            self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload buildID:newBuild.buildID];
             self.uploader.emailsToDistribute = distroEmails;
             self.uploader.delegate = self;// should probably set this before calling the method above, or set it with it.
-            [self.uploader buildRequestAndUpload];// start the upload process
+            [self.uploader createJSONDataRequest:jsonData];// start the upload process
         }else{
             
             NSLog(@"PROBLEM RETRIEVING mediaItems: %@",[error localizedDescription]);
@@ -255,7 +255,13 @@
         
     }
     // add the item array to the buildDictionary
+    b.applicationID = (b.applicationID != nil) ? b.applicationID : 0;
+    NSLog(@"%@",b.applicationID);
+    [buildDictionary setObject:b.applicationID forKey:@"applicationID"];
     [buildDictionary setObject:itemArray forKey:@"buildItems"];
+    [buildDictionary setObject:b.buildID forKey:@"buildID"];
+    [buildDictionary setObject:b.buildDescription forKey:@"buildDescription"];
+    [buildDictionary setObject:b.title forKey:@"buildTitle"];
     NSError *error;
     // create json data
     NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:0 error:&error];
@@ -282,11 +288,11 @@
     return [self.uploadObjects objectAtIndex:uploadIndex];
 }
 
--(void)uploadDidCompleWithBuildID:(NSString *)buildID{
+-(void)uploadDidCompleWithBuildInfo:(NSDictionary *)buildDictionary{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.uploader = nil;
     
-    Build *b = [self getBuild:buildID];
+    Build *b = [self getBuild:[buildDictionary objectForKey:@"buildID"]];
     
     b.status = @"edit";
     b.publishDate = [NSDate date];// this is set to the device's date and time, in the long run, this should be set and returned from the server
@@ -296,7 +302,7 @@
     [self.managedObjectContext save:&err];
 
     if(!err){
-         [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:buildID forKey:@"buildID"]];
+         [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:[buildDictionary objectForKey:@"buildID"] forKey:@"buildID"]];
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error saving" message:@"Could not save your upload session" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];

@@ -27,8 +27,9 @@
 @synthesize updateTimer = _updateTimer;
 @synthesize mediaItems = _mediaItems;
 @synthesize mediaData = _mediaData;
-@synthesize mediaQueue = _mediaQueue;
+//@synthesize mediaQueue = _mediaQueue;
 @synthesize lib = _lib;
+@synthesize application_id = _application_id;
 @synthesize export = _export;
 @synthesize mediaPathString = _mediaPathString;
 @synthesize errors = _errors;
@@ -39,7 +40,7 @@
 
 // class methods
 
-- (id) initWithBuildItems:(NSArray *)buildItemVals andJSONData:(NSData *)jsonData buildID:(NSString*) idNum{
+- (id) initWithBuildItems:(NSArray *)buildItemVals buildID:(NSString*) idNum{
     
      if ( self = [super init] ) {
          self->currentItemUploadIndex = 0;// set to zero to get things started
@@ -52,14 +53,12 @@
              [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];
          }
          
-         self.jsonData = jsonData;// add the json data
-         
          self.buildID = idNum;// set this so we can store it and return it
          // initialize the library that we'll use to get assets
          self.lib = [[ALAssetsLibrary alloc] init];
          self.isUploading = YES;// set this to yes to indicate that the class is curently uploading
          self.mediaItems = buildItemVals;
-         self.mediaQueue = [[NSOperationQueue alloc] init]; //initialize the mediaQueue
+        // self.mediaQueue = [[NSOperationQueue alloc] init]; //initialize the mediaQueue
          self.uploadComplete = NO;
          self->_jsonSent = NO;
      }
@@ -77,7 +76,8 @@
         // make sure to capture the upload index in user defaults so you can come back to it
         [[NSUserDefaults standardUserDefaults] setInteger:self->currentItemUploadIndex forKey:@"uploadIndex"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];// set it to isUploading because we were uploading until now
-        [self.mediaQueue cancelAllOperations];// cancel anything that's currently uploading in the queue
+        [[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:@"tester.php"];// cancel all of them
+        //[self.mediaQueue cancelAllOperations];// cancel anything that's currently uploading in the queue
         // stop the queue and do any necessary cleanup
     }
     
@@ -88,7 +88,8 @@
 -(void) cancelUpload{
     
     self.isUploading = NO;
-    [self.mediaQueue cancelAllOperations];
+    //[self.mediaQueue cancelAllOperations];
+    [[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:@"tester.php"];
     [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
     [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
     // kill the values for the emails and buildID
@@ -117,11 +118,11 @@
             [self buildRequestAndUpload];//
         }else{
             self->_jsonSent = YES;
-            [self createJSONDataRequest];
+            [self createJSONDataRequest:self.jsonData];
         }
         
     }else{// caught it just when it was done, so now make sure to run the delegate actions
-        [self.delegate uploadDidCompleWithBuildID:self.buildID];
+        [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
     }
     
     
@@ -303,8 +304,20 @@
 
 
 // called when the item is done uploading, set's the currently uploading item's uploaded property to YES
-- (void) doneUploading:(NSString*)message{
-  
+- (void) doneUploading:(NSDictionary*)jsonDictionary{
+    NSString *message = [jsonDictionary objectForKey:@"message"];
+    if([message isEqualToString:@"media uploaded"]){// it's media
+        /*TO DO
+         set the buildItemVals for the build with the returned ID to uploaded
+         check to see if all the items are uploaded
+         upload the next inline*/
+    }else{// it's JSON
+        /* TO DO
+         set the application_id to the new one 
+         
+         start the media uploads
+         */
+    }
     self.mediaData = nil;// release the data now that the upload has taken place
     // remove temporary file if it exists
     if([[NSFileManager defaultManager] fileExistsAtPath:self.mediaPathString]){
@@ -328,7 +341,7 @@
         // end everything and change status
         NSLog(@"N_O_T r-e-t-u-r-n-e-d");
             if(!self->_jsonSent){// temporary way to check whether JSON has been sent
-                [self createJSONDataRequest];// send the json to complete the upload
+                [self createJSONDataRequest:self.jsonData];// send the json to complete the upload
                 self->_jsonSent = YES;//
             }
         }
@@ -340,7 +353,7 @@
         // kill the values for the emails and buildID
          [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
          [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
-        [self.delegate uploadDidCompleWithBuildID:self.buildID];
+        [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
     }
 
 
@@ -369,7 +382,8 @@
     
 }
 // gets the JSON data and creates a request, appending the data to the request and uploading it
-- (void) createJSONDataRequest{
+- (void) createJSONDataRequest:(NSData*)jsonData{
+    self.jsonData = jsonData;
     NSData *buildData = self.jsonData;
     NSError *err = nil;
     NSMutableDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:buildData options:NSJSONWritingPrettyPrinted error:&err];
@@ -380,7 +394,11 @@
     if(!err){
         [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
         [[ITMServiceClient sharedInstance] JSONCommandWithParameters:jsonDic onCompletion:^(NSDictionary *json) {
-             [self performSelectorOnMainThread:@selector(doneUploading:) withObject:@"JSON" waitUntilDone:NO];
+            [json enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                NSLog(@"key %@ , val %@ ",key,obj);
+            }];
+            [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
+             
         }];
     }
     
@@ -455,8 +473,8 @@
     NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
     [[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
     [[ITMServiceClient sharedInstance] commandWithParameters:post_dict onCompletion:^(NSDictionary *json) {
-        NSLog(@"data:%@",[json objectForKey:@"successful"]);
-        [self performSelectorOnMainThread:@selector(doneUploading:) withObject:@"file is valid" waitUntilDone:NO];
+        
+        [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
     }];
 //	NSData *postData = [self generateFormDataFromPostDictionary:post_dict withType:[b valueForKey:@"type"]];
 //    
