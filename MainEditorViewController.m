@@ -32,6 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self setBuildItems];// set the items by getting the build and it's items
     self->_previewImageIndex = 0;
     // Do any additional setup after loading the view from its nib.
@@ -182,7 +183,7 @@
     for (BuildItem *bi in buildItemArray) {
         NSLog(@"build item id: %@",bi.buildItemID);
         // create a dictionary to hold the value of the thumbnailPath and the buildItemID
-        NSDictionary* itemVals = [NSDictionary dictionaryWithObjectsAndKeys:bi.buildItemID,@"buildItemID",bi.thumbnailPath,@"thumbnailPath",bi.title,@"title", nil];
+        NSDictionary* itemVals = [NSDictionary dictionaryWithObjectsAndKeys:bi.buildItemID,@"buildItemID",bi.thumbnailPath,@"thumbnailPath",bi.title,@"title",bi.caption,@"caption", nil];
         NSLog(@"buildItemID: %@  , %@",[itemVals objectForKey:@"buildItemID"],[itemVals objectForKey:@"thumbnailPath"]);
         [idsToReturn addObject:itemVals];
     }
@@ -268,6 +269,7 @@
         for (int i=0; i<itemsToLoad.count; i++) {
             
             NSDictionary* dic = [itemsToLoad objectAtIndex:i];// get the build item so you can get its' id
+            
             NSString* thumbnailPath = [dic valueForKey:@"thumbnailPath"];
             UIImage *img = [self loadPreviewImageFromThumbnailPath:thumbnailPath];
             PreviewImage *p = [[PreviewImage alloc] initWithFrame:self.scroller.frame andImage:img];
@@ -376,7 +378,7 @@
 }
 
 
-- (void) loadPage:(NSInteger)page{// getting a negative number right now
+- (void) loadPage:(NSInteger)page{
     if(page < 0 || page >= self.previewImageArray.count){
         return;
     }
@@ -402,8 +404,8 @@
         pImg.delegate = self;
         pImg.itemNumber = page;
         [pImg updateTitleLabel:[buildIDDic valueForKey:@"title"]];
-        
-        
+        [pImg updateCaptionLabel:[buildIDDic valueForKey:@"caption"]];
+        [pImg updateCounterLabel:[NSString stringWithFormat:@"%@ of %@",[NSNumber numberWithInt:page+1],[NSNumber numberWithInt:[self.orderArray count]]]];
         [self.scroller addSubview:pImg];
         [self.previewImageArray replaceObjectAtIndex:page withObject:pImg];
     }

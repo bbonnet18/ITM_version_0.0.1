@@ -477,7 +477,7 @@
         [self.buildItemVals setValue:path forKey:@"thumbnailPath"];
         
         
-        UIImage * scaledImage = [img thumbnailImage:230 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
+        UIImage * scaledImage = [img thumbnailImage:200 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
         [UIImageJPEGRepresentation(scaledImage, 0.75f) writeToURL:url atomically:YES];
         // show that image in the imageView
         [self performSelectorOnMainThread:@selector(showImageInThumb:) withObject:scaledImage waitUntilDone:NO];

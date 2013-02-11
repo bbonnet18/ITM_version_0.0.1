@@ -10,6 +10,8 @@
 #import "Reachability.h"
 
 
+#define kITMServiceBaseURLString @"http://192.168.1.8/service"
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -39,7 +41,7 @@
     self.uploadQueue = [[NSOperationQueue alloc] init];// set the background queue
     
         // reachability blocks and initialization
-    Reachability * reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    Reachability * reach = [Reachability reachabilityWithHostname:kITMServiceBaseURLString];
     
     reach.reachableBlock = ^(Reachability * reachability)
     {
@@ -63,13 +65,18 @@
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]  && [[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
         NSString* uploadingBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastUploadingBuildID"];
         
+        NSArray * emails =  [[NSUserDefaults standardUserDefaults] objectForKey:@"lastUploadingEmails"];
+        // set emails to contain at least one object
         
         // this should be encapsulated in another method, so it can be called from here and from the published function
         
         Build * newBuild = [self getBuild:uploadingBuildID];
         
-        [self startUploadProcessWithBuild:newBuild withDistroEmails:nil];
-        
+        if(newBuild != nil){
+            [self startUploadProcessWithBuild:newBuild withDistroEmails:emails];
+
+        }
+                
     }
     
         // This will call the login screen if the user isn't logged in
@@ -146,7 +153,7 @@
             }
             
             // get the JSON data from the build
-            NSData * jsonData = [self generateJSONFromBuild:newBuild withItems:mediaItems];
+            NSData * jsonData = [self generateJSONFromBuild:newBuild withItems:mediaItems andEmails:distroEmails];
             // create an instance of uploader and assign it to the uploader instance variable so it can be acted on and tracked
             self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload buildID:newBuild.buildID];
             self.uploader.emailsToDistribute = distroEmails;
@@ -224,14 +231,14 @@
     
     if(error == nil){
         
-        Build * b = [builds objectAtIndex:0];// get the build for this id
-        return b;
+        
+        return ([builds count] >0) ? [builds objectAtIndex:0]:nil;
     }else{
         return nil;
     }
 }
 // creates a dictionary and adds an array of items to the dictionary to create the JSON data
-- (NSData*) generateJSONFromBuild:(Build*)b withItems:(NSArray*)buildItems{
+- (NSData*) generateJSONFromBuild:(Build*)b withItems:(NSArray*)buildItems andEmails:(NSArray*)emails{
     // get the date
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy"];
@@ -259,6 +266,7 @@
     NSLog(@"%@",b.applicationID);
     [buildDictionary setObject:b.applicationID forKey:@"applicationID"];
     [buildDictionary setObject:itemArray forKey:@"buildItems"];
+    [buildDictionary setObject:emails forKey:@"distroEmails"];
     [buildDictionary setObject:b.buildID forKey:@"buildID"];
     [buildDictionary setObject:b.buildDescription forKey:@"buildDescription"];
     [buildDictionary setObject:b.title forKey:@"buildTitle"];
@@ -302,12 +310,20 @@
     [self.managedObjectContext save:&err];
 
     if(!err){
+        
          [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:[buildDictionary objectForKey:@"buildID"] forKey:@"buildID"]];
     }else{
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error saving" message:@"Could not save your upload session" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
     }
    
+    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
+    [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
+    // kill the values for the emails and buildID
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
+
 }
 
 -(void)uploadDidFailWithReason:(NSString *)reason andID:(NSString*)buildID{

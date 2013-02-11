@@ -9,7 +9,7 @@
 #import "ITMServiceClient.h"
 #import "AFJSONRequestOperation.h"
 
-#define kITMServiceBaseURLString @"http://localhost/service"// the base service string
+#define kITMServiceBaseURLString @"http://192.168.1.8/service"// the base service string
 #define kITMServicePath @"tester.php" // path to services
 
 
@@ -47,18 +47,34 @@
 
 
 // this will upload the file if the file is included with the 
-- (void) commandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{
+- (void) commandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{// using the block from the header file and that will receive a JSON dictionary
     NSData* uploadFile = nil;
 	if ([params objectForKey:@"file"]) {
 		uploadFile = (NSData*)[params objectForKey:@"file"];
 		[params removeObjectForKey:@"file"];
 	}
     
+    NSString *type = [params valueForKey:@"type"];
+    
+    NSString *fileName = nil;
+    
+    NSString *mimeType = nil;
+    
+    if([type isEqualToString:@"image"]){
+        
+        fileName = [NSString stringWithFormat:@"%@_%@.jpg",[params objectForKey:@"application_id"],[params objectForKey:@"orderNumber"]];
+        mimeType = @"image/jpg";
+    }else{
+        fileName = [NSString stringWithFormat:@"%@_%@.mov",[params objectForKey:@"application_id"],[params objectForKey:@"orderNumber"]];
+        mimeType = @"video/quicktime";
+    }
+    
    
     // create the request as multipart to send the file data, this can be configured to send both image and video requests
     NSMutableURLRequest *apiRequest = [self multipartFormRequestWithMethod:@"POST" path:kITMServicePath  parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
 		if (uploadFile) {
-			[formData appendPartWithFileData:uploadFile name:@"file" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+            
+			[formData appendPartWithFileData:uploadFile name:@"file" fileName:fileName mimeType:mimeType];
 		}
 	}];
     
@@ -66,7 +82,7 @@
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: apiRequest];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         //success!
-        completionBlock(responseObject);
+        completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //failure :(
         completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);

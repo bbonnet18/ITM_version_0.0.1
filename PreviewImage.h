@@ -32,14 +32,15 @@
 @property (strong, nonatomic) id <PreviewImageProtocol> delegate;// delegate to send messages to for each button action
 @property (nonatomic, assign) NSInteger itemNumber; // string representing the index
 @property (strong, nonatomic) UILabel *titleLabel;// the title of the item
-@property (strong, nonatomic) UILabel *descriptionLabel;// the description of the item
-
+@property (strong, nonatomic) UILabel *captionLabel;// the description of the item
+@property (strong, nonatomic) UILabel *counterLabel;// shows which number this one is in the order
 -(id) initWithFrame:(CGRect)frame andImage:(UIImage*)img;// new initializer to handle the initialization with an image provided
 -(IBAction)addAfter:(id)sender;
 -(IBAction)addBefore:(id)sender;
 -(IBAction)editItem:(id)sender;
 -(IBAction)deleteItem:(id)sender;
--(void) updateTitleLabel:(NSString *)labelText;//updates the label
--(void) updateDescriptionLabel:(NSString*)labelText;// updates the label
+-(void) updateTitleLabel:(NSString *)labelText;//updates the title label
+-(void) updateCaptionLabel:(NSString*)labelText;// updates the caption label
+-(void) updateCounterLabel:(NSString*)counterText;// updates the counter label
 
 @end

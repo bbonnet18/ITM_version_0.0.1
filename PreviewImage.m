@@ -70,17 +70,32 @@
         CGRect previewImageFrame = CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, 90, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height);
         self.previewImageView.frame = previewImageFrame;
         
+        //title setup
+        
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, self.addBeforeBtn.frame.origin.y + self.addBeforeBtn.frame.size.height + 2.0, self.previewImageView.frame.size.width, 20.0)];
         self.titleLabel.layer.cornerRadius = 5.0f;
         //self.titleLabel.layer.borderColor = [[UIColor clearColor] CGColor];
-        self.titleLabel.layer.borderWidth = 1.0f;
+        //self.titleLabel.layer.borderWidth = 1.0f;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-
         
-        self.layer.borderColor = [[UIColor whiteColor] CGColor];
-        self.layer.borderWidth = 2.0f;
-        self.layer.cornerRadius = 8.0f;
+        // description setup
+        
+        self.captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, self.previewImageView.frame.origin.y + self.previewImageView.frame.size.height + 2.0, self.previewImageView.frame.size.width, 20.0)];
+        self.captionLabel.layer.cornerRadius = 5.0f;
+        self.captionLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        self.captionLabel.backgroundColor = [UIColor clearColor];
+        // order counter
+        
+        self.counterLabel = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width/2 - 50.0, self.captionLabel.frame.origin.y + self.captionLabel.frame.size.height + 2.0, 100.0, 20.0)];
+        self.counterLabel.textAlignment = NSTextAlignmentCenter;
+        self.counterLabel.backgroundColor = [UIColor clearColor];
+        
+        
+        
+        //self.layer.borderColor = [[UIColor whiteColor] CGColor];
+        //self.layer.borderWidth = 2.0f;
+        //self.layer.cornerRadius = 8.0f;
     
         
         [self addSubview:self.editBtn];
@@ -88,6 +103,8 @@
         [self addSubview:self.addAfterBtn];
         [self addSubview:self.addBeforeBtn];
         [self addSubview:self.titleLabel];
+        [self addSubview:self.captionLabel];
+        [self addSubview:self.counterLabel];
         [self addSubview:self.previewImageView];
         
 
@@ -109,8 +126,11 @@
     self.titleLabel.text = labelText;
 }
 
--(void) updateDescriptionLabel:(NSString *)labelText{
-    self.descriptionLabel.text = labelText;
+-(void) updateCaptionLabel:(NSString *)labelText{
+    self.captionLabel.text = labelText;
+}
+-(void) updateCounterLabel:(NSString *)counterText{
+    self.counterLabel.text = counterText;
 }
 
 -(IBAction)addAfter:(id)sender{

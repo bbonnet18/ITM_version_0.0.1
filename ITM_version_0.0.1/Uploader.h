@@ -42,7 +42,7 @@
     NSURLConnection *_mainConn;// the main url connection object to handle the uploads and downloads
     NSData *_jsonData;// this will be used to hold the JSON that we get from the init function
     BOOL _uploadComplete;// used to track whether completely done uploading, initially set to NO
-    BOOL _jsonSent;// private flag used temporarily while we set up the server side
+
     NSArray *_emailsToDistribute;// holds all the distribution emails if the user provided any
 }
 
@@ -76,7 +76,7 @@
 
 - (void) cancelUpload;// cancels an upload for good
 
-- (void) buildRequestAndUpload;// starts the process to upload
+//- (void) buildRequestAndUpload;// starts the process to upload
 
 - (void) createJSONDataRequest:(NSData*)jsonData;// starts the upload process and sends the JSON to the server
 @end

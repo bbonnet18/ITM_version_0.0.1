@@ -13,7 +13,7 @@
 #define IMAGE_CONTENT @"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n"
 #define STRING_CONTENT @"Content-Disposition: form-data; name=\"%@\"\r\n\r\n"
 #define MULTIPART @"multipart/form-data; boundary=------------0x0x0x0x0x0x0x0x"
-#define SERVER_Path @"http://localhost/" 
+#define SERVER_Path @"http://192.168.1.8/" 
 
 #import "Uploader.h"
 #import "ITMServiceClient.h"
@@ -60,7 +60,7 @@
          self.mediaItems = buildItemVals;
         // self.mediaQueue = [[NSOperationQueue alloc] init]; //initialize the mediaQueue
          self.uploadComplete = NO;
-         self->_jsonSent = NO;
+  
      }
     
     return self;
@@ -117,11 +117,12 @@
         if(![self checkMediaComplete]){
             [self buildRequestAndUpload];//
         }else{
-            self->_jsonSent = YES;
-            [self createJSONDataRequest:self.jsonData];
+            self.uploadComplete = YES;
+            [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
         }
         
     }else{// caught it just when it was done, so now make sure to run the delegate actions
+        self.uploadComplete = YES;
         [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
     }
     
@@ -306,19 +307,9 @@
 // called when the item is done uploading, set's the currently uploading item's uploaded property to YES
 - (void) doneUploading:(NSDictionary*)jsonDictionary{
     NSString *message = [jsonDictionary objectForKey:@"message"];
-    if([message isEqualToString:@"media uploaded"]){// it's media
-        /*TO DO
-         set the buildItemVals for the build with the returned ID to uploaded
-         check to see if all the items are uploaded
-         upload the next inline*/
-    }else{// it's JSON
-        /* TO DO
-         set the application_id to the new one 
-         
-         start the media uploads
-         */
-    }
-    self.mediaData = nil;// release the data now that the upload has taken place
+    NSInteger buildItemOrder = [[jsonDictionary objectForKey:@"orderNumber"] intValue];
+    
+       self.mediaData = nil;// release the data now that the upload has taken place
     // remove temporary file if it exists
     if([[NSFileManager defaultManager] fileExistsAtPath:self.mediaPathString]){
         [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
@@ -326,34 +317,27 @@
     }
     // set the status of the object to uploaded
     NSDictionary *uploadedObject = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
+    NSInteger retNum = [[uploadedObject valueForKey:@"orderNumber"] intValue];
     NSLog(@"uploadObject -- path:%@ type:%@ status:%@",[uploadedObject valueForKey:@"path"],[uploadedObject valueForKey:@"type"],[uploadedObject valueForKey:@"status"]);
+    
+    NSLog(@"%@ : %@ = %ld and %ld",message,[uploadedObject valueForKey:@"orderNumber"],(long)buildItemOrder,(long)retNum);
     // check the message and set the status to YES if upload worked for this item
-    if([message isEqualToString:@"file is valid"]){
+
+    if([message isEqualToString:@"file is valid"] &&  retNum == buildItemOrder ){// make sure it's the same one that was sent out
+        
         [[self.mediaItems objectAtIndex:self->currentItemUploadIndex] setValue:@"YES" forKey:@"status"];
         if(![self checkMediaComplete]){// if the media items are all done, then move on to the JSON
             NSLog(@"currentItemUploadIndex: %d buildItems%d",self->currentItemUploadIndex, [self.mediaItems count]);
             self->currentItemUploadIndex ++;
             [self buildRequestAndUpload];// takes the next one and starts the upload process
-        }else{// if no message received from the server, then we are done and we need to either send the json or end the upload process
-        // they have all been uploaded
-        // close out the item uploading process
-        // create an uploading post request for the json data
-        // end everything and change status
-        NSLog(@"N_O_T r-e-t-u-r-n-e-d");
-            if(!self->_jsonSent){// temporary way to check whether JSON has been sent
-                [self createJSONDataRequest:self.jsonData];// send the json to complete the upload
-                self->_jsonSent = YES;//
-            }
+        }else{// done so close up 
+            
+            self.isUploading = NO;
+            self.uploadComplete = YES;
+            [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
         }
-    }else if([message isEqualToString:@"JSON"]){
-        self.isUploading = NO;
-        self.uploadComplete = YES;
-        [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
-        [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
-        // kill the values for the emails and buildID
-         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
-         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
-        [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
+
+  
     }
 
 
@@ -381,6 +365,8 @@
     }
     
 }
+
+
 // gets the JSON data and creates a request, appending the data to the request and uploading it
 - (void) createJSONDataRequest:(NSData*)jsonData{
     self.jsonData = jsonData;
@@ -397,7 +383,9 @@
             [json enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 NSLog(@"key %@ , val %@ ",key,obj);
             }];
-            [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
+            NSString *newID = [json objectForKey:@"application_id"];
+            self.application_id = [newID intValue];
+            [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
              
         }];
     }
@@ -468,7 +456,7 @@
     [post_dict setObject:[b valueForKey:@"caption"] forKey:@"caption"];
     [post_dict setObject:self.buildID forKey:@"buildID"];
 	[post_dict setObject:self.mediaData forKey:@"file"];
-    
+    [post_dict setObject:[NSString stringWithFormat:@"%i",self.application_id] forKey:@"application_id"];
     // need to set this so it appears as the file and not underneath the media key when showing up on the server
     NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
     [[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
@@ -496,57 +484,57 @@
 
 // generatePostData
 
-- (NSData*)generateFormDataFromPostDictionary:(NSDictionary*)dict withType:(NSString*) type
-{
-    id boundary = @"------------0x0x0x0x0x0x0x0x";// set the boundry
-    NSArray* keys = [dict allKeys];// get the keys
-    NSMutableData* result = [NSMutableData data];// initialize the data object
-    NSObject *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
-    NSString *mediaType =  [b valueForKey:@"type"];// get the media type
-    
-    
-    for (int i = 0; i < [keys count]; i++)
-    {
-        id value = [dict valueForKey: [keys objectAtIndex:i]];
-        [result appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-		
-		if ([value isKindOfClass:[NSData class]])
-		{
-
-			// handle video data
-            NSString* formstring = nil;
-            if([mediaType isEqualToString:@"video"]){
-                formstring = [NSString stringWithFormat:VIDEO_CONTENT, [keys objectAtIndex:i]];
-                NSLog(@"formstring-video: %@",formstring);
-            }else{
-                formstring = [NSString stringWithFormat:IMAGE_CONTENT, [keys objectAtIndex:i]];
-                NSLog(@"formstring-image: %@",formstring);
-            }
-			
-			[result appendData: DATA(formstring)];
-			[result appendData:value];// appends the data itself
-		}
-		else
-		{
-			// all non-image fields assumed to be strings
-			NSString *formstring = [NSString stringWithFormat:STRING_CONTENT, [keys objectAtIndex:i]];
-			[result appendData: DATA(formstring)];
-			[result appendData:DATA(value)];
-            
-            NSLog(@"formstring non-image: %@",formstring);
-            
-		}
-		
-		NSString *formstring = @"\r\n";
-        [result appendData:DATA(formstring)];
-    }
-	
-	NSString *formstring =[NSString stringWithFormat:@"--%@--\r\n", boundary];
-    [result appendData:DATA(formstring)];
-    
-    
-    return result;
-}
+//- (NSData*)generateFormDataFromPostDictionary:(NSDictionary*)dict withType:(NSString*) type
+//{
+//    id boundary = @"------------0x0x0x0x0x0x0x0x";// set the boundry
+//    NSArray* keys = [dict allKeys];// get the keys
+//    NSMutableData* result = [NSMutableData data];// initialize the data object
+//    NSObject *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
+//    NSString *mediaType =  [b valueForKey:@"type"];// get the media type
+//    
+//    
+//    for (int i = 0; i < [keys count]; i++)
+//    {
+//        id value = [dict valueForKey: [keys objectAtIndex:i]];
+//        [result appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+//		
+//		if ([value isKindOfClass:[NSData class]])
+//		{
+//
+//			// handle video data
+//            NSString* formstring = nil;
+//            if([mediaType isEqualToString:@"video"]){
+//                formstring = [NSString stringWithFormat:VIDEO_CONTENT, [keys objectAtIndex:i]];
+//                NSLog(@"formstring-video: %@",formstring);
+//            }else{
+//                formstring = [NSString stringWithFormat:IMAGE_CONTENT, [keys objectAtIndex:i]];
+//                NSLog(@"formstring-image: %@",formstring);
+//            }
+//			
+//			[result appendData: DATA(formstring)];
+//			[result appendData:value];// appends the data itself
+//		}
+//		else
+//		{
+//			// all non-image fields assumed to be strings
+//			NSString *formstring = [NSString stringWithFormat:STRING_CONTENT, [keys objectAtIndex:i]];
+//			[result appendData: DATA(formstring)];
+//			[result appendData:DATA(value)];
+//            
+//            NSLog(@"formstring non-image: %@",formstring);
+//            
+//		}
+//		
+//		NSString *formstring = @"\r\n";
+//        [result appendData:DATA(formstring)];
+//    }
+//	
+//	NSString *formstring =[NSString stringWithFormat:@"--%@--\r\n", boundary];
+//    [result appendData:DATA(formstring)];
+//    
+//    
+//    return result;
+//}
 
 
 // end private methods

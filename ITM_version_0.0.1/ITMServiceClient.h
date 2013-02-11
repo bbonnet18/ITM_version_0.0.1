@@ -13,7 +13,9 @@
 #import "AFHTTPClient.h"
 #import "AFNetworking.h"
 #import <Foundation/Foundation.h>
-typedef void (^JSONResponseBlock)(NSDictionary*json); // define the response block to call when receiving a callback from the service - this will be JSON
+
+// first part is the name of the block, second is the parameter it will receive
+typedef void (^JSONResponseBlock)(NSDictionary*json); // define the response block to call when receiving a callback from the service - this will be a JSON json dictionary
 
 @interface ITMServiceClient : AFHTTPClient
 
