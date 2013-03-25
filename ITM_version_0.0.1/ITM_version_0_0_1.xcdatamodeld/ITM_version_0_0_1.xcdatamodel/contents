@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="11G63" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Build" representedClassName="Build" syncable="YES">
-        <attribute name="applicationID" optional="YES" attributeType="Integer 32" maxValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="applicationID" optional="YES" attributeType="Integer 16" minValueString="1" syncable="YES"/>
         <attribute name="buildDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="buildID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="context" optional="YES" attributeType="String" syncable="YES"/>

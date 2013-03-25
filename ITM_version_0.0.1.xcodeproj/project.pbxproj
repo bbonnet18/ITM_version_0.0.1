@@ -477,8 +477,8 @@
 			isa = PBXGroup;
 			children = (
 				909B783816AF8A0B00A2D6D4 /* Default-568h@2x.png */,
-				909B783616AF89EF00A2D6D4 /* Default@2x.png */,
 				9029375416A1D8C700939839 /* AFNetworking */,
+				909B783616AF89EF00A2D6D4 /* Default@2x.png */,
 				900F3F6316953862007A8986 /* Default.png */,
 				900F3F611695383D007A8986 /* Icon@2x.png */,
 				900F3F5F16953831007A8986 /* Icon.png */,

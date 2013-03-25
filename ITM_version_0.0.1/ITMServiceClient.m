@@ -9,9 +9,9 @@
 #import "ITMServiceClient.h"
 #import "AFJSONRequestOperation.h"
 
-#define kITMServiceBaseURLString @"http://192.168.1.8/service"// the base service string
-#define kITMServicePath @"tester.php" // path to services
-
+#define kITMServiceBaseURLString @"http://itmmobile.net"// the base service string
+#define kITMServicePath @"api/Build/" // path to services
+#define kITMItemPath @"api/Item/"
 
 @implementation ITMServiceClient
 
@@ -71,12 +71,17 @@
     
    
     // create the request as multipart to send the file data, this can be configured to send both image and video requests
-    NSMutableURLRequest *apiRequest = [self multipartFormRequestWithMethod:@"POST" path:kITMServicePath  parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+    NSMutableURLRequest *apiRequest = [self multipartFormRequestWithMethod:@"POST" path:kITMItemPath  parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
 		if (uploadFile) {
             
 			[formData appendPartWithFileData:uploadFile name:@"file" fileName:fileName mimeType:mimeType];
 		}
 	}];
+    
+    NSLog(@"url : %@",apiRequest.URL);
+   [apiRequest.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+       NSLog(@"%@ -:- %@",key,obj);
+   }];
     
     // create the JSON Operation
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: apiRequest];
@@ -85,6 +90,7 @@
         completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //failure :(
+         NSLog(@"error: %@ - %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion],[error localizedRecoveryOptions]);
         completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
     }];
     [operation start];
@@ -92,9 +98,16 @@
 }
 
 - (void) JSONCommandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"%@ - %@",key,obj);
+        
+    }];
+    
     
     NSMutableURLRequest  *req = [self requestWithMethod:@"POST" path:kITMServicePath parameters:params];
     [req setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Accept"];
+    
+    NSLog(@"url : %@",req.URL);
     
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: req];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -102,7 +115,10 @@
         completionBlock(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //failure :(
+        NSLog(@"error: %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion]);
         completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+        
+        
     }];
     [operation start];
 }

@@ -10,7 +10,7 @@
 #import "Reachability.h"
 
 
-#define kITMServiceBaseURLString @"http://192.168.1.8/service"
+#define kITMServiceBaseURLString @"http://www.google.com"
 
 @implementation AppDelegate
 
@@ -263,10 +263,14 @@
     }
     // add the item array to the buildDictionary
     b.applicationID = (b.applicationID != nil) ? b.applicationID : 0;
-    NSLog(@"%@",b.applicationID);
+    NSLog(@"APP ID IS: %@",b.applicationID);
+    if(b.applicationID == nil){
+        b.applicationID = [NSNumber numberWithInt:1];
+    }
+    
     [buildDictionary setObject:b.applicationID forKey:@"applicationID"];
     [buildDictionary setObject:itemArray forKey:@"buildItems"];
-    [buildDictionary setObject:emails forKey:@"distroEmails"];
+    //[buildDictionary setObject:emails forKey:@"distroEmails"];
     [buildDictionary setObject:b.buildID forKey:@"buildID"];
     [buildDictionary setObject:b.buildDescription forKey:@"buildDescription"];
     [buildDictionary setObject:b.title forKey:@"buildTitle"];
@@ -304,6 +308,10 @@
     
     b.status = @"edit";
     b.publishDate = [NSDate date];// this is set to the device's date and time, in the long run, this should be set and returned from the server
+    //NSInteger t = [[buildDictionary valueForKey:@"applicationID"] intValue];
+    b.applicationID = [NSNumber numberWithInt:1];
+    
+    
     
     NSError *err = nil;
     
@@ -313,9 +321,10 @@
         
          [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:[buildDictionary objectForKey:@"buildID"] forKey:@"buildID"]];
     }else{
-        
+        NSLog(@"error: %@",[err localizedDescription]);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error saving" message:@"Could not save your upload session" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:[buildDictionary objectForKey:@"buildID"] forKey:@"buildID"]];
     }
    
     [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no

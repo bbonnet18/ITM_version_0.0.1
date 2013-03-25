@@ -22,7 +22,7 @@
 @end
 
 
-@interface Uploader : NSObject
+@interface Uploader : NSObject 
 
 {
     

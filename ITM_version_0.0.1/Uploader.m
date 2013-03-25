@@ -13,7 +13,7 @@
 #define IMAGE_CONTENT @"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n"
 #define STRING_CONTENT @"Content-Disposition: form-data; name=\"%@\"\r\n\r\n"
 #define MULTIPART @"multipart/form-data; boundary=------------0x0x0x0x0x0x0x0x"
-#define SERVER_Path @"http://192.168.1.8/" 
+#define SERVER_Path @"http://itmmobile/api/Build/" 
 
 #import "Uploader.h"
 #import "ITMServiceClient.h"
@@ -140,7 +140,7 @@
     [self.emailsToDistribute enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSLog(@"- - - - - EMAIL: %@", obj);
     }];
-    NSLog(@"buildData = %@", self.jsonData);
+    //NSLog(@"buildData = %@", self.jsonData);
     
     NSDictionary *itemToUpload = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
     
@@ -334,7 +334,8 @@
             
             self.isUploading = NO;
             self.uploadComplete = YES;
-            [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",self.application_id,@"applicaitonID", nil]];
+            NSLog(@"buildID: %@ appID: %i",self.buildID,self.application_id);
+            [self.delegate uploadDidCompleWithBuildInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",[NSNumber numberWithInt:self.application_id] ,@"applicationID", nil]];
         }
 
   
@@ -371,19 +372,24 @@
 - (void) createJSONDataRequest:(NSData*)jsonData{
     self.jsonData = jsonData;
     NSData *buildData = self.jsonData;
+    
     NSError *err = nil;
     NSMutableDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:buildData options:NSJSONWritingPrettyPrinted error:&err];
     
-    [jsonDic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"key %@ val: %@",key,obj);
-    }];
+    
+    NSString *stringData = [[NSString alloc] initWithData:self.jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"jsonData: %@",stringData );
+ 
+
+    
+    NSLog(@"error: %@",[err localizedDescription]);
     if(!err){
         [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
         [[ITMServiceClient sharedInstance] JSONCommandWithParameters:jsonDic onCompletion:^(NSDictionary *json) {
-            [json enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                NSLog(@"key %@ , val %@ ",key,obj);
-            }];
+            // set the application_id so it can be used for all other requests
             NSString *newID = [json objectForKey:@"application_id"];
+            NSInteger appID = [newID intValue];
+            NSLog(@"newID: %@ appID %i",newID,appID);
             self.application_id = [newID intValue];
             [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
              
@@ -449,6 +455,10 @@
         NSLog(@"%@ - %@",key,obj);
     }];
     
+    /*
+     perform conversions on the BuildItem's properties
+     */
+    
 	NSMutableDictionary* post_dict = [[NSMutableDictionary alloc] init];
     [post_dict setObject:[b valueForKey:@"type"] forKey:@"type"];// set the type
     [post_dict setObject:[[b valueForKey:@"orderNumber"] stringValue] forKey:@"orderNumber"];// order number
@@ -456,6 +466,9 @@
     [post_dict setObject:[b valueForKey:@"caption"] forKey:@"caption"];
     [post_dict setObject:self.buildID forKey:@"buildID"];
 	[post_dict setObject:self.mediaData forKey:@"file"];
+    [post_dict setObject:[b valueForKey:@"thumbnailPath"] forKey:@"thumbnailPath"];
+    [post_dict setObject:[b valueForKey:@"timeStamp"] forKey:@"timeStamp"];
+    [post_dict setObject:@"edit" forKey:@"status"];
     [post_dict setObject:[NSString stringWithFormat:@"%i",self.application_id] forKey:@"application_id"];
     // need to set this so it appears as the file and not underneath the media key when showing up on the server
     NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
@@ -481,6 +494,17 @@
 //    [self postRequest:urlRequest];
     
 }
+
+
+
+/*
+ 
+ */
+
+
+
+
+
 
 // generatePostData
 
