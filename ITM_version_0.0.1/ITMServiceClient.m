@@ -32,9 +32,9 @@
     if(!self){
         return nil;
     }
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];// register the JSONRequestOperation Class
     
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    [self setDefaultHeader:@"Accept" value:@"application/json"];// set the default accept header to accept json
     
     return self;
 }
@@ -85,6 +85,7 @@
     
     // create the JSON Operation
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: apiRequest];
+    operation.JSONReadingOptions = NSJSONReadingAllowFragments;
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         //success!
         completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute

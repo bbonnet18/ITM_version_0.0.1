@@ -35,7 +35,7 @@
 - (void) loadVisiblePages;// loads the pages into the scroll view
 - (void) setBuildID:(NSString*)buildID;// provided when the screen is initialized so we can get the build
 - (Build*) getBuild;// gets the build based on the build id and returns it
--(BuildItem*) getBuildItem:(NSString*)buildItemID;// gets and returns a build item with buildItemID
+-(BuildItem*) getBuildItem:(NSString*)buildItemIDString;// gets and returns a build item with buildItemIDString
 -(BuildItem*) createBuildItemWithOrderNumber:(NSNumber*) orderNum;// creates a build item and inserts it into the
 // context, returns the build item
 //-(UIImage*)getPreviewImage:(NSString*)path;// gets and returns an image for a path

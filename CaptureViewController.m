@@ -471,7 +471,7 @@
         NSLog(@"--- IMG ORIENTATION %@",[self getOrientation:img]);
         
         // create the path  and URL for the new thumbnail image, then write it to the home directory
-        NSString *imageName = [NSString stringWithFormat:@"thumb_%@",[self.buildItemVals valueForKey:@"buildItemID"]];
+        NSString *imageName = [NSString stringWithFormat:@"thumb_%@",[self.buildItemVals valueForKey:@"buildItemIDString"]];
         NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.jpg",imageName]];
         NSURL *url = [NSURL fileURLWithPath:path];
         [self.buildItemVals setValue:path forKey:@"thumbnailPath"];

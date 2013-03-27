@@ -145,7 +145,7 @@
             
             for (BuildItem * b in mediaItems) {
                                 
-                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status",b.imageRotation,@"imageRotation", b.caption,@"caption",b.title,@"title", b.orderNumber,@"orderNumber", nil];
+                NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status",b.imageRotation,@"imageRotation", b.caption,@"caption",b.title,@"title", b.orderNumber,@"orderNumber", b.buildItemIDString,@"buildItemIDString", b.timeStamp,@"timeStamp", nil];
                 [mediaItemsToUpload addObject:mediaObject];// add it to the array to be passed
                 
                 
@@ -241,7 +241,8 @@
 - (NSData*) generateJSONFromBuild:(Build*)b withItems:(NSArray*)buildItems andEmails:(NSArray*)emails{
     // get the date
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy"];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterNoStyle];
     [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
     NSString *creationDateString = [formatter stringFromDate:b.dateCreated];
     // this builds a hierarchy with the main node being the build and the items string data making up the rest
@@ -254,7 +255,7 @@
     // roll through the items and extract what's needed and add each to the array
     for (BuildItem * b in buildItems) {
         NSString * screenTitle = b.title;
-        NSString * screenID = b.buildItemID;
+        NSString * screenID = b.buildItemIDString;
         NSString * itemType = b.type;
         NSString * screenText = b.caption;
         NSDictionary *itemDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:screenTitle,@"screenTitle",screenID,@"screenID",itemType,@"itemType",screenText,@"screenText", nil];
@@ -263,17 +264,18 @@
     }
     // add the item array to the buildDictionary
     b.applicationID = (b.applicationID != nil) ? b.applicationID : 0;
-    NSLog(@"APP ID IS: %@",b.applicationID);
+
     if(b.applicationID == nil){
-        b.applicationID = [NSNumber numberWithInt:1];
+        b.applicationID = [NSNumber numberWithInt:0];
     }
-    
+    NSLog(@"APP ID IS: %@",b.applicationID);
     [buildDictionary setObject:b.applicationID forKey:@"applicationID"];
+    [buildDictionary setObject:@"" forKey:@"manifestPath"];
     [buildDictionary setObject:itemArray forKey:@"buildItems"];
     //[buildDictionary setObject:emails forKey:@"distroEmails"];
     [buildDictionary setObject:b.buildID forKey:@"buildID"];
-    [buildDictionary setObject:b.buildDescription forKey:@"buildDescription"];
-    [buildDictionary setObject:b.title forKey:@"buildTitle"];
+    [buildDictionary setObject:b.buildDescription forKey:@"tags"];
+    [buildDictionary setObject:b.title forKey:@"title"];
     NSError *error;
     // create json data
     NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:0 error:&error];
@@ -309,7 +311,7 @@
     b.status = @"edit";
     b.publishDate = [NSDate date];// this is set to the device's date and time, in the long run, this should be set and returned from the server
     //NSInteger t = [[buildDictionary valueForKey:@"applicationID"] intValue];
-    b.applicationID = [NSNumber numberWithInt:1];
+    b.applicationID = [buildDictionary objectForKey:@"applicationID"];
     
     
     

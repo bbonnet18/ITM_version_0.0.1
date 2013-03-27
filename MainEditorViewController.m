@@ -76,11 +76,11 @@
 }
 
 // returns a single buildItem by using the item id (GUUID string) of the buildItem. Returns nil if there's an error
-- (BuildItem*) getBuildItem:(NSString*)buildItemID{
+- (BuildItem*) getBuildItem:(NSString*)buildItemIDString{
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"buildItemID == %@",buildItemID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"buildItemIDString == %@",buildItemIDString];
     [request setPredicate:predicate];
     NSError *error = nil;
     
@@ -96,17 +96,17 @@
 
 -(void) editItem:(NSInteger)itemNumber{
     NSDictionary *buildIDDic = [self.orderArray objectAtIndex:itemNumber];
-    NSString* buildItemID = [buildIDDic valueForKey:@"buildItemID"];
-    BuildItem *bi = [self getBuildItem:buildItemID];
+    NSString* buildItemIDString = [buildIDDic valueForKey:@"buildItemIDString"];
+    BuildItem *bi = [self getBuildItem:buildItemIDString];
     
     CaptureViewController *cv = [[CaptureViewController alloc] initWithNibName:@"CaptureViewController" bundle:nil];
     cv.delegate = self;
     // set up the keys for the dictionary to provide to the 
-    NSArray *keys = [NSArray arrayWithObjects:@"buildItemID",@"thumbnailPath",@"mediaPath",@"type",@"title",@"caption",@"timeStamp",@"imageRotation", nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"buildItemIDString",@"thumbnailPath",@"mediaPath",@"type",@"title",@"caption",@"timeStamp",@"imageRotation", nil];
     // get all the values from the build object
     NSDictionary * dic = [bi dictionaryWithValuesForKeys:keys];
     
-    NSLog(@"dic: itemID: %@ thumbnailPath: %@ mediaPath: %@ type: %@ imageRotation: %d",[dic valueForKey:@"buildItemID"],[dic valueForKey:@"thumbnailPath"],[dic valueForKey:@"mediaPath"],[dic valueForKey:@"type"], (int)[dic valueForKey:@"imageRotation"]);
+    NSLog(@"dic: itemID: %@ thumbnailPath: %@ mediaPath: %@ type: %@ imageRotation: %d",[dic valueForKey:@"buildItemIDString"],[dic valueForKey:@"thumbnailPath"],[dic valueForKey:@"mediaPath"],[dic valueForKey:@"type"], (int)[dic valueForKey:@"imageRotation"]);
     cv.buildItemVals = [NSMutableDictionary dictionaryWithDictionary:dic];
     [self presentViewController:cv animated:YES completion:^{
         
@@ -181,10 +181,8 @@
     NSMutableArray *idsToReturn = [[NSMutableArray alloc] initWithCapacity:buildItemArray.count];
     // add the id for each one
     for (BuildItem *bi in buildItemArray) {
-        NSLog(@"build item id: %@",bi.buildItemID);
-        // create a dictionary to hold the value of the thumbnailPath and the buildItemID
-        NSDictionary* itemVals = [NSDictionary dictionaryWithObjectsAndKeys:bi.buildItemID,@"buildItemID",bi.thumbnailPath,@"thumbnailPath",bi.title,@"title",bi.caption,@"caption", nil];
-        NSLog(@"buildItemID: %@  , %@",[itemVals objectForKey:@"buildItemID"],[itemVals objectForKey:@"thumbnailPath"]);
+        // create a dictionary to hold the value of the thumbnailPath and the buildItemIDString
+        NSDictionary* itemVals = [NSDictionary dictionaryWithObjectsAndKeys:bi.buildItemIDString,@"buildItemIDString",bi.thumbnailPath,@"thumbnailPath",bi.title,@"title",bi.caption,@"caption", nil];
         [idsToReturn addObject:itemVals];
     }
 
@@ -196,8 +194,8 @@
     Build *b = [self getBuild];
     BuildItem* bi = [NSEntityDescription insertNewObjectForEntityForName:@"BuildItem" inManagedObjectContext:self.context];
     bi.orderNumber = orderNum;
-    bi.buildItemID = [[Utilities sharedInstance] GetUUIDString];
-    bi.status = @"NO"; // this will set the upload status to NO since it hasn't been uploaded
+    bi.buildItemIDString = [[Utilities sharedInstance] GetUUIDString];
+    bi.status = @"EDIT"; // this will set the upload status to NO since it hasn't been uploaded
     [bi setBuild:b];
     NSError* err;
     if(![self.context save:&err]){
@@ -211,7 +209,7 @@
 - (void) deleteBuildItemInOrder:(NSInteger) index{
    // remove the build item by getting it and then removing it from the context and the build relationship
     NSDictionary *buildIDDic = [self.orderArray objectAtIndex:index];
-    NSString* buildItemID = [buildIDDic valueForKey:@"buildItemID"];
+    NSString* buildItemIDString = [buildIDDic valueForKey:@"buildItemIDString"];
     
     NSDictionary *buildItemVals = [self.orderArray objectAtIndex:index];
     
@@ -220,7 +218,7 @@
     BOOL boolVal = [self deleteBuildItemThumbnailAtPath:thumbnailPath];
     NSLog(@"BOOL = %@\n", (boolVal ? @"YES" : @"NO"));
     //}
-    BuildItem* b = [self getBuildItem:buildItemID];
+    BuildItem* b = [self getBuildItem:buildItemIDString];
     [self.context deleteObject:b];
     NSError *error;
     if(![self.context save:&error]){
@@ -277,7 +275,7 @@
             p.delegate = self;
             [self.orderArray addObject:dic];// add the id so we can retrieve it based on the passed item number from the preview image objects
             [self.previewImageArray addObject:[NSNull null]];// used as a placeholder for lazy loading purposes
-            NSLog(@"count: %u - itemID: %@",[self.previewImageArray count], [dic valueForKey:@"buildItemID"]);
+            NSLog(@"count: %u - itemID: %@",[self.previewImageArray count], [dic valueForKey:@"buildItemIDString"]);
         }
 
     }else{
@@ -292,8 +290,8 @@
         PreviewImage *p = [[PreviewImage alloc] initWithFrame:frame andImage:img];
         p.itemNumber = 0; // set the item number to the number in the array
         p.delegate = self;// set self as delegate because the methods from the PreviewImage will come here
-        NSString *buildItemID = b.buildItemID;
-        NSDictionary *buildItemDic = [NSDictionary dictionaryWithObject:buildItemID forKey:@"buildItemID"];
+        NSString *buildItemIDString = b.buildItemIDString;
+        NSDictionary *buildItemDic = [NSDictionary dictionaryWithObject:buildItemIDString forKey:@"buildItemIDString"];
         [self.orderArray addObject:buildItemDic];// add the id so we can retrieve it based on the passed item number from the preview image objects
         [self.previewImageArray addObject:p];
         [self.scroller addSubview:p];
@@ -394,7 +392,7 @@
         
         NSDictionary *buildIDDic = [self.orderArray objectAtIndex:page];
         NSString* thumbnailPath = [buildIDDic valueForKey:@"thumbnailPath"];
-        //BuildItem *bi = [self getBuildItem:buildItemID];
+        //BuildItem *bi = [self getBuildItem:buildItemIDString];
         
         //NSString *iconPath = bi.thumbnailPath;// get the path to the thumbnail
         UIImage *img = [self loadPreviewImageFromThumbnailPath:thumbnailPath];
@@ -447,7 +445,7 @@
 #pragma mark PreviewImage protocol methods
 // get all the values from the changes dictionary and set them on the buildItem
 - (void) didEditItemWithDictionary:(NSDictionary *)changes{
-    NSString *buildItemID = [changes valueForKey:@"buildItemID"];
+    NSString *buildItemIDString = [changes valueForKey:@"buildItemIDString"];
     NSString *thumbnailPath = [changes valueForKey:@"thumbnailPath"];
     NSString *type = [changes valueForKey:@"type"];
     NSString *mediaPath = [changes valueForKey:@"mediaPath"];
@@ -458,7 +456,7 @@
     
     //make sure none of these are null and if they are, substitute an empty string
     
-    BuildItem * bi = [self getBuildItem:buildItemID];
+    BuildItem * bi = [self getBuildItem:buildItemIDString];
     bi.thumbnailPath = ([thumbnailPath isEqual:[NSNull null]] ? @"":thumbnailPath);
     bi.type = ([type isEqual:[NSNull null]] ? @"":type);
     bi.mediaPath = ([mediaPath isEqual:[NSNull null]] ? @"":mediaPath);

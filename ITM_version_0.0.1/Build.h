@@ -2,7 +2,7 @@
 //  Build.h
 //  ITM_version_0.0.1
 //
-//  Created by Lauren Bonnet on 1/20/13.
+//  Created by Ben Bonnet on 3/24/13.
 //  Copyright (c) 2013 Ben Bonnet. All rights reserved.
 //
 
@@ -13,14 +13,14 @@
 
 @interface Build : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * applicationID;
 @property (nonatomic, retain) NSString * buildDescription;
 @property (nonatomic, retain) NSString * buildID;
 @property (nonatomic, retain) NSString * context;
 @property (nonatomic, retain) NSDate * dateCreated;
+@property (nonatomic, retain) NSDate * publishDate;
 @property (nonatomic, retain) NSString * status;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSNumber * applicationID;
-@property (nonatomic, retain) NSDate * publishDate;
 @property (nonatomic, retain) NSSet *buildItems;
 @end
 

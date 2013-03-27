@@ -306,8 +306,12 @@
 
 // called when the item is done uploading, set's the currently uploading item's uploaded property to YES
 - (void) doneUploading:(NSDictionary*)jsonDictionary{
-    NSString *message = [jsonDictionary objectForKey:@"message"];
-    NSInteger buildItemOrder = [[jsonDictionary objectForKey:@"orderNumber"] intValue];
+
+    //get the values as strings and convert them
+    NSString *newBuildIDString = [jsonDictionary objectForKey:@"newBuildID"];
+    NSString *buildOrderIDString = [jsonDictionary objectForKey:@"orderNumber"];
+    NSInteger newBuildID =  [newBuildIDString intValue];
+    NSInteger buildItemOrder = [buildOrderIDString intValue];
     
        self.mediaData = nil;// release the data now that the upload has taken place
     // remove temporary file if it exists
@@ -318,12 +322,8 @@
     // set the status of the object to uploaded
     NSDictionary *uploadedObject = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
     NSInteger retNum = [[uploadedObject valueForKey:@"orderNumber"] intValue];
-    NSLog(@"uploadObject -- path:%@ type:%@ status:%@",[uploadedObject valueForKey:@"path"],[uploadedObject valueForKey:@"type"],[uploadedObject valueForKey:@"status"]);
     
-    NSLog(@"%@ : %@ = %ld and %ld",message,[uploadedObject valueForKey:@"orderNumber"],(long)buildItemOrder,(long)retNum);
-    // check the message and set the status to YES if upload worked for this item
-
-    if([message isEqualToString:@"file is valid"] &&  retNum == buildItemOrder ){// make sure it's the same one that was sent out
+    if(retNum == buildItemOrder){// make sure it's the same one that was sent out
         
         [[self.mediaItems objectAtIndex:self->currentItemUploadIndex] setValue:@"YES" forKey:@"status"];
         if(![self checkMediaComplete]){// if the media items are all done, then move on to the JSON
@@ -378,7 +378,6 @@
     
     
     NSString *stringData = [[NSString alloc] initWithData:self.jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"jsonData: %@",stringData );
  
 
     
@@ -387,7 +386,7 @@
         [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
         [[ITMServiceClient sharedInstance] JSONCommandWithParameters:jsonDic onCompletion:^(NSDictionary *json) {
             // set the application_id so it can be used for all other requests
-            NSString *newID = [json objectForKey:@"application_id"];
+            NSString *newID = [json objectForKey:@"applicationID"];
             NSInteger appID = [newID intValue];
             NSLog(@"newID: %@ appID %i",newID,appID);
             self.application_id = [newID intValue];
@@ -464,15 +463,14 @@
     [post_dict setObject:[[b valueForKey:@"orderNumber"] stringValue] forKey:@"orderNumber"];// order number
     [post_dict setObject:[b valueForKey:@"title"] forKey:@"title"];
     [post_dict setObject:[b valueForKey:@"caption"] forKey:@"caption"];
-    [post_dict setObject:self.buildID forKey:@"buildID"];
+    [post_dict setObject:[b valueForKey:@"buildItemIDString"] forKey:@"buildItemIDString"];
 	[post_dict setObject:self.mediaData forKey:@"file"];
-    [post_dict setObject:[b valueForKey:@"thumbnailPath"] forKey:@"thumbnailPath"];
     [post_dict setObject:[b valueForKey:@"timeStamp"] forKey:@"timeStamp"];
-    [post_dict setObject:@"edit" forKey:@"status"];
+    [post_dict setObject:[b valueForKey:@"status"] forKey:@"status"];
     [post_dict setObject:[NSString stringWithFormat:@"%i",self.application_id] forKey:@"application_id"];
     // need to set this so it appears as the file and not underneath the media key when showing up on the server
     NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
-    [[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
+    //[[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
     [[ITMServiceClient sharedInstance] commandWithParameters:post_dict onCompletion:^(NSDictionary *json) {
         
         [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
