@@ -13,7 +13,10 @@
 #define IMAGE_CONTENT @"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n"
 #define STRING_CONTENT @"Content-Disposition: form-data; name=\"%@\"\r\n\r\n"
 #define MULTIPART @"multipart/form-data; boundary=------------0x0x0x0x0x0x0x0x"
-#define SERVER_Path @"http://itmmobile/api/Build/" 
+#define kITMServiceBaseURLString @"http://itmmobile.net"// the base service string
+#define kITMServicePath @"api/Build/" // path to services
+#define kITMItemPath @"api/Item/"
+
 
 #import "Uploader.h"
 #import "ITMServiceClient.h"
@@ -76,9 +79,12 @@
         // make sure to capture the upload index in user defaults so you can come back to it
         [[NSUserDefaults standardUserDefaults] setInteger:self->currentItemUploadIndex forKey:@"uploadIndex"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];// set it to isUploading because we were uploading until now
-        [[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:@"tester.php"];// cancel all of them
+        [[ITMServiceClient sharedInstance] cancelOps];// cancel everything
+        //[[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMItemPath];// cancel all of them
         //[self.mediaQueue cancelAllOperations];// cancel anything that's currently uploading in the queue
         // stop the queue and do any necessary cleanup
+        
+        // [[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMServicePath];
     }
     
     
@@ -89,12 +95,18 @@
     
     self.isUploading = NO;
     //[self.mediaQueue cancelAllOperations];
-    [[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:@"tester.php"];
+    //[[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMItemPath];// cancel all of them
+    //[self.mediaQueue cancelAllOperations];// cancel anything that's currently uploading in the queue
+    // stop the queue and do any necessary cleanup
+    //[[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMServicePath];
+    
+    
     [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
     [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
     // kill the values for the emails and buildID
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
+    [[ITMServiceClient sharedInstance] cancelOps];
     [self.delegate uploadWasCancelledForID:self.buildID];
     
 }
@@ -326,9 +338,19 @@
     if(retNum == buildItemOrder){// make sure it's the same one that was sent out
         
         [[self.mediaItems objectAtIndex:self->currentItemUploadIndex] setValue:@"YES" forKey:@"status"];
+        
         if(![self checkMediaComplete]){// if the media items are all done, then move on to the JSON
             NSLog(@"currentItemUploadIndex: %d buildItems%d",self->currentItemUploadIndex, [self.mediaItems count]);
+            
+            NSNumber *n = [NSNumber numberWithInteger:self->currentItemUploadIndex];
+            NSNumber *t = [NSNumber numberWithInteger:[self.mediaItems count]];
+            float f = [n floatValue];
+            float s = [t floatValue];
+            float perc = f/s;
+            NSNumber* progress = [NSNumber numberWithFloat:perc];
+            NSDictionary *uploadDic = [NSDictionary dictionaryWithObjectsAndKeys:self.buildID,@"buildID",progress,@"uploadProgress", nil];
             self->currentItemUploadIndex ++;
+            [self.delegate progressForBuild:uploadDic];
             [self buildRequestAndUpload];// takes the next one and starts the upload process
         }else{// done so close up 
             
@@ -467,6 +489,7 @@
 	[post_dict setObject:self.mediaData forKey:@"file"];
     [post_dict setObject:[b valueForKey:@"timeStamp"] forKey:@"timeStamp"];
     [post_dict setObject:[b valueForKey:@"status"] forKey:@"status"];
+    [post_dict setObject:self.buildID forKey:@"buildID"];
     [post_dict setObject:[NSString stringWithFormat:@"%i",self.application_id] forKey:@"application_id"];
     // need to set this so it appears as the file and not underneath the media key when showing up on the server
     NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);

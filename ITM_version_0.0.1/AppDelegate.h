@@ -16,7 +16,7 @@
 #import "HomeTableViewController.h"
 #import "ITMServiceClient.h"
 #import "LoginViewController.h"
-
+#import "TestFlight.h"
 
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate,UploadControl>{

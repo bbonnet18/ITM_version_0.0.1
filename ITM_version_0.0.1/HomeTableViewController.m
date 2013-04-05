@@ -12,6 +12,7 @@
 @interface HomeTableViewController ()
 
 -(void) unlockBuild:(id)sender;// unlocks the build so it can be edited
+-(void) setStatusForItems:(Build*)b;// sets the status for each BuildItem to edit
 
 @end
 
@@ -52,6 +53,7 @@
     [hv.contentView addSubview:l];
     // add observer for uploaded item
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadComplete:) name:@"UploadComplete" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"UploadProgress" object:nil];
     UIImage* addNewBtnImg = [UIImage imageNamed:@"addcontactpressed.png"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadCancelled) name:@"UploadAborted" object:nil];
@@ -117,7 +119,42 @@
 }
 
 - (void) uploadComplete:(NSNotification*) note{
+    
+    NSDictionary * d = note.userInfo;// get the userInfoDictionary
+
+    
+    for (Build*b in self.fetched.fetchedObjects) {
+        
+        NSIndexPath *iP = [self.fetched indexPathForObject:b];
+        if([[d valueForKey:@"buildID"] isEqualToString:b.buildID]){
+            HomeTableCell * h = (HomeTableCell*)[self.tableView cellForRowAtIndexPath:iP];
+            
+            h.uploadingLabel.text = [NSString stringWithFormat:@"published: %@",[d valueForKey:@"publishDate"]];
+            
+
+        }
+    }
+
+    
     [self.tableView reloadData];
+}
+
+- (void) updateProgress:(NSNotification*) note{
+    NSDictionary * d = note.userInfo;// get the userInfoDictionary
+    
+    for (Build*b in self.fetched.fetchedObjects) {
+        
+        NSIndexPath *iP = [self.fetched indexPathForObject:b];
+        if([[d valueForKey:@"buildID"] isEqualToString:b.buildID]){
+            HomeTableCell * h = (HomeTableCell*)[self.tableView cellForRowAtIndexPath:iP];
+            if([h.uploadingProgress isHidden]){
+                [h.uploadingProgress setHidden:FALSE];
+            }
+            float f =  [[d valueForKey:@"uploadProgress"] floatValue]; //[d valueForKey:@"progress"];
+            [h.uploadingProgress setProgress:f animated:YES];
+        }
+    }
+    
 }
 
 - (void) uploadCancelled{
@@ -135,6 +172,7 @@
     }
     if(indexPath != nil){
         Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
+        [self setStatusForItems:b];// sets the status to edit for all items
         MainEditorViewController *bv = [[MainEditorViewController alloc] initWithNibName:@"MainEditorViewController" bundle:[NSBundle mainBundle]];
         [bv setBuildID:b.buildID];
         
@@ -199,6 +237,37 @@
     [av show];
 }
 
+-(void) setStatusForItems:(Build *)b{
+    
+    //retrieve the build items
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"build == %@",b];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"orderNumber" ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *error = nil;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    
+    if(error){
+        NSLog(@"ERROR GETTING BUILD ITEMS: %@",[error localizedFailureReason]);
+        //[self showError:[error localizedDescription]];
+    }else{
+        for(BuildItem *bI in results){
+            bI.status = @"edit";
+        }
+        NSError *saveErr = nil;
+        [self.context save:&saveErr];
+        if(saveErr){
+            NSLog(@"error saving %@",[saveErr localizedDescription]);
+        }
+    }
+
+}
+
 - (void) addNewBuildWithTitle:(NSString*)title andDescription:(NSString*)description {
     Build *newBuild = (Build*) [NSEntityDescription insertNewObjectForEntityForName:@"Build" inManagedObjectContext:self.context];
     
@@ -210,7 +279,7 @@
     newBuild.buildID = newBuildID;
     newBuild.status = @"edit";
     newBuild.title = title;
-    
+    newBuild.publishDate = nil;
     NSError *err = nil;
     
     if(![self.context save:&err]){
@@ -402,7 +471,8 @@
     cell.contentView.layer.cornerRadius = 8.0f;
     cell.contentView.layer.borderWidth = 2.0f;
     [cell.contentView setBackgroundColor:[UIColor colorWithRed:0.09 green:0.48 blue:0.56 alpha:1.0]];
-    
+    [cell.uploadingProgress setProgress:0];
+    [cell.uploadingProgress setHidden:YES];
     Build *b = [self.fetched objectAtIndexPath:indexPath];// get the group that corresponds with this index
     // add the features of the cell
     cell.titleTxt.text = b.title;
@@ -421,6 +491,7 @@
     [actionBtn setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
     //[actionBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
     UIImage* btnImg = nil;
+    NSLog(@"status - %@",b.status);
     if([b.status isEqualToString:@"edit"]){
         btnImg = [UIImage imageNamed:@"pencil.png"];
         [actionBtn addTarget:self action:@selector(showBuild:event:) forControlEvents:UIControlEventTouchUpInside];
@@ -429,10 +500,10 @@
 //    else if([b.status isEqualToString:@"view"]){
 //        btnImg = [UIImage imageNamed:@"eye-open.png"];
 //    }
-    else{
+    else{// if it's uploading
         btnImg = [UIImage imageNamed:@"eye-close.png"];
         [actionBtn addTarget:self action:@selector(unlockBuild:) forControlEvents:UIControlEventTouchUpInside];
-        [actionBtn setTitle:@"stop" forState:UIControlStateNormal];
+        [actionBtn setTitle:@"" forState:UIControlStateNormal];
     }
     [actionBtn setImage:btnImg forState:UIControlStateNormal];
     //[actionBtn setTitle:b.status forState:UIControlStateNormal];
@@ -465,8 +536,16 @@
 //    [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
 //    infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);
 //    [cell addSubview:infoBtn];
+    NSDateFormatter *pubDateFormatter = [[NSDateFormatter alloc] init];
+    [pubDateFormatter setDateStyle:NSDateFormatterShortStyle];
+    if(b.publishDate != nil){
+        NSString *formattedDate = [pubDateFormatter stringFromDate:b.publishDate];
+        cell.uploadingLabel.text = [NSString stringWithFormat:@"published: %@",formattedDate];
+    }else{
+        cell.uploadingLabel.text = @"Not Published";
+    }
     
-    cell.imageView.image = [self getBuildItemPreview:b withSize:30 andCorner:5]; // get the preview image
+    cell.imageView.image = [self getBuildItemPreview:b withSize:50 andCorner:5]; // get the preview image
     
     return cell;
 
@@ -476,6 +555,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 90.0;
 }
+
 
 
 /*

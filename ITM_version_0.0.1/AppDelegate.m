@@ -25,7 +25,13 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
+    //for testflight
+#define TESTING 1
+#ifdef TESTING
+
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+#endif
+    [TestFlight takeOff:@"162233ed-eb83-480d-821d-ace4449fd540"];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
@@ -144,7 +150,7 @@
             // create array to hold the objects to pass to the uploader
             
             for (BuildItem * b in mediaItems) {
-                                
+                // set buildItem status to NO
                 NSMutableDictionary *mediaObject = [NSMutableDictionary dictionaryWithObjectsAndKeys:b.type,@"type",b.mediaPath,@"path",b.status,@"status",b.imageRotation,@"imageRotation", b.caption,@"caption",b.title,@"title", b.orderNumber,@"orderNumber", b.buildItemIDString,@"buildItemIDString", b.timeStamp,@"timeStamp", nil];
                 [mediaItemsToUpload addObject:mediaObject];// add it to the array to be passed
                 
@@ -196,7 +202,7 @@
                 NSError *err2 = nil;
                 [self.managedObjectContext save:&err2];
                 if(!err2){
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to retrieve your event" message:[err2 localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to retrieve your items" message:[err2 localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                     [alertView show];
                 }
             }
@@ -210,6 +216,9 @@
 //        
 //       
 //        }
+    }else{
+        UIAlertView *alreadyUploadingMsg  = [[UIAlertView alloc] initWithTitle:@"Uploading" message:@"You are already uploading. Please try again when your current upload is finished" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alreadyUploadingMsg show];
     }
 
     
@@ -314,19 +323,25 @@
     b.applicationID = [buildDictionary objectForKey:@"applicationID"];
     
     
-    
     NSError *err = nil;
     
     [self.managedObjectContext save:&err];
 
     if(!err){
+        NSDateFormatter *pubDateFormatter = [[NSDateFormatter alloc] init];
+        [pubDateFormatter setDateStyle:NSDateFormatterShortStyle];
         
-         [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:[buildDictionary objectForKey:@"buildID"] forKey:@"buildID"]];
+        NSString *formattedDate = [pubDateFormatter stringFromDate:b.publishDate];
+        
+        NSMutableDictionary *completedBuildDictionary = [NSMutableDictionary dictionaryWithDictionary:buildDictionary];
+        [completedBuildDictionary setValue:formattedDate forKey:@"publishDate"];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:completedBuildDictionary];
     }else{
         NSLog(@"error: %@",[err localizedDescription]);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error saving" message:@"Could not save your upload session" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObject:[buildDictionary objectForKey:@"buildID"] forKey:@"buildID"]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadComplete" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[buildDictionary objectForKey:@"BuildID"],@"BuildID",@"ERROR",@"publishDate", nil]];
     }
    
     [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
@@ -334,12 +349,18 @@
     // kill the values for the emails and buildID
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
+    
 
 }
 
 -(void)uploadDidFailWithReason:(NSString *)reason andID:(NSString*)buildID{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.uploader stopUpload];
+    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
+    [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
+    // kill the values for the emails and buildID
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
     self.uploader = nil;
     
     UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:[NSString stringWithFormat:@"An error occured while uploading your files. Try again? Error:%@",reason] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
@@ -363,8 +384,9 @@
     if(!err){
           [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadAborted" object:nil userInfo:nil];
     }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Stopping your upload" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Stopping your upload" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadAborted" object:nil userInfo:nil];
     }
 
     
@@ -372,6 +394,11 @@
     
     
     
+}
+
+- (void) progressForBuild:(NSDictionary *) progressDictionary{
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadProgress" object:nil userInfo:progressDictionary];
 }
 
 // UploadControl delegate

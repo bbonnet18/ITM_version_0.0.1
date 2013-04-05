@@ -14,4 +14,6 @@
 @property (nonatomic,strong) IBOutlet UIButton* statusBtn;// the button representing the status
 @property (nonatomic, strong) IBOutlet UIImage* bgImg;// background image
 @property (nonatomic, strong) IBOutlet UIButton* infoBtn;// activates the info screen
+@property (nonatomic, strong) IBOutlet UILabel* uploadingLabel;// shown when an item is uploading
+@property (nonatomic, strong) IBOutlet UIProgressView* uploadingProgress;// shown when an item is uploading
 @end

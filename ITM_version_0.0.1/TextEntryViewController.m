@@ -220,7 +220,7 @@
         CGFloat yVal = scroller.y;
         CGFloat newY = yVal -self->_currentKeyboard.size.height + padding;
         CGPoint scrollPoint = CGPointMake(0.0, newY);// calculating the difference here tells us that the content should move up only the distance between the y location of the textview and height of the keyboard size. Think about it like where it was before, minus the keyboard height that's now taking up space on the screen.;
-        [self.scrollerView setContentOffset:scrollPoint animated:YES];
+       // [self.scrollerView setContentOffset:scrollPoint animated:YES];
     }
     
 }
@@ -243,7 +243,7 @@
     CGRect frame = self.mainTextView.frame;
     UIScrollView *sv = (UIScrollView*)self.mainTextView;
     frame.size.height = sv.contentSize.height + 20.0;
-    sv.frame = frame;
+    //sv.frame = frame;
     
     if(sv.contentSize.height != self->_oldFrame.size.height){
         CGFloat sizeDiff = sv.contentSize.height - self->_oldFrame.size.height;
@@ -257,7 +257,7 @@
 - (void) updateFrame: (CGFloat) newHeight{
     CGFloat padding = 10.0;
     CGSize newSize = CGSizeMake(self.scrollerView.contentSize.width, self.scrollerView.contentSize.height + newHeight + padding);
-    self.scrollerView.contentSize = newSize;// set the content size appropriately
+    //self.scrollerView.contentSize = newSize;// set the content size appropriately
     
     CGRect aRect = self.view.frame;// the frame's view rect for the entire view
     aRect.size.height -= self->_currentKeyboard.size.height;//this shrinks the box so we know if the new point is within it
@@ -268,7 +268,7 @@
         CGFloat yVal = scroller.y;
         CGFloat newY = yVal-self->_currentKeyboard.size.height + padding;
         CGPoint scrollPoint = CGPointMake(0.0, newY);// calculating the difference here tells us that the content should move up only the distance between the y location of the textview and height of the keyboard size. Think about it like where it was before, minus the keyboard height that's now taking up space on the screen.;
-        [self.scrollerView setContentOffset:scrollPoint animated:YES];
+        //[self.scrollerView setContentOffset:scrollPoint animated:YES];
     }
     
 }

@@ -18,6 +18,7 @@
 - (void) uploadDidCompleWithBuildInfo:(NSDictionary*) buildDictionary;
 - (void) uploadDidFailWithReason:(NSString*) reason andID:(NSString*)buildID;
 - (void) uploadWasCancelledForID:(NSString*) buildID;
+- (void) progressForBuild:(NSDictionary*) progressDictionary;// this will handle updating the upload
 
 @end
 

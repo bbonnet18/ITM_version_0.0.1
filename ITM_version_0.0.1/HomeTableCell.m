@@ -12,7 +12,8 @@
 @implementation HomeTableCell
 @synthesize titleTxt = _titleTxt;
 @synthesize statusBtn = _statusBtn;
-
+@synthesize uploadingLabel = _uploadingLabel;
+@synthesize uploadingProgress = _uploadingProgress;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

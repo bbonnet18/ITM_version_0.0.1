@@ -45,7 +45,18 @@
     return YES;
 }
 
-
+- (void) cancelOps{
+    
+    NSLog(@"total ops: %d",[self.operationQueue operationCount]);
+    
+    
+//    [self cancelAllHTTPOperationsWithMethod:nil path:kITMItemPath];
+//    [self cancelAllHTTPOperationsWithMethod:nil path:kITMServicePath];
+//    [self.operationQueue cancelAllOperations];
+    
+    [self.currentRequest cancel];
+    
+}
 // this will upload the file if the file is included with the 
 - (void) commandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{// using the block from the header file and that will receive a JSON dictionary
     NSData* uploadFile = nil;
@@ -69,7 +80,9 @@
         mimeType = @"video/quicktime";
     }
     
-   
+   [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+       NSLog(@"key: %@ val%@",key,obj);
+   }];
     // create the request as multipart to send the file data, this can be configured to send both image and video requests
     NSMutableURLRequest *apiRequest = [self multipartFormRequestWithMethod:@"POST" path:kITMItemPath  parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
 		if (uploadFile) {
@@ -88,13 +101,22 @@
     operation.JSONReadingOptions = NSJSONReadingAllowFragments;
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         //success!
-        completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
+       if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+       
+             completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
+       }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //failure :(
-         NSLog(@"error: %@ - %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion],[error localizedRecoveryOptions]);
-        completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        NSLog(@"errorNewHTTPOP: %@ - %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion],[error localizedRecoveryOptions]);
+            completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+        }
     }];
-    [operation start];
+    //[self.operationQueue addOperation:operation];
+    self.currentRequest = operation;
+    
+    [self.currentRequest start];
+    
 
 }
 
@@ -110,18 +132,34 @@
     
     NSLog(@"url : %@",req.URL);
     
+    
+    
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: req];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         //success!
-        completionBlock(responseObject);
+       if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+        
+            completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
+       }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //failure :(
-        NSLog(@"error: %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion]);
-        completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+        
+        
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+            NSLog(@"errorJSONOP: %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion]);
+            completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+        }
+        
         
         
     }];
-    [operation start];
+    
+    self.currentRequest = operation;
+    
+    [self.currentRequest start];
+    //[self.operationQueue addOperation:operation];
+    
+
 }
 
 
