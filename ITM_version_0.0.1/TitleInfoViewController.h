@@ -18,7 +18,7 @@
 
 @end
 
-@interface TitleInfoViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate>{
+@interface TitleInfoViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate, UIAlertViewDelegate>{
     UITextView* _activeView;
     BOOL _isNew;// used to tell whether the build is new or not
     NSString* _titleForBuild;

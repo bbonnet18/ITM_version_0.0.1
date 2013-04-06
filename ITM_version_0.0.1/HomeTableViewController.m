@@ -129,8 +129,9 @@
         if([[d valueForKey:@"buildID"] isEqualToString:b.buildID]){
             HomeTableCell * h = (HomeTableCell*)[self.tableView cellForRowAtIndexPath:iP];
             
-            h.uploadingLabel.text = [NSString stringWithFormat:@"published: %@",[d valueForKey:@"publishDate"]];
             
+            h.pubDateLabel.text = [NSString stringWithFormat:@"published: %@",[d valueForKey:@"publishDate"]];
+            [h.pubDateLabel setHidden:NO];
 
         }
     }
@@ -148,7 +149,15 @@
         if([[d valueForKey:@"buildID"] isEqualToString:b.buildID]){
             HomeTableCell * h = (HomeTableCell*)[self.tableView cellForRowAtIndexPath:iP];
             if([h.uploadingProgress isHidden]){
-                [h.uploadingProgress setHidden:FALSE];
+                [h.uploadingProgress setHidden:NO];
+            }
+            
+            if([h.uploadingLabel isHidden]){
+                [h.uploadingLabel setHidden:NO];
+            }
+            
+            if(![h.pubDateLabel isHidden]){
+                [h.pubDateLabel setHidden:YES];
             }
             float f =  [[d valueForKey:@"uploadProgress"] floatValue]; //[d valueForKey:@"progress"];
             [h.uploadingProgress setProgress:f animated:YES];
@@ -236,7 +245,7 @@
    UIAlertView *av =  [[UIAlertView alloc] initWithTitle:@"Stop Upload?" message:@"Tap stop upload to stop the upload so you can edit your items. Tap cancel to allow the upload to continue" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"stop upload",nil, nil];
     [av show];
 }
-
+// simply sets the status to edit for all items
 -(void) setStatusForItems:(Build *)b{
     
     //retrieve the build items
@@ -473,6 +482,8 @@
     [cell.contentView setBackgroundColor:[UIColor colorWithRed:0.09 green:0.48 blue:0.56 alpha:1.0]];
     [cell.uploadingProgress setProgress:0];
     [cell.uploadingProgress setHidden:YES];
+    [cell.uploadingLabel setHidden:YES];
+    [cell.pubDateLabel setHidden:NO];
     Build *b = [self.fetched objectAtIndexPath:indexPath];// get the group that corresponds with this index
     // add the features of the cell
     cell.titleTxt.text = b.title;
@@ -540,9 +551,9 @@
     [pubDateFormatter setDateStyle:NSDateFormatterShortStyle];
     if(b.publishDate != nil){
         NSString *formattedDate = [pubDateFormatter stringFromDate:b.publishDate];
-        cell.uploadingLabel.text = [NSString stringWithFormat:@"published: %@",formattedDate];
+        cell.pubDateLabel.text = [NSString stringWithFormat:@"published: %@",formattedDate];
     }else{
-        cell.uploadingLabel.text = @"Not Published";
+        cell.pubDateLabel.text = @"Not Published";
     }
     
     cell.imageView.image = [self getBuildItemPreview:b withSize:50 andCorner:5]; // get the preview image

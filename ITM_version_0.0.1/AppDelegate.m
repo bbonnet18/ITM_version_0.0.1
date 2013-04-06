@@ -361,10 +361,20 @@
     // kill the values for the emails and buildID
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
-    self.uploader = nil;
+    self.uploader = nil;// nil out the uploader
     
-    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:[NSString stringWithFormat:@"An error occured while uploading your files. Try again? Error:%@",reason] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    Build *b = [self getBuild:buildID];
+    
+    b.status = @"edit";
+    b.applicationID = [NSNumber numberWithInt:1];// must set to a positive integer
+    
+    NSError *err = nil;
+    
+    [self.managedObjectContext save:&err];
+    
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:[NSString stringWithFormat:@"An error occured while uploading your files. This session will be aborded - Error:%@",reason] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [errorAlert show];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadAborted" object:nil userInfo:nil];
     
 }
 
@@ -376,6 +386,7 @@
     Build *b = [self getBuild:buildID];
     
     b.status = @"edit";
+    b.applicationID = [NSNumber numberWithInt:1];// must set to a positive integer
     
     NSError *err = nil;
     

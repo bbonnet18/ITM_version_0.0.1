@@ -51,7 +51,7 @@
         [deleteBtn sizeToFit];
         
                 NSLog(@"%f",deleteBtn.frame.size.height);
-        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y - 88.0, deleteBtn.frame.size.width+20, deleteBtn.frame.size.height);
+        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y, deleteBtn.frame.size.width+20, self.cancelBtn.frame.size.height);
         deleteBtn.frame = deleteBtnFrame;
         [self.view addSubview:deleteBtn];
         self.statusTxt.text = [self statusTxtForBuildStatus:self.status];
@@ -180,12 +180,26 @@
     
 }
 
+
+
 - (IBAction)deleteBuild:(id)sender{
-    [self.delegate userDidDeleteBuildWithID:self.buildID];
+    UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete Item?" message:@"This will delete the item from your device, but it will remain on the server" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"delete", nil];
+    [deleteAlert show];
 }
 
-
-
+// handles the delete response if the user chooses to delete the item
+-(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            break;
+        case 1:
+            [self.delegate userDidDeleteBuildWithID:self.buildID];
+            break;
+        default:
+            break;
+    }
+}
 
 
 @end
