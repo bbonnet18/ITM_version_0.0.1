@@ -21,7 +21,7 @@
 
 @end
 
-@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol, UIAlertViewDelegate>{
+@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol, UIAlertViewDelegate, UIGestureRecognizerDelegate>{
     NSFetchedResultsController *_fetched;
     NSManagedObjectContext *_context;
     NSIndexPath* _currentSelection;// reserved for the currently selected item indexPath
@@ -32,5 +32,5 @@
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
 @property (strong, nonatomic) IBOutlet HomeTableCell* tblCell;// the custom cell
 @property (strong, nonatomic) id<UploadControl> delegate;// delegate to stop uploads
-
+@property (strong, nonatomic) IBOutlet UIImageView *infoImgView;// used to show the overlay
 @end

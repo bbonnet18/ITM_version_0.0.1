@@ -33,11 +33,11 @@
         NSInteger leftEdge = 10;
         NSInteger rightEdge = frame.size.width - 10;
         NSInteger topEdge = 10;
-        NSInteger bottomEdge = frame.size.height - 10;
+       // NSInteger bottomEdge = frame.size.height - 10;
         
         UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
         
-        UIImage *editImg = [UIImage imageNamed:@"hammer-square.png"];
+        UIImage *editImg = [UIImage imageNamed:@"pencil.png"];
         self.editBtn =  [UIButton createButtonWithImage:editImg color:btnTintColor title:nil];
         self.editBtn.frame = CGRectMake(frame.size.width/2 - self.editBtn.frame.size.width - 10.0, topEdge, self.editBtn.frame.size.width, self.editBtn.frame.size.height);
         [self.editBtn addTarget:self action:@selector(editItem:) forControlEvents:UIControlEventTouchUpInside];
@@ -68,6 +68,8 @@
         
         [self.previewImageView sizeToFit];
         CGRect previewImageFrame = CGRectMake(frame.size.width/2 - self.previewImageView.frame.size.width/2, 90, self.previewImageView.frame.size.width, self.previewImageView.frame.size.height);
+        self.previewImageView.backgroundColor = [UIColor clearColor];
+        
         self.previewImageView.frame = previewImageFrame;
         
         //title setup

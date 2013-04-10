@@ -181,6 +181,7 @@
 		90E323141655CD8A0044F233 /* TitleInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E323121655CD8A0044F233 /* TitleInfoViewController.xib */; };
 		90E3C00F16A110E80004A881 /* cloud-minus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E3C00D16A110E80004A881 /* cloud-minus@2x.png */; };
 		90E3C01016A110E80004A881 /* cloud-minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E3C00E16A110E80004A881 /* cloud-minus.png */; };
+		90F3C04C1714FC4A0032A10A /* homeScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F3C04B1714FC4A0032A10A /* homeScreen.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +402,7 @@
 		90E323121655CD8A0044F233 /* TitleInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleInfoViewController.xib; sourceTree = "<group>"; };
 		90E3C00D16A110E80004A881 /* cloud-minus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud-minus@2x.png"; sourceTree = "<group>"; };
 		90E3C00E16A110E80004A881 /* cloud-minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud-minus.png"; sourceTree = "<group>"; };
+		90F3C04B1714FC4A0032A10A /* homeScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homeScreen.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -601,6 +603,7 @@
 				90C82F6B1670629E00A1D2B9 /* arrow-down.png */,
 				90C82F681670629E00A1D2B9 /* arrow-down@2x.png */,
 				9017240C169951A3007C37B0 /* background00.png */,
+				90F3C04B1714FC4A0032A10A /* homeScreen.png */,
 				9017240516992F2C007C37B0 /* bg_img_1.jpg */,
 				901BD886163E26DC008721C3 /* camera.png */,
 				901BD882163E26C3008721C3 /* camera@2x.png */,
@@ -918,6 +921,7 @@
 				90C0F8EC17054BAD00D1443D /* IMG_0133.MOV in Resources */,
 				90C0F8F317093E0F00D1443D /* README.md in Resources */,
 				90C0F8F417093E0F00D1443D /* release_notes.md in Resources */,
+				90F3C04C1714FC4A0032A10A /* homeScreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

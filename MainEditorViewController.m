@@ -11,6 +11,8 @@
 
 @interface MainEditorViewController ()
 
+
+-(BOOL) checkItemsHaveValues;// used to make sure all items have values
 @end
 
 @implementation MainEditorViewController
@@ -24,6 +26,8 @@
         // Custom initialization
         self.previewImageArray = [[NSMutableArray alloc] init];
         self.orderArray = [[NSMutableArray alloc] init];
+
+        
     }
     return self;
 }
@@ -300,6 +304,7 @@
         [self resetScroller];
         [self loadVisiblePages];
     }
+  
 
 }
 // take the path and return the image or a placeholder if the path is no good
@@ -345,6 +350,7 @@
 // set scroller actions
 
 - (void) loadVisiblePages{
+    
     CGFloat pageWidth = self.scroller.frame.size.width;
     
 //    CGFloat x = self.scroller.contentOffset.x;
@@ -354,7 +360,8 @@
 //    NSLog(@"pageWidth*2 %f",pageWidth*2);
     
     NSInteger page = (NSInteger)floor((self.scroller.contentOffset.x * 2.0f + pageWidth)/(pageWidth * 2.0f));
-    NSLog(@"page: %i",page);
+    
+    self.title = [NSString stringWithFormat:@"Editing %i of %i",page+1,self.previewImageArray.count];
     //update the page control
     self->_previewImageIndex = page;
     // work out which pages to load
@@ -380,8 +387,6 @@
     if(page < 0 || page >= self.previewImageArray.count){
         return;
     }
-    
-    
     
     PreviewImage *previewImg = [self.previewImageArray objectAtIndex:page];
     if((NSNull*) previewImg == [NSNull null]){// if it's null, then initialize and create the button and add it to the pageViews array
@@ -427,6 +432,7 @@
 #pragma mark - scrollview delegate methods
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView{
+    
     
     [self loadVisiblePages];// on scroll load visible images
 }
@@ -485,17 +491,40 @@
    
 }
 
--(IBAction)publish:(id)sender{
-    PublishViewController *pv = [[PublishViewController alloc] initWithNibName:@"PublishViewController" bundle:[NSBundle mainBundle]];
-    pv.delegate = self;
-    NSDate *d = ([self getBuild].publishDate != nil) ? [self getBuild].publishDate : nil;
+-(BOOL) checkItemsHaveValues{
     
-    NSLog(@"date: %@", [d description]);
-    pv.titleLabelStr = (d != nil) ? @"Re-Publish" : @"Publish";
-    pv.publishDateStr = (d != nil) ? [NSString stringWithFormat:@"last published: %@",[[Utilities sharedInstance] getTimeStamp:d]] : @"";
-    [self presentViewController:pv animated:YES completion:^{
+    NSArray* items = [self getBuildItems:[self getBuild]];
+    BOOL isClear = YES;
+    for(NSDictionary *item in items){
+        
+        NSString *title = [item objectForKey:@"title"];
+        NSString *caption = [item objectForKey:@"caption"];
+        if([title length] < 1  || [caption length] < 1){
+            isClear = NO;
+            break;
+        }
+    }
+    return isClear;
+}
+
+-(IBAction)publish:(id)sender{
+    
+    if([self checkItemsHaveValues]){
+        
+        PublishViewController *pv = [[PublishViewController alloc] initWithNibName:@"PublishViewController" bundle:[NSBundle mainBundle]];
+        pv.delegate = self;
+        NSDate *d = ([self getBuild].publishDate != nil) ? [self getBuild].publishDate : nil;
+    
+        NSLog(@"date: %@", [d description]);
+        pv.titleLabelStr = (d != nil) ? @"Re-Publish" : @"Publish";
+        pv.publishDateStr = (d != nil) ? [NSString stringWithFormat:@"last published: %@",[[Utilities sharedInstance] getTimeStamp:d]] : @"";
+        [self presentViewController:pv animated:YES completion:^{
         
     }];
+    }else{
+        UIAlertView *fixEmptiesAlert = [[UIAlertView alloc] initWithTitle:@"Empty Items" message:@"You have empty items. Enter content in empty items or delete them before publishing" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [fixEmptiesAlert show];
+    }
 }
 
 #pragma Publish Protocol methods

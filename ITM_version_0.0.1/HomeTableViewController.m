@@ -13,7 +13,8 @@
 
 -(void) unlockBuild:(id)sender;// unlocks the build so it can be edited
 -(void) setStatusForItems:(Build*)b;// sets the status for each BuildItem to edit
-
+-(void) deletHowTo:(id)sender;// simply deletes the howto button from the screen
+-(void) handleTap:(UITapGestureRecognizer*) recognize;// handles removing the info img
 @end
 
 
@@ -102,6 +103,19 @@
     
     [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0]];
     NSError *error;
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"hasSeen"];
+    // check to see if the user has seen the message yet
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenHome"] isEqualToString:@"YES"]){
+
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"homeScreen.png"]];
+        img.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        tgr.delegate = self;
+        [img addGestureRecognizer:tgr];
+        self.infoImgView = img;
+        [self.tableView addSubview:img];
+    }
+    
     if(![self.fetched performFetch:&error]){
         NSLog(@"ERROR: %@", error);
     }
@@ -116,6 +130,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void) handleTap:(UITapGestureRecognizer *)recognize{
+    [self.infoImgView removeFromSuperview];
+    self.infoImgView = nil;
+    [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenHome"];
 }
 
 - (void) uploadComplete:(NSNotification*) note{
@@ -195,6 +215,14 @@
 }
 // adds a new build with no info because it's new
 - (void) addNewBuild:(id)sender{
+    
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeen"] isEqualToString:@"YES"]){
+        [self.infoImgView removeFromSuperview];
+        self.infoImgView = nil;
+        [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeen"];
+
+    }
+
     TitleInfoViewController *tv = [[TitleInfoViewController alloc] initWithNibName:@"TitleInfoViewController" bundle:[NSBundle mainBundle]];
     tv.delegate = self;
     tv.isNew = YES;
@@ -245,6 +273,7 @@
    UIAlertView *av =  [[UIAlertView alloc] initWithTitle:@"Stop Upload?" message:@"Tap stop upload to stop the upload so you can edit your items. Tap cancel to allow the upload to continue" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"stop upload",nil, nil];
     [av show];
 }
+
 // simply sets the status to edit for all items
 -(void) setStatusForItems:(Build *)b{
     
@@ -566,7 +595,6 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 90.0;
 }
-
 
 
 /*

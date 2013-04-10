@@ -50,6 +50,7 @@
 @property (strong, nonatomic) NSString *datePublished;// the date this item was published
 @property (strong, nonatomic) UITextView *activeView;// the text view, we use this to track when the view is active so we can use the done button
 @property (strong, nonatomic) IBOutlet UIButton *doneBtn; // used when editing the description text
+@property (strong, nonatomic) IBOutlet UIButton *deleteBtn;// used to delete the item
 @property (nonatomic, assign) BOOL isNew;
 
 -(IBAction)cancelBuild:(id)sender;

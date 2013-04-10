@@ -37,23 +37,13 @@
     // add the delete button if it's not new
     if(!self.isNew){
         
+        [self.deleteBtn setHidden:NO];
         
-        //UIImage *deleteImg = [UIImage imageNamed:@"delete.png"];
-        //UIImage *deleteStretchedImg = [deleteImg resizableImageWithCapInsets:UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)];
-        UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        deleteBtn.layer.cornerRadius = 8.0f;
-        [deleteBtn addTarget:self action:@selector(deleteBuild:) forControlEvents:UIControlEventTouchUpInside];
-        [deleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
-        [deleteBtn setImage:[UIImage imageNamed:@"trash.png"] forState:UIControlStateNormal];
-        //[deleteBtn setBackgroundImage:deleteStretchedImg forState:UIControlStateNormal];
-        [deleteBtn setTintColor:[UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0]];
-        deleteBtn.layer.backgroundColor = [[UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0] CGColor];
-        [deleteBtn sizeToFit];
+                       // NSLog(@"%f height %f %f",deleteBtn.frame.size.height,self.view.frame.size.height,self.cancelBtn.frame.origin.y );
+//        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.view.frame.origin.y, deleteBtn.frame.size.width+20, self.cancelBtn.frame.size.height);
+//        deleteBtn.frame = deleteBtnFrame;
+//        [self.view addSubview:deleteBtn];
         
-                NSLog(@"%f",deleteBtn.frame.size.height);
-        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.cancelBtn.frame.origin.y, deleteBtn.frame.size.width+20, self.cancelBtn.frame.size.height);
-        deleteBtn.frame = deleteBtnFrame;
-        [self.view addSubview:deleteBtn];
         self.statusTxt.text = [self statusTxtForBuildStatus:self.status];
         [self.statusLabel setTextAlignment:NSTextAlignmentLeft];
         [self.statusImg setImage:[self statusImgForBuildStatus:self.status]];
@@ -64,6 +54,7 @@
         self.datePublishedLabel.text = self.datePublished;
         
     }else{
+        [self.deleteBtn setHidden:YES];
         [self.statusImg setHidden:YES];
         [self.statusTxt setHidden:YES];
         [self.statusLabel setHidden:YES]; 
@@ -78,7 +69,41 @@
     
     [self.continueBtn setTitle:actionBtnTitle forState:UIControlStateNormal];
     
+    
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewDidLayoutSubviews{
+    UIImage *deleteImg = [UIImage imageNamed:@"delete.png"];
+    UIImage *deleteStretchedImg = [deleteImg resizableImageWithCapInsets:UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)];
+    UIButton *newDeleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    newDeleteBtn.layer.cornerRadius = 8.0f;
+    [newDeleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
+    [newDeleteBtn setImage:[UIImage imageNamed:@"trash.png"] forState:UIControlStateNormal];
+    [newDeleteBtn setBackgroundImage:deleteStretchedImg forState:UIControlStateNormal];
+    [newDeleteBtn setTintColor:[UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0]];
+    newDeleteBtn.layer.backgroundColor = [[UIColor colorWithRed:0.89 green:0.01 blue:0.25 alpha:1.0] CGColor];
+    [newDeleteBtn sizeToFit];
+    
+    CGRect newDelRec = self.deleteBtn.frame;
+    newDeleteBtn.frame= newDelRec;
+    [newDeleteBtn addTarget:self action:@selector(deleteBuild:) forControlEvents:UIControlEventTouchUpInside];
+    [self.deleteBtn removeFromSuperview];
+    self.deleteBtn = nil;
+    
+    [self.view addSubview:newDeleteBtn];
+    self.deleteBtn = newDeleteBtn;
+    
+    if(self.isNew){
+        [self.deleteBtn setHidden:YES];
+    }else{
+        [self.deleteBtn setHidden:NO];
+    }
+   
+    
+    [self.view layoutSubviews];
+
 }
 
 - (NSUInteger)supportedInterfaceOrientations

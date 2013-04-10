@@ -26,7 +26,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *navController;
 @property (strong, nonatomic) Uploader *uploader;// used to reference the uploader
-@property (strong, nonatomic) NSOperationQueue *uploadQueue;// the upload queue will be responsible for all upload operations and we will check the status of this to determine whether all build items have uploaded for a specific build or if any uploads are going on at the moment
+
 @property (nonatomic, assign) BOOL isReachable;// this will be toggled on and off based on the reachability
 
 @property (strong, nonatomic) NSMutableArray *uploadObjects;// this would be a holder for the media items that need to be uploaded to the server, i.e text, video, audio, images

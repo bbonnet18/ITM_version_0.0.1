@@ -43,8 +43,10 @@
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
-
-    self.uploadQueue = [[NSOperationQueue alloc] init];// set the background queue
+    if([[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeen"] == nil){
+        [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeen"];
+    }
+    
     
         // reachability blocks and initialization
     Reachability * reach = [Reachability reachabilityWithHostname:kITMServiceBaseURLString];
@@ -122,7 +124,6 @@
         self.isReachable = NO;
     }
 }
-
 
 
 - (void) startUploadProcessWithBuild: (Build*) newBuild withDistroEmails:(NSArray*) distroEmails{

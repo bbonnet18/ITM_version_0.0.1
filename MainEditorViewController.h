@@ -24,6 +24,7 @@
     NSString *_buildID;
     NSMutableArray * _previewImageArray;
     NSInteger _previewImageIndex;// used to hold the active item's index in the previewImageArray
+   
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;

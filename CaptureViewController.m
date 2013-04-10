@@ -472,13 +472,14 @@
         
         // create the path  and URL for the new thumbnail image, then write it to the home directory
         NSString *imageName = [NSString stringWithFormat:@"thumb_%@",[self.buildItemVals valueForKey:@"buildItemIDString"]];
-        NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.jpg",imageName]];
+        NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.png",imageName]];
         NSURL *url = [NSURL fileURLWithPath:path];
         [self.buildItemVals setValue:path forKey:@"thumbnailPath"];
         
         
-        UIImage * scaledImage = [img thumbnailImage:200 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
-        [UIImageJPEGRepresentation(scaledImage, 0.75f) writeToURL:url atomically:YES];
+        UIImage * scaledImage = [img thumbnailImage:250 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
+        [UIImagePNGRepresentation(scaledImage) writeToURL:url atomically:YES];
+        //[UIImageJPEGRepresentation(scaledImage, 0.75f) writeToURL:url atomically:YES];
         // show that image in the imageView
         [self performSelectorOnMainThread:@selector(showImageInThumb:) withObject:scaledImage waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(showPreviewBtn) withObject:nil waitUntilDone:NO];

@@ -262,6 +262,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="230453467"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<array key="IBUIGestureRecognizers" id="0"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -566,7 +567,7 @@
 				<array key="orderedObjects">
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<array key="object" id="0"/>
+						<reference key="object" ref="0"/>
 						<reference key="children" ref="1000"/>
 						<nil key="parent"/>
 					</object>
@@ -798,7 +799,7 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">3</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="269605516">
+							<object class="IBNSLayoutConstraint" id="1028965698">
 								<reference key="firstItem" ref="191373211"/>
 								<int key="firstAttribute">9</int>
 								<int key="relation">0</int>
@@ -903,7 +904,6 @@
 						<int key="objectID">54</int>
 						<reference key="object" ref="682074708"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="991212858"/>
 							<object class="IBNSLayoutConstraint" id="883794342">
 								<reference key="firstItem" ref="682074708"/>
 								<int key="firstAttribute">4</int>
@@ -1164,6 +1164,7 @@
 							<reference ref="692641675"/>
 							<reference ref="1026169799"/>
 							<reference ref="230453467"/>
+							<reference ref="991212858"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -1543,7 +1544,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1938</int>
-						<reference key="object" ref="269605516"/>
+						<reference key="object" ref="1028965698"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1617,7 +1618,7 @@
 					<reference ref="994750356"/>
 					<reference ref="556591520"/>
 					<reference ref="772946036"/>
-					<reference ref="269605516"/>
+					<reference ref="1028965698"/>
 					<reference ref="298673152"/>
 					<reference ref="383680584"/>
 					<reference ref="866477711"/>
@@ -1750,7 +1751,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2024</int>
+			<int key="maxID">2028</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
