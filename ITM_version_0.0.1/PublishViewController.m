@@ -13,6 +13,8 @@
 
 -(NSArray*) emailsToShare;// gets the email addresses that were entered and sends them with the publish message
 -(BOOL)isValidEmail:(NSString*) emailAdd;// validates whether a string is a valid email address
+-(void) handleTap:(UITapGestureRecognizer*)recognizer;
+
 @end
 
 @implementation PublishViewController
@@ -56,6 +58,19 @@
     self.cancelBtn = canelBtn;
     [self.view addSubview:self.cancelBtn];
     
+//    // check to see if the user has seen the message yet
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenPublish"] isEqualToString:@"YES"]){
+        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"publish" : @"publish-568";
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
+        img.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        tgr.delegate = self;
+        [img addGestureRecognizer:tgr];
+        self.infoImgView = img;
+        [self.infoImgView setAlpha:0.5f];
+        [self.view addSubview:img];
+    }
+
     //self.infoTxt.backgroundColor = [UIColor blueColor];
     // Do any additional setup after loading the view from its nib.
 }
@@ -69,6 +84,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void) handleTap:(UITapGestureRecognizer *)recognize{
+    [self.infoImgView removeFromSuperview];
+    self.infoImgView = nil;
+    [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenPublish"];
 }
 
 - (IBAction)publish:(id)sender{

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Build.h"
-
+#define ASSET_BY_SCREEN_HEIGHT(regular, longScreen) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? regular : longScreen)
 @protocol TitleInfoProtocol
 @required
 
@@ -18,7 +18,7 @@
 
 @end
 
-@interface TitleInfoViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate, UIAlertViewDelegate>{
+@interface TitleInfoViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate, UIAlertViewDelegate,UIGestureRecognizerDelegate>{
     UITextView* _activeView;
     BOOL _isNew;// used to tell whether the build is new or not
     NSString* _titleForBuild;
@@ -52,6 +52,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *doneBtn; // used when editing the description text
 @property (strong, nonatomic) IBOutlet UIButton *deleteBtn;// used to delete the item
 @property (nonatomic, assign) BOOL isNew;
+@property (strong, nonatomic) IBOutlet UIImageView *infoImgView;// used to show the overlay
 
 -(IBAction)cancelBuild:(id)sender;
 -(IBAction)continueToEdit:(id)sender;

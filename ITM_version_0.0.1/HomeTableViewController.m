@@ -13,7 +13,6 @@
 
 -(void) unlockBuild:(id)sender;// unlocks the build so it can be edited
 -(void) setStatusForItems:(Build*)b;// sets the status for each BuildItem to edit
--(void) deletHowTo:(id)sender;// simply deletes the howto button from the screen
 -(void) handleTap:(UITapGestureRecognizer*) recognize;// handles removing the info img
 @end
 
@@ -107,12 +106,15 @@
     // check to see if the user has seen the message yet
     if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenHome"] isEqualToString:@"YES"]){
 
-        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"homeScreen.png"]];
+        NSLog(@"height = %f",[[UIScreen mainScreen] bounds].size.height);
+        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"home" : @"home-568h";
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
         img.userInteractionEnabled = YES;
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         tgr.delegate = self;
         [img addGestureRecognizer:tgr];
         self.infoImgView = img;
+        [self.infoImgView setAlpha:0.5f];
         [self.tableView addSubview:img];
     }
     

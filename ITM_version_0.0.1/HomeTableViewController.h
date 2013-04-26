@@ -14,6 +14,8 @@
 #import "UIImage+Resize.h"
 #import "HomeTableCell.h"
 
+//#define ASSET_BY_SCREEN_HEIGHT(regular, longScreen) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? regular : longScreen)
+
 @protocol UploadControl
 @required
 

@@ -10,7 +10,7 @@
 #import "ImageEditorViewController.h"
 
 @interface MainEditorViewController ()
-
+-(void) handleTap:(UITapGestureRecognizer*)recognizer;
 
 -(BOOL) checkItemsHaveValues;// used to make sure all items have values
 @end
@@ -39,6 +39,19 @@
     
     [self setBuildItems];// set the items by getting the build and it's items
     self->_previewImageIndex = 0;
+    
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenEdit"] isEqualToString:@"YES"]){
+        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"main_edit" : @"main_edit-568";
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
+        img.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        tgr.delegate = self;
+        [img addGestureRecognizer:tgr];
+        self.infoImgView = img;
+        [self.infoImgView setAlpha:0.5f];
+        [self.view addSubview:img];
+    }
+
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -47,6 +60,12 @@
     [super didReceiveMemoryWarning];
     self->_previewImageIndex = 0;
     // Dispose of any resources that can be recreated.
+}
+
+-(void) handleTap:(UITapGestureRecognizer *)recognize{
+    [self.infoImgView removeFromSuperview];
+    self.infoImgView = nil;
+    [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenEdit"];
 }
 
 

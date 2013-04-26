@@ -13,6 +13,7 @@
 
 @interface TitleInfoViewController ()
 
+-(void) handleTap:(UITapGestureRecognizer*)recognizer;//
 @end
 
 
@@ -69,6 +70,20 @@
     
     [self.continueBtn setTitle:actionBtnTitle forState:UIControlStateNormal];
     
+    // check to see if the user has seen the message yet
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenTitle"] isEqualToString:@"YES"]){
+        
+        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"title" : @"title-568";
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
+        NSLog(@"img name: %f",img.bounds.size.height);
+        img.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        tgr.delegate = self;
+       [img addGestureRecognizer:tgr];
+        self.infoImgView = img;
+        [self.infoImgView setAlpha:0.5f];
+        [self.view addSubview:img];
+   }
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -105,6 +120,13 @@
     [self.view layoutSubviews];
 
 }
+
+-(void) handleTap:(UITapGestureRecognizer *)recognize{
+    [self.infoImgView removeFromSuperview];
+    self.infoImgView = nil;
+    [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenTitle"];
+}
+
 
 - (NSUInteger)supportedInterfaceOrientations
 {

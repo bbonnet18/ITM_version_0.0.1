@@ -43,10 +43,12 @@
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeen"] == nil){
-        [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeen"];
-    }
-    
+//    For Testing
+//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenHome"];
+//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenTitle"];
+//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenEdit"];
+//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenPublish"];
+//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenCapture"];
     
         // reachability blocks and initialization
     Reachability * reach = [Reachability reachabilityWithHostname:kITMServiceBaseURLString];

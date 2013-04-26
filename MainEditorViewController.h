@@ -15,9 +15,9 @@
 #import "ImageEditor.h"
 #import "CaptureViewController.h"
 #import "PublishViewController.h"
+#define ASSET_BY_SCREEN_HEIGHT(regular, longScreen) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? regular : longScreen)
 
-
-@interface MainEditorViewController : UIViewController <PreviewImageProtocol, UIScrollViewDelegate, ImageEditor, UIAlertViewDelegate,PublishProtocol>{
+@interface MainEditorViewController : UIViewController <PreviewImageProtocol, UIScrollViewDelegate, ImageEditor, UIAlertViewDelegate,PublishProtocol,UIGestureRecognizerDelegate>{
     
     NSManagedObjectContext *_context;
     NSMutableArray *_orderArray;
@@ -32,6 +32,7 @@
 @property (strong, nonatomic) NSManagedObjectContext* context;// reference to the moc
 @property (strong, nonatomic) NSMutableArray *orderArray;// array of build item ids (GUUID), used to populate everything
 @property (strong, nonatomic) NSMutableArray* previewImageArray;// holds all our PreviewImage objects
+@property (strong, nonatomic) IBOutlet UIImageView *infoImgView;// used to show the overlay
 - (void) setBuildItems;// sets all the items in the build so they can be manipulated 
 - (void) loadVisiblePages;// loads the pages into the scroll view
 - (void) setBuildID:(NSString*)buildID;// provided when the screen is initialized so we can get the build

@@ -21,6 +21,11 @@
 #import "Uploader.h"
 #import "ITMServiceClient.h"
 
+@interface Uploader ()
+
+- (UIImage*) rotateImage:(UIImage*)img;
+
+@end
 
 @implementation Uploader
 
@@ -234,7 +239,16 @@
     ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
     
     [lib assetForURL:[NSURL URLWithString:path] resultBlock:^(ALAsset *asset) {
-         UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:0.5 orientation:UIImageOrientationUp];
+         UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage] scale:1.0 orientation:UIImageOrientationUp];
+        CGFloat w = preview.size.width;
+        CGFloat h = preview.size.height;
+        if(w > 800 || h > 800){
+            w = w/2;// make it half sized
+            h = h/2;
+        }
+       
+        
+        //UIImage *scaledImg = [preview resizedImage:CGSizeMake(w, h) interpolationQuality:0];
         [self performSelectorOnMainThread:@selector(saveTempImage:) withObject:preview waitUntilDone:NO];
     } failureBlock:^(NSError *error) {
         NSLog(@"error: %@",[error localizedDescription]);
@@ -255,7 +269,8 @@
     if([[NSFileManager defaultManager] fileExistsAtPath:self.mediaPathString]){
         [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
     }
-    // used to set up presets if there are many to choose from
+
+    
     
     [UIImageJPEGRepresentation(tempImg, 0.75f) writeToURL:url   atomically:YES];
 
@@ -415,32 +430,7 @@
             [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
              
         }];
-    }
-    
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    
-//    NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];   //@"http://192.168.1.7/Revolt/upload_media.php";
-//    NSURL *url = [NSURL URLWithString:baseurl];
-//    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-//    if (!urlRequest) {
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//        
-//    }
-//    //-- probably need to change the content type and/or the encoding of the data, most likely the content type to reflect JSON string data
-//    [urlRequest setHTTPMethod: @"POST"];
-//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    
-//    [urlRequest setValue:[NSString stringWithFormat:@"%d",[buildData length]] forHTTPHeaderField:@"Content-Length"];
-//
-//    // set a post variable that uniquely indicates this object, may need to include that in the dictionary to begin with for each item uploaded and for the JSON upload
-//    
-//    [urlRequest setHTTPBody:buildData];
-//    // post the request to the server
-//
-//    [self postRequest:urlRequest];
-
-    
+    }    
 }
 
 - (void) createMediaRequestFromBuildItem{
@@ -498,88 +488,13 @@
         
         [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
     }];
-//	NSData *postData = [self generateFormDataFromPostDictionary:post_dict withType:[b valueForKey:@"type"]];
-//    
-//    
-//	NSString *baseurl =  [SERVER_Path stringByAppendingString:@"Revolt/upload_media.php"];//@"http://192.168.1.7/Revolt/upload_media.php";
-//    NSURL *url = [NSURL URLWithString:baseurl];
-//    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-//    if (!urlRequest) {
-//        [self.delegate uploadDidFailWithReason:@"Could not create the request" andID:self.buildID];
-//        
-//    }
-//    [urlRequest setHTTPMethod: @"POST"];
-//	[urlRequest setValue:MULTIPART forHTTPHeaderField: @"Content-Type"];
-//    [urlRequest setHTTPBody:postData];
-//    
-//    [self postRequest:urlRequest];
+
     
 }
 
 
 
-/*
- 
- */
 
-
-
-
-
-
-// generatePostData
-
-//- (NSData*)generateFormDataFromPostDictionary:(NSDictionary*)dict withType:(NSString*) type
-//{
-//    id boundary = @"------------0x0x0x0x0x0x0x0x";// set the boundry
-//    NSArray* keys = [dict allKeys];// get the keys
-//    NSMutableData* result = [NSMutableData data];// initialize the data object
-//    NSObject *b = [self.mediaItems objectAtIndex:self->currentItemUploadIndex];
-//    NSString *mediaType =  [b valueForKey:@"type"];// get the media type
-//    
-//    
-//    for (int i = 0; i < [keys count]; i++)
-//    {
-//        id value = [dict valueForKey: [keys objectAtIndex:i]];
-//        [result appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//		
-//		if ([value isKindOfClass:[NSData class]])
-//		{
-//
-//			// handle video data
-//            NSString* formstring = nil;
-//            if([mediaType isEqualToString:@"video"]){
-//                formstring = [NSString stringWithFormat:VIDEO_CONTENT, [keys objectAtIndex:i]];
-//                NSLog(@"formstring-video: %@",formstring);
-//            }else{
-//                formstring = [NSString stringWithFormat:IMAGE_CONTENT, [keys objectAtIndex:i]];
-//                NSLog(@"formstring-image: %@",formstring);
-//            }
-//			
-//			[result appendData: DATA(formstring)];
-//			[result appendData:value];// appends the data itself
-//		}
-//		else
-//		{
-//			// all non-image fields assumed to be strings
-//			NSString *formstring = [NSString stringWithFormat:STRING_CONTENT, [keys objectAtIndex:i]];
-//			[result appendData: DATA(formstring)];
-//			[result appendData:DATA(value)];
-//            
-//            NSLog(@"formstring non-image: %@",formstring);
-//            
-//		}
-//		
-//		NSString *formstring = @"\r\n";
-//        [result appendData:DATA(formstring)];
-//    }
-//	
-//	NSString *formstring =[NSString stringWithFormat:@"--%@--\r\n", boundary];
-//    [result appendData:DATA(formstring)];
-//    
-//    
-//    return result;
-//}
 
 
 // end private methods

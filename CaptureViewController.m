@@ -11,9 +11,9 @@
 
 
 @interface CaptureViewController ()
--(NSString*) getOrientation:(UIImage*)img;// helper to check the orientation to determine if it's not up
--(UIImage*) rotateThumbnail;// gets the thumbnail image and rotates it
-
+//-(NSString*) getOrientation:(UIImage*)img;// helper to check the orientation to determine if it's not up
+//-(UIImage*) rotateThumbnail;// gets the thumbnail image and rotates it
+-(void)handleTap:(UITapGestureRecognizer*)recognizer;
 @end
 
 @implementation CaptureViewController
@@ -32,19 +32,19 @@
 {
     [super viewDidLoad];
     // this notification is from the video save process
-    UIImage* rotateImg = [UIImage imageNamed:@"rotate-right.png"];
+   //UIImage* rotateImg = [UIImage imageNamed:@"rotate-right.png"];
     
 
-    CGRect btnRect = self.rotateBtn.frame;
-    [self.rotateBtn removeFromSuperview];
-    self.rotateBtn = [UIButton createButtonWithImage:rotateImg color:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0] title:@"rotate"];
-    self.rotateBtn.frame = CGRectMake(btnRect.origin.x+10.0, btnRect.origin.y+10.0, self.rotateBtn.frame.size.width, self.rotateBtn.frame.size.height);
-    [self.rotateBtn addTarget:self action:@selector(rotate:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.rotateBtn];
-    // if it's a new one, set the rotate btn to hidden
-    if(![[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]]){
-        [self.rotateBtn setHidden:YES];
-    }
+//    CGRect btnRect = self.rotateBtn.frame;
+//    [self.rotateBtn removeFromSuperview];
+//    self.rotateBtn = [UIButton createButtonWithImage:rotateImg color:[UIColor colorWithRed:0.09 green:0.49 blue:0.56 alpha:1.0] title:@"rotate"];
+//    self.rotateBtn.frame = CGRectMake(btnRect.origin.x+10.0, btnRect.origin.y+10.0, self.rotateBtn.frame.size.width, self.rotateBtn.frame.size.height);
+//    [self.rotateBtn addTarget:self action:@selector(rotate:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.rotateBtn];
+//    // if it's a new one, set the rotate btn to hidden
+//    if(![[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]]){
+//        [self.rotateBtn setHidden:YES];
+//    }
     
     if([self.buildItemVals valueForKey:@"thumbnailPath"])
     
@@ -55,6 +55,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     // Do any additional setup after loading the view from its nib.
     [self populate];
+    
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenCapture"] isEqualToString:@"YES"]){
+        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"capture" : @"capture-568";
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
+        img.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        tgr.delegate = self;
+        [img addGestureRecognizer:tgr];
+        self.infoImgView = img;
+        [self.infoImgView setAlpha:0.5f];
+        [self.view addSubview:img];
+    }
 }
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -93,6 +105,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) handleTap:(UITapGestureRecognizer *)recognize{
+    [self.infoImgView removeFromSuperview];
+    self.infoImgView = nil;
+    [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenCapture"];
+}
+
 -(IBAction)imageCapture:(id)sender{
     // create the UIImagePickerController and set this ViewController as it's delegate, then declare the source types, media types and editing preferences
     
@@ -125,7 +143,7 @@
         imagePicker.videoMaximumDuration = 60.0;
         imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *) kUTTypeMovie, nil];// including <MobileCoreServices/MobileCoreServices.h> with the header file is what allows us to use kUTTypeImage
-        imagePicker.allowsEditing = YES;
+        //imagePicker.allowsEditing = YES;
         [self presentViewController:imagePicker animated:YES completion:^{
             
         }];
@@ -198,22 +216,35 @@
     }
     // if it's an image, save the image
     else if([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
-        // from the camera
-        if(picker.sourceType != UIImagePickerControllerSourceTypePhotoLibrary){
-            
-            UIImage *imgToUse = [info objectForKey:UIImagePickerControllerEditedImage];
-            if(imgToUse == NULL){
-                imgToUse = [info objectForKey:UIImagePickerControllerOriginalImage];
-            }
-            [self saveImageToLibrary:imgToUse];
+        // from the camera, then save it to the library
+        
+        UIImage *editedImg = [info objectForKey:UIImagePickerControllerEditedImage];
+        UIImage *originalImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+
+       if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+          
+            //UIImage *imgToUse = nil;
+            //if([UIImagePNGRepresentation(editedImg) isEqualToData:UIImagePNGRepresentation(originalImg)]){
+            //  //  imgToUse = originalImg;
+            //}else{
+              //  imgToUse = editedImg;
+            //}
+            [self saveImageToLibrary:editedImg];
+                
+           
         }else{
-            NSURL *assetURL = [info valueForKey:UIImagePickerControllerReferenceURL];
-            [self.buildItemVals setValue:[assetURL absoluteString] forKey:@"mediaPath"];
-            [self.buildItemVals setValue:@"image" forKey:@"type"];
-            [self performSelectorOnMainThread:@selector(saveThumb:) withObject:assetURL waitUntilDone:NO];
+           // if([UIImagePNGRepresentation(editedImg) isEqualToData:UIImagePNGRepresentation(originalImg)]){
+                //NSURL *assetURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+                //[self.buildItemVals setValue:[assetURL absoluteString] forKey:@"mediaPath"];
+                //[self.buildItemVals setValue:@"image" forKey:@"type"];
+                //[self performSelectorOnMainThread:@selector(saveThumb:) withObject:assetURL waitUntilDone:NO];
+            //}else{
+               [self saveImageToLibrary:editedImg];
+            //}
+            
         }
     }
-    [self.rotateBtn setHidden:NO];// unhide the button if it's hidden
+    //[self.rotateBtn setHidden:NO];// unhide the button if it's hidden
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -387,7 +418,7 @@
                 UIImage* imageToUse = [UIImage imageWithCGImage:halfWayImage];
                 
                 if(UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation])){// done to correct video taken with the image orientation set to portrait, this will automatically assign a rotated orientation 
-                    imageToUse = [UIImage imageWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationRight];
+                    imageToUse = [UIImage imageWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationUp];
                 }
                 
                 [self removeOldThumbAndWriteNew:imageToUse];
@@ -428,7 +459,7 @@
         NSString *creationDateString = [[Utilities sharedInstance] getTimeStamp:createDate];//[self getTimeStamp:createDate];
         self.timeStampTxt.text = creationDateString;
         [self.buildItemVals setValue:creationDateString forKey:@"timeStamp"];
-        UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1.0 orientation:UIImageOrientationUp];
+        UIImage *preview = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage] scale:1.0 orientation:UIImageOrientationUp];
         
         
         //[self performSelectorOnMainThread:@selector(saveNewImage:) withObject:preview waitUntilDone:NO];
@@ -468,7 +499,7 @@
 
         }
        
-        NSLog(@"--- IMG ORIENTATION %@",[self getOrientation:img]);
+        //NSLog(@"--- IMG ORIENTATION %@",[self getOrientation:img]);
         
         // create the path  and URL for the new thumbnail image, then write it to the home directory
         NSString *imageName = [NSString stringWithFormat:@"thumb_%@",[self.buildItemVals valueForKey:@"buildItemIDString"]];
@@ -509,6 +540,7 @@
             }
         }
     }else{
+        [self.previewBtn removeFromSuperview];
         self.previewBtn = nil;
     }
     
@@ -646,87 +678,87 @@
 }
 
 // helper to determine orientation
--(NSString*)getOrientation:(UIImage *)img
-{
-switch (img.imageOrientation) {
-    case UIImageOrientationDown:           // EXIF = 3
-    case UIImageOrientationDownMirrored:   // EXIF = 4
-        return [NSString stringWithFormat:@"DOWN %f x %f",img.size.width,img.size.height];
-        break;
-        
-    case UIImageOrientationLeft:           // EXIF = 6
-    case UIImageOrientationLeftMirrored:   // EXIF = 5
-        return [NSString stringWithFormat:@"LEFT %f x %f",img.size.width,img.size.height];
-        break;
-        
-    case UIImageOrientationRight:          // EXIF = 8
-    case UIImageOrientationRightMirrored:  // EXIF = 7
-        return [NSString stringWithFormat:@"RIGHT %f x %f",img.size.width,img.size.height];
-        break;
-}
+//-(NSString*)getOrientation:(UIImage *)img
+//{
+//switch (img.imageOrientation) {
+//    case UIImageOrientationDown:           // EXIF = 3
+//    case UIImageOrientationDownMirrored:   // EXIF = 4
+//        return [NSString stringWithFormat:@"DOWN %f x %f",img.size.width,img.size.height];
+//        break;
+//        
+//    case UIImageOrientationLeft:           // EXIF = 6
+//    case UIImageOrientationLeftMirrored:   // EXIF = 5
+//        return [NSString stringWithFormat:@"LEFT %f x %f",img.size.width,img.size.height];
+//        break;
+//        
+//    case UIImageOrientationRight:          // EXIF = 8
+//    case UIImageOrientationRightMirrored:  // EXIF = 7
+//        return [NSString stringWithFormat:@"RIGHT %f x %f",img.size.width,img.size.height];
+//        break;
+//}
+//
+//switch (img.imageOrientation) {
+//    case UIImageOrientationUpMirrored:     // EXIF = 2
+//    case UIImageOrientationDownMirrored:   // EXIF = 4
+//        return [NSString stringWithFormat:@"UP/DOWN MIRRORED %f x %f",img.size.width,img.size.height];
+//        break;
+//        
+//    case UIImageOrientationLeftMirrored:   // EXIF = 5
+//    case UIImageOrientationRightMirrored:  // EXIF = 7
+//        return [NSString stringWithFormat:@"LEFT/RIGHT MIRRORED %f x %f",img.size.width,img.size.height];
+//        break;
+//    case UIImageOrientationUp: // EXIF = 1
+//        return [NSString stringWithFormat:@"UP %f x %f",img.size.width,img.size.height];
+//}
+//    return @"UP or UNKNOWN";
+//}
 
-switch (img.imageOrientation) {
-    case UIImageOrientationUpMirrored:     // EXIF = 2
-    case UIImageOrientationDownMirrored:   // EXIF = 4
-        return [NSString stringWithFormat:@"UP/DOWN MIRRORED %f x %f",img.size.width,img.size.height];
-        break;
-        
-    case UIImageOrientationLeftMirrored:   // EXIF = 5
-    case UIImageOrientationRightMirrored:  // EXIF = 7
-        return [NSString stringWithFormat:@"LEFT/RIGHT MIRRORED %f x %f",img.size.width,img.size.height];
-        break;
-    case UIImageOrientationUp: // EXIF = 1
-        return [NSString stringWithFormat:@"UP %f x %f",img.size.width,img.size.height];
-}
-    return @"UP or UNKNOWN";
-}
+//-(IBAction)rotate:(id)sender{
+//    UIImage* img = [self rotateThumbnail];
+//    [self removeOldThumbAndWriteNew:img]; 
+//}
 
--(IBAction)rotate:(id)sender{
-    UIImage* img = [self rotateThumbnail];
-    [self removeOldThumbAndWriteNew:img]; 
-}
-
--(UIImage*) rotateThumbnail{
-    
-    UIImage *thumb = self.previewImageView.image;
-    CGImageRef imgRef = thumb.CGImage;
-    
-    CGFloat width = CGImageGetWidth(imgRef);// get the width to use for all
-    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width,width, CGImageGetBitsPerComponent(imgRef), 0, CGImageGetColorSpace(imgRef), CGImageGetBitmapInfo(imgRef));
-    // get the current transform
-    CGAffineTransform transform = CGAffineTransformIdentity;
-    transform = CGAffineTransformTranslate(transform, 0, width);// translate the origin
-    
-    transform = CGAffineTransformRotate(transform, DegreesToRadians(-90.0));// rotates the context
-    
-    CGContextConcatCTM(bitmapContext, transform);// concatinate the transforms so they take place
-    CGContextSetInterpolationQuality(bitmapContext, kCGInterpolationDefault);
-    CGContextDrawImage(bitmapContext, CGRectMake(0, 0, width, width), imgRef);// draw the image in the rotated context
-    CGImageRef newImg = CGBitmapContextCreateImage(bitmapContext);// create the new version
-    UIImage* newRotated = [UIImage imageWithCGImage:newImg];// get a UIImage to put in the previewImageView;
-    
-    // update the buildItemVals' imageRotation value to reflect the change
-    NSNumber * rotation = [self.buildItemVals valueForKey:@"imageRotation"];
-    NSInteger rotationValue = [rotation integerValue];
-    rotationValue -= 90;
-    rotationValue = (rotationValue > -360) ? rotationValue : 0;
-    [self.buildItemVals setValue:[NSNumber numberWithInteger:rotationValue] forKey:@"imageRotation"];// set the buildItemVals value to the new imageRotation
-    CGContextRelease(bitmapContext);
-    CGImageRelease(newImg);
-    
-    return newRotated;
-
-}
-
-CGFloat DegreesToRadians(CGFloat degrees)
-{
-    return degrees * M_PI / 180;
-};
-
-CGFloat RadiansToDegrees(CGFloat radians)
-{
-    return radians * 180 / M_PI;
-};
+//-(UIImage*) rotateThumbnail{
+//    
+//    UIImage *thumb = self.previewImageView.image;
+//    CGImageRef imgRef = thumb.CGImage;
+//    
+//    CGFloat width = CGImageGetWidth(imgRef);// get the width to use for all
+//    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width,width, CGImageGetBitsPerComponent(imgRef), 0, CGImageGetColorSpace(imgRef), CGImageGetBitmapInfo(imgRef));
+//    // get the current transform
+//    CGAffineTransform transform = CGAffineTransformIdentity;
+//    transform = CGAffineTransformTranslate(transform, 0, width);// translate the origin
+//    
+//    transform = CGAffineTransformRotate(transform, DegreesToRadians(-90.0));// rotates the context
+//    
+//    CGContextConcatCTM(bitmapContext, transform);// concatinate the transforms so they take place
+//    CGContextSetInterpolationQuality(bitmapContext, kCGInterpolationDefault);
+//    CGContextDrawImage(bitmapContext, CGRectMake(0, 0, width, width), imgRef);// draw the image in the rotated context
+//    CGImageRef newImg = CGBitmapContextCreateImage(bitmapContext);// create the new version
+//    UIImage* newRotated = [UIImage imageWithCGImage:newImg];// get a UIImage to put in the previewImageView;
+//    
+//    // update the buildItemVals' imageRotation value to reflect the change
+//    NSNumber * rotation = [self.buildItemVals valueForKey:@"imageRotation"];
+//    NSInteger rotationValue = [rotation integerValue];
+//    rotationValue -= 90;
+//    rotationValue = (rotationValue > -360) ? rotationValue : 0;
+//    [self.buildItemVals setValue:[NSNumber numberWithInteger:rotationValue] forKey:@"imageRotation"];// set the buildItemVals value to the new imageRotation
+//    CGContextRelease(bitmapContext);
+//    CGImageRelease(newImg);
+//    
+//    return newRotated;
+//
+//}
+//
+//CGFloat DegreesToRadians(CGFloat degrees)
+//{
+//    return degrees * M_PI / 180;
+//};
+//
+//CGFloat RadiansToDegrees(CGFloat radians)
+//{
+//    return radians * 180 / M_PI;
+//};
 
 - (IBAction)editCaption:(id)sender{
     TextEntryViewController *tv = [[TextEntryViewController alloc] initWithNibName:@"TextEntryViewController" bundle:[NSBundle mainBundle]];

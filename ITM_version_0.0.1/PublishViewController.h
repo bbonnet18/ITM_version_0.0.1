@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define ASSET_BY_SCREEN_HEIGHT(regular, longScreen) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? regular : longScreen)
 @protocol  PublishProtocol
 @required
 -(void) userDidPublishWithEmails:(NSArray*) emails;// simply verifies to the delegate that the user wants to publish
@@ -15,7 +15,7 @@
 
 @end
 
-@interface PublishViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate>
+@interface PublishViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) id <PublishProtocol> delegate;// so the delegate can be set to enforce these methods
 @property (nonatomic, strong) IBOutlet UIButton * publishBtn;
@@ -28,7 +28,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;// used to show whether this is a publish or a republish
 @property (nonatomic, strong) NSString *publishDateStr;// actual publish date string
 @property (nonatomic, strong) IBOutlet UILabel *publishDateLabel;// used to show the last published date if there is one
-
+@property (strong, nonatomic) IBOutlet UIImageView *infoImgView;// used to show the overlay
 - (IBAction)cancel:(id)sender;
 - (IBAction)publish:(id)sender;
 @end
