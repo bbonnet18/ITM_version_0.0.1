@@ -14,6 +14,7 @@
 //-(NSString*) getOrientation:(UIImage*)img;// helper to check the orientation to determine if it's not up
 //-(UIImage*) rotateThumbnail;// gets the thumbnail image and rotates it
 -(void)handleTap:(UITapGestureRecognizer*)recognizer;
+-(void)checkMediaExists;//checks to see if the media exists and if not, alerts the user
 @end
 
 @implementation CaptureViewController
@@ -122,7 +123,7 @@
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *) kUTTypeImage, nil];// including <MobileCoreServices/MobileCoreServices.h> with the header file is what allows us to use kUTTypeImage
-        imagePicker.allowsEditing = YES;
+        //imagePicker.allowsEditing = YES;
         [self presentViewController:imagePicker animated:YES completion:^{
             
         }];
@@ -169,7 +170,7 @@
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeMovie,kUTTypeImage, nil];
         imagePicker.videoMaximumDuration = 60.0;// set max duration to prevent videos that are too long
-        imagePicker.allowsEditing = YES;
+        //imagePicker.allowsEditing = YES;
         [self presentViewController:imagePicker animated:YES completion:^{
             
         }];
@@ -218,7 +219,7 @@
     else if([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
         // from the camera, then save it to the library
         
-        UIImage *editedImg = [info objectForKey:UIImagePickerControllerEditedImage];
+        //UIImage *editedImg = [info objectForKey:UIImagePickerControllerEditedImage];
         UIImage *originalImg = [info objectForKey:UIImagePickerControllerOriginalImage];
 
        if(picker.sourceType == UIImagePickerControllerSourceTypeCamera){
@@ -229,17 +230,17 @@
             //}else{
               //  imgToUse = editedImg;
             //}
-            [self saveImageToLibrary:editedImg];
+            [self saveImageToLibrary:originalImg];
                 
            
         }else{
            // if([UIImagePNGRepresentation(editedImg) isEqualToData:UIImagePNGRepresentation(originalImg)]){
-                //NSURL *assetURL = [info valueForKey:UIImagePickerControllerReferenceURL];
-                //[self.buildItemVals setValue:[assetURL absoluteString] forKey:@"mediaPath"];
-                //[self.buildItemVals setValue:@"image" forKey:@"type"];
-                //[self performSelectorOnMainThread:@selector(saveThumb:) withObject:assetURL waitUntilDone:NO];
+                NSURL *assetURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+                [self.buildItemVals setValue:[assetURL absoluteString] forKey:@"mediaPath"];
+                [self.buildItemVals setValue:@"image" forKey:@"type"];
+                [self performSelectorOnMainThread:@selector(saveThumb:) withObject:assetURL waitUntilDone:NO];
             //}else{
-               [self saveImageToLibrary:editedImg];
+               //[self saveImageToLibrary:originalImg];
             //}
             
         }
@@ -599,7 +600,43 @@
     }
 }
 
+-(IBAction)checkAndSave:(id)sender{
+    [self.buildItemVals setValue:self.titleTxt.text forKey:@"title"];
+    [self.buildItemVals setValue:self.captionTxt.text forKey:@"caption"];
+    [self.buildItemVals setValue:self.timeStampTxt.text forKey:@"timeStamp"];
+    
+    // NEED to set the values in the buildItemVals dictionary to the values on the screen and in the values
+    
+    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"title"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"caption"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"timeStamp"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"mediaPath"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"type"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]] ){
+        
+        [self checkMediaExists];
+        
+    }else{
+        UIAlertView *errorSaving = [[UIAlertView alloc] initWithTitle:@"Save Error" message:@"Make sure to enter all information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [errorSaving show];
+    }
+}
 
+// this will be run when the screen is loaded
+-(void) checkMediaExists{
+    // if it's an image, attempt to load the image
+    NSString *path = [self.buildItemVals valueForKey:@"mediaPath"];
+    NSURL *assetURL = [NSURL URLWithString:path];
+    
+    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+    [lib assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+        if(asset != nil){
+            [self save];
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Missing Media" message:@"The media you selected is no longer available, please select new media." delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
+            [alert show];
+
+        }
+    } failureBlock:^(NSError *error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Access Denied" message:@"ITM cannot access your media. Please allow access to the media  library and try again." delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }];
+}
 
 
 
@@ -622,23 +659,10 @@
 
 #pragma mark - save and cancel methods
 
-- (IBAction)save:(id)sender{
-    [self.buildItemVals setValue:self.titleTxt.text forKey:@"title"];
-     [self.buildItemVals setValue:self.captionTxt.text forKey:@"caption"];
-     [self.buildItemVals setValue:self.timeStampTxt.text forKey:@"timeStamp"];
-    
-    // NEED to set the values in the buildItemVals dictionary to the values on the screen and in the values
-    
-    if([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"title"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"caption"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"timeStamp"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"mediaPath"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"type"]] && [[Utilities sharedInstance]  checkValidString:[self.buildItemVals valueForKey:@"thumbnailPath"]] ){
-        [self.delegate didEditItemWithDictionary:self.buildItemVals];
-        
-    }else{
-        UIAlertView *errorSaving = [[UIAlertView alloc] initWithTitle:@"Save Error" message:@"Make sure to enter all information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [errorSaving show];
-    }
+- (void)save{
+     [self.delegate didEditItemWithDictionary:self.buildItemVals];
+
 }
-
-
 
 
 - (IBAction)cancel:(id)sender{
@@ -767,6 +791,34 @@
     NSString *txt = ([[Utilities sharedInstance] checkValidString:[self.buildItemVals valueForKey:@"caption"]]) ? [self.buildItemVals valueForKey:@"caption"] : @"";
     tv.textToEdit = txt;
     [self presentViewController:tv animated:YES completion:^{
+        
+    }];
+}
+
+- (void) linkToImag:(id)sender{
+    WebImageViewController *wi = [[WebImageViewController alloc] initWithNibName:@"WebImageViewController" bundle:[NSBundle mainBundle]];
+    wi.delegate = self;
+    [self presentViewController:wi animated:YES completion:^{
+        
+    }];
+    
+}
+
+#pragma WebImageViewControllerDelegate methods
+
+-(void) userDidCancel{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+-(void) userDidSelectImage:(UIImage *)img{
+    
+    if(img != nil){
+        [self saveImageToLibrary:img];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:^{
         
     }];
 }

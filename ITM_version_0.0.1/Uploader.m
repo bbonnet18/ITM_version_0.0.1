@@ -184,7 +184,7 @@
     
     
     NSString *movName = @"tempUploadMov";
-    NSString *movPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.mov",movName]];
+    NSString *movPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.mp4",movName]];
     //NSURL *url = [NSURL fileURLWithPath:path];
     
     
@@ -213,7 +213,8 @@
     //    }
     //
     // export the movie as a quicktime video
-    self.export.outputFileType = AVFileTypeQuickTimeMovie;//@"com.apple.quicktime-movie"; also works
+    self.export.outputFileType = AVFileTypeMPEG4;
+    //self.export.outputFileType = AVFileTypeQuickTimeMovie;//@"com.apple.quicktime-movie"; also works
     // start the export and respond when the export completes, regardless of the completion type (i.e. completed, failure, etc.)
     [self.export exportAsynchronouslyWithCompletionHandler:^{
         // check the status report problems or start a media request with the newly exported movie
@@ -445,6 +446,36 @@
     if(err != nil){
         NSLog(@"reason: %@ other: %@ suggestions: %@",[err localizedFailureReason], [err localizedDescription], [err localizedRecoverySuggestion]);
         [self.delegate uploadDidFailWithReason:[err localizedDescription] andID:self.buildID];
+        
+    }else{
+        
+        [b enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            NSLog(@"%@ - %@",key,obj);
+        }];
+        
+        /*
+         perform conversions on the BuildItem's properties
+         */
+        
+        NSMutableDictionary* post_dict = [[NSMutableDictionary alloc] init];
+        [post_dict setObject:[b valueForKey:@"type"] forKey:@"type"];// set the type
+        [post_dict setObject:[[b valueForKey:@"orderNumber"] stringValue] forKey:@"orderNumber"];// order number
+        [post_dict setObject:[b valueForKey:@"title"] forKey:@"title"];
+        [post_dict setObject:[b valueForKey:@"caption"] forKey:@"caption"];
+        [post_dict setObject:[b valueForKey:@"buildItemIDString"] forKey:@"buildItemIDString"];
+        [post_dict setObject:self.mediaData forKey:@"file"];
+        [post_dict setObject:[b valueForKey:@"timeStamp"] forKey:@"timeStamp"];
+        [post_dict setObject:[b valueForKey:@"status"] forKey:@"status"];
+        [post_dict setObject:self.buildID forKey:@"buildID"];
+        [post_dict setObject:[NSString stringWithFormat:@"%i",self.application_id] forKey:@"application_id"];
+        // need to set this so it appears as the file and not underneath the media key when showing up on the server
+        NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
+        //[[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
+        [[ITMServiceClient sharedInstance] commandWithParameters:post_dict onCompletion:^(NSDictionary *json) {
+            
+            [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
+        }];
+
     }
     // removing all the credential stuff for demo
     // create the dictionary
@@ -462,33 +493,7 @@
     //		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //    }
     
-    [b enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"%@ - %@",key,obj);
-    }];
     
-    /*
-     perform conversions on the BuildItem's properties
-     */
-    
-	NSMutableDictionary* post_dict = [[NSMutableDictionary alloc] init];
-    [post_dict setObject:[b valueForKey:@"type"] forKey:@"type"];// set the type
-    [post_dict setObject:[[b valueForKey:@"orderNumber"] stringValue] forKey:@"orderNumber"];// order number
-    [post_dict setObject:[b valueForKey:@"title"] forKey:@"title"];
-    [post_dict setObject:[b valueForKey:@"caption"] forKey:@"caption"];
-    [post_dict setObject:[b valueForKey:@"buildItemIDString"] forKey:@"buildItemIDString"];
-	[post_dict setObject:self.mediaData forKey:@"file"];
-    [post_dict setObject:[b valueForKey:@"timeStamp"] forKey:@"timeStamp"];
-    [post_dict setObject:[b valueForKey:@"status"] forKey:@"status"];
-    [post_dict setObject:self.buildID forKey:@"buildID"];
-    [post_dict setObject:[NSString stringWithFormat:@"%i",self.application_id] forKey:@"application_id"];
-    // need to set this so it appears as the file and not underneath the media key when showing up on the server
-    NSLog(@"parameterEncoding: %d",[[ITMServiceClient sharedInstance] parameterEncoding]);
-    //[[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
-    [[ITMServiceClient sharedInstance] commandWithParameters:post_dict onCompletion:^(NSDictionary *json) {
-        
-        [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
-    }];
-
     
 }
 

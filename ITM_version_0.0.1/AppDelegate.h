@@ -17,9 +17,9 @@
 #import "ITMServiceClient.h"
 #import "LoginViewController.h"
 #import "TestFlight.h"
+#import "UserViewController.h"
 
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate,UploadControl>{
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate,UploadControl,StartScreenProtocol>{
     BOOL _isReachable;
 }
 

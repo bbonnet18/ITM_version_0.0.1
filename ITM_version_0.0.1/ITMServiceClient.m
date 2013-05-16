@@ -76,7 +76,7 @@
         fileName = [NSString stringWithFormat:@"%@_%@.jpg",[params objectForKey:@"application_id"],[params objectForKey:@"orderNumber"]];
         mimeType = @"image/jpg";
     }else{
-        fileName = [NSString stringWithFormat:@"%@_%@.mov",[params objectForKey:@"application_id"],[params objectForKey:@"orderNumber"]];
+        fileName = [NSString stringWithFormat:@"%@_%@.mp4",[params objectForKey:@"application_id"],[params objectForKey:@"orderNumber"]];
         mimeType = @"video/quicktime";
     }
     

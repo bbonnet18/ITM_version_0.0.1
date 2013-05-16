@@ -39,6 +39,11 @@
     if(!self.isNew){
         
         [self.deleteBtn setHidden:NO];
+        if(self->_applicationID !=nil){
+            [self.viewButton setHidden:NO];
+        }else{
+            [self.viewButton setHidden:YES];
+        }
         
                        // NSLog(@"%f height %f %f",deleteBtn.frame.size.height,self.view.frame.size.height,self.cancelBtn.frame.origin.y );
 //        CGRect deleteBtnFrame = CGRectMake(self.view.frame.size.width/2 - deleteBtn.frame.size.width/2, self.view.frame.origin.y, deleteBtn.frame.size.width+20, self.cancelBtn.frame.size.height);
@@ -61,6 +66,7 @@
         [self.statusLabel setHidden:YES]; 
         [self.previewImg setHidden:YES];
         [self.previewLabel setHidden:YES];
+        [self.viewButton setHidden:YES];
         
     }
     
@@ -232,6 +238,19 @@
 - (IBAction)deleteBuild:(id)sender{
     UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete Item?" message:@"This will delete the item from your device, but it will remain on the server" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"delete", nil];
     [deleteAlert show];
+}
+
+- (IBAction)viewBuild:(id)sender{
+    
+    if(self->_applicationID != nil ){
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itmmobile.net/ItemViewer.html?id=%@",self->_applicationID]];
+        
+        [[UIApplication sharedApplication] openURL:url];
+    }
+}
+
+- (void) setAppID:(NSNumber*)num{
+    self->_applicationID = num;
 }
 
 // handles the delete response if the user chooses to delete the item

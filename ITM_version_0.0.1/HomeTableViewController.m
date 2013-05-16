@@ -14,6 +14,8 @@
 -(void) unlockBuild:(id)sender;// unlocks the build so it can be edited
 -(void) setStatusForItems:(Build*)b;// sets the status for each BuildItem to edit
 -(void) handleTap:(UITapGestureRecognizer*) recognize;// handles removing the info img
+-(void) viewBuild:(id)sender;
+
 @end
 
 
@@ -33,7 +35,7 @@
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        self.title = @"Captures";
+        self.title = @"ITM Beta";
     }
     return self;
 }
@@ -140,6 +142,25 @@
     [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenHome"];
 }
 
+-(void) viewBuild:(id)sender{
+    UIButton *thisBtn = (UIButton*)sender;//reference to the button
+    NSIndexPath *indexPath = nil;// instantiate the indexPath
+    UIView *parent = [thisBtn superview]; // get the parent
+    if([parent isKindOfClass:[UITableViewCell class]]){// check to see if the parent is a UITableViewCell
+        UITableViewCell *cell = (UITableViewCell*)parent;// if so, get the cell
+        indexPath = [self.tableView indexPathForCell:cell];// get the index path
+    }
+    if(indexPath != nil){
+        Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
+        NSInteger appID = [b.applicationID intValue];
+        
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itmmobile.net/ItemViewer.html?id=%i",appID]];
+        
+        [[UIApplication sharedApplication] openURL:url];
+    }
+
+}
+
 - (void) uploadComplete:(NSNotification*) note{
     
     NSDictionary * d = note.userInfo;// get the userInfoDictionary
@@ -157,7 +178,6 @@
 
         }
     }
-
     
     [self.tableView reloadData];
 }
@@ -259,6 +279,8 @@
         ti.datePublished = (b.publishDate != nil) ? [[Utilities sharedInstance] getTimeStamp:b.publishDate] : @"Not yet published";
         NSLog(@"datePublished :%@",ti.datePublished);
         
+        NSLog(@"appID: %@",b.applicationID);
+        [ti setAppID:b.applicationID];
         
         [self presentViewController:ti animated:YES completion:^{
             
@@ -480,6 +502,7 @@
     }
 }
 
+
                                 
 #pragma mark - Table view data source
 
@@ -538,6 +561,8 @@
         btnImg = [UIImage imageNamed:@"pencil.png"];
         [actionBtn addTarget:self action:@selector(showBuild:event:) forControlEvents:UIControlEventTouchUpInside];
         [actionBtn setTitle:b.status forState:UIControlStateNormal];
+        [cell.pubDateLabel setHidden:NO];
+        [cell.uploadingProgress setHidden:YES]; // shouldn't be shown while editing
     }
 //    else if([b.status isEqualToString:@"view"]){
 //        btnImg = [UIImage imageNamed:@"eye-open.png"];
@@ -546,6 +571,8 @@
         btnImg = [UIImage imageNamed:@"eye-close.png"];
         [actionBtn addTarget:self action:@selector(unlockBuild:) forControlEvents:UIControlEventTouchUpInside];
         [actionBtn setTitle:@"" forState:UIControlStateNormal];
+        [cell.pubDateLabel setHidden:YES];
+        [cell.uploadingProgress setHidden:NO];// unhide this so it seen when we are uploading
     }
     [actionBtn setImage:btnImg forState:UIControlStateNormal];
     //[actionBtn setTitle:b.status forState:UIControlStateNormal];
@@ -574,6 +601,35 @@
     cell.infoBtn = infoBtn;
     
     [cell addSubview:infoBtn];
+    
+    UIButton *showBuildBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //[infoBtn setBackgroundImage:stretchedBtnImg forState:UIControlStateNormal];
+    showBuildBtn.layer.backgroundColor = [[UIColor colorWithRed:0.99 green:0.92 blue:0.79 alpha:1.0] CGColor];
+    showBuildBtn.layer.cornerRadius = 8.0f;
+    [showBuildBtn setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
+    UIImage *viewImg = [UIImage imageNamed:@"earth.png"];
+    
+    [showBuildBtn setImage:viewImg forState:UIControlStateNormal];
+    [showBuildBtn setTitle:@"view" forState:UIControlStateNormal];
+    [showBuildBtn sizeToFit];// size it to fit the title and the image
+    showBuildBtn.frame = cell.viewBtn.frame;
+    [cell.viewBtn removeFromSuperview];
+    [showBuildBtn addTarget:self action:@selector(viewBuild:) forControlEvents:UIControlEventTouchUpInside];
+    cell.viewBtn = nil;
+    cell.viewBtn = showBuildBtn;
+    
+    [cell addSubview:showBuildBtn];
+
+    NSLog(@"appID = %@ intVal=%i",b.applicationID, [b.applicationID intValue]);
+    if(b.applicationID != nil && [b.applicationID intValue] > 1){
+        // it's legit, so show the view
+        [cell.viewBtn setHidden:NO];
+    }else{
+        [cell.viewBtn setHidden:YES];
+    }
+    
+    [cell.viewBtn addTarget:self action:@selector(viewBuild:) forControlEvents:UIControlEventTouchUpInside];
+    
 //    UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
 //    [infoBtn addTarget:self action:@selector(showBuildInfo:) forControlEvents:UIControlEventTouchUpInside];
 //    infoBtn.frame = CGRectMake(200.0,15.0, 35.0,35.0);

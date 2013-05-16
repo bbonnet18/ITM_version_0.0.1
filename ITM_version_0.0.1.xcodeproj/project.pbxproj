@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9005E2F31739DADF0004677E /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 9005E2F11739DADF0004677E /* earth.png */; };
+		9005E2F41739DADF0004677E /* earth@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9005E2F21739DADF0004677E /* earth@2x.png */; };
 		900F3F54169537C6007A8986 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 900F3F4A169537C6007A8986 /* Icon-72.png */; };
 		900F3F55169537C6007A8986 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 900F3F4B169537C6007A8986 /* Icon-72@2x.png */; };
 		900F3F56169537C6007A8986 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 900F3F4C169537C6007A8986 /* Icon-Small-50.png */; };
@@ -144,6 +146,10 @@
 		908BCB2E167ED5C0003C61CD /* addcontactpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB2C167ED5C0003C61CD /* addcontactpressed.png */; };
 		908BCB2F167ED5C0003C61CD /* addcontactpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB2D167ED5C0003C61CD /* addcontactpressed@2x.png */; };
 		908BCB31167EDC83003C61CD /* mysteriousblue-300x50.png in Resources */ = {isa = PBXBuildFile; fileRef = 908BCB30167EDC83003C61CD /* mysteriousblue-300x50.png */; };
+		909049621743479A00816CF6 /* WebImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 909049601743479A00816CF6 /* WebImageViewController.m */; };
+		909049631743479A00816CF6 /* WebImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 909049611743479A00816CF6 /* WebImageViewController.xib */; };
+		909049671744702F00816CF6 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 909049651744702F00816CF6 /* UserViewController.m */; };
+		909049681744702F00816CF6 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 909049661744702F00816CF6 /* UserViewController.xib */; };
 		909B783316AE4BCB00A2D6D4 /* bg_for_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783116AE4BCB00A2D6D4 /* bg_for_app.png */; };
 		909B783416AE4BCB00A2D6D4 /* bg_for_app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783216AE4BCB00A2D6D4 /* bg_for_app@2x.png */; };
 		909B783716AF89EF00A2D6D4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 909B783616AF89EF00A2D6D4 /* Default@2x.png */; };
@@ -204,6 +210,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9005E2F11739DADF0004677E /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
+		9005E2F21739DADF0004677E /* earth@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earth@2x.png"; sourceTree = "<group>"; };
 		900F3F4A169537C6007A8986 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		900F3F4B169537C6007A8986 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		900F3F4C169537C6007A8986 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -363,6 +371,12 @@
 		908BCB2C167ED5C0003C61CD /* addcontactpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addcontactpressed.png; sourceTree = "<group>"; };
 		908BCB2D167ED5C0003C61CD /* addcontactpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addcontactpressed@2x.png"; sourceTree = "<group>"; };
 		908BCB30167EDC83003C61CD /* mysteriousblue-300x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mysteriousblue-300x50.png"; sourceTree = "<group>"; };
+		9090495F1743479A00816CF6 /* WebImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebImageViewController.h; sourceTree = "<group>"; };
+		909049601743479A00816CF6 /* WebImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebImageViewController.m; sourceTree = "<group>"; };
+		909049611743479A00816CF6 /* WebImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebImageViewController.xib; sourceTree = "<group>"; };
+		909049641744702F00816CF6 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		909049651744702F00816CF6 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		909049661744702F00816CF6 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
 		909B783116AE4BCB00A2D6D4 /* bg_for_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_for_app.png; sourceTree = "<group>"; };
 		909B783216AE4BCB00A2D6D4 /* bg_for_app@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_for_app@2x.png"; sourceTree = "<group>"; };
 		909B783616AF89EF00A2D6D4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
@@ -463,6 +477,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90074AFB1744974200DD67F4 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				9013C7C0162CEACF00C5ACA4 /* CaptureViewController.h */,
+				9013C7C1162CEACF00C5ACA4 /* CaptureViewController.m */,
+				9013C7C2162CEACF00C5ACA4 /* CaptureViewController.xib */,
+			);
+			name = Capture;
+			sourceTree = "<group>";
+		};
 		9029375316A1D6CA00939839 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,6 +533,9 @@
 		903C38AA1623C7D1001845FE = {
 			isa = PBXGroup;
 			children = (
+				9090495F1743479A00816CF6 /* WebImageViewController.h */,
+				909049601743479A00816CF6 /* WebImageViewController.m */,
+				909049611743479A00816CF6 /* WebImageViewController.xib */,
 				90C0F8F517093ED400D1443D /* libz.dylib */,
 				90C0F8ED17093E0F00D1443D /* TestFlightSDK1 */,
 				9029375416A1D8C700939839 /* AFNetworking */,
@@ -523,9 +550,7 @@
 				9026EECE168421A1004A63B9 /* HomeTableCell.h */,
 				9026EED1168421E2004A63B9 /* HomeTableCell.xib */,
 				9026EECF168421A1004A63B9 /* HomeTableCell.m */,
-				9013C7C0162CEACF00C5ACA4 /* CaptureViewController.h */,
-				9013C7C1162CEACF00C5ACA4 /* CaptureViewController.m */,
-				9013C7C2162CEACF00C5ACA4 /* CaptureViewController.xib */,
+				90074AFB1744974200DD67F4 /* Capture */,
 				90470B1C16349A51004435FE /* MainNavViewController.h */,
 				90470B1D16349A51004435FE /* MainNavViewController.m */,
 				903C38C11623C7D1001845FE /* ITM_version_0.0.1 */,
@@ -592,6 +617,9 @@
 				90BC652F1640231E00460A55 /* HomeTableViewController.xib */,
 				90BC6522163F86BD00460A55 /* PublishViewController.h */,
 				90BC6523163F86BD00460A55 /* PublishViewController.m */,
+				909049641744702F00816CF6 /* UserViewController.h */,
+				909049651744702F00816CF6 /* UserViewController.m */,
+				909049661744702F00816CF6 /* UserViewController.xib */,
 				90BC6524163F86BD00460A55 /* PublishViewController.xib */,
 				90BC651D163F248600460A55 /* Uploader.h */,
 				90BC651E163F248600460A55 /* Uploader.m */,
@@ -664,6 +692,8 @@
 				900F3F4B169537C6007A8986 /* Icon-72@2x.png */,
 				900F3F4C169537C6007A8986 /* Icon-Small-50.png */,
 				900F3F4D169537C6007A8986 /* Icon-Small-50@2x.png */,
+				9005E2F11739DADF0004677E /* earth.png */,
+				9005E2F21739DADF0004677E /* earth@2x.png */,
 				900F3F4E169537C6007A8986 /* Icon-Small.png */,
 				900F3F4F169537C6007A8986 /* Icon-Small@2x.png */,
 				900F3F5F16953831007A8986 /* Icon.png */,
@@ -958,6 +988,10 @@
 				901EA3CE1728BCA000299E54 /* main_edit@2x.png in Resources */,
 				901EA3CF1728BCA000299E54 /* title@2x.png in Resources */,
 				901EA3D31728C68800299E54 /* publish@2x.png in Resources */,
+				9005E2F31739DADF0004677E /* earth.png in Resources */,
+				9005E2F41739DADF0004677E /* earth@2x.png in Resources */,
+				909049631743479A00816CF6 /* WebImageViewController.xib in Resources */,
+				909049681744702F00816CF6 /* UserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,6 +1061,8 @@
 				9068FB3416C1ED340061C288 /* ITMServiceClient.m in Sources */,
 				90A35A9916FFF1480020F671 /* Build.m in Sources */,
 				90A35A9F16FFF1740020F671 /* BuildItem.m in Sources */,
+				909049621743479A00816CF6 /* WebImageViewController.m in Sources */,
+				909049671744702F00816CF6 /* UserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

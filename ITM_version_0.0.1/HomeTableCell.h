@@ -17,4 +17,5 @@
 @property (nonatomic, strong) IBOutlet UILabel* uploadingLabel;// shown when an item is uploading
 @property (nonatomic, strong) IBOutlet UILabel *pubDateLabel;// shows the last published date
 @property (nonatomic, strong) IBOutlet UIProgressView* uploadingProgress;// shown when an item is uploading
+@property (nonatomic, strong) IBOutlet UIButton *viewBtn;// launches this on the web
 @end

@@ -17,9 +17,10 @@
 #import "UIButton+Color.h"
 #import "Utilities.h"
 #import "TextEntryViewController.h"
+#import "WebImageViewController.h"
 #define ASSET_BY_SCREEN_HEIGHT(regular, longScreen) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? regular : longScreen)
 
-@interface CaptureViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate,ScreenTextEditor,UIGestureRecognizerDelegate>{
+@interface CaptureViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate,ScreenTextEditor,UIGestureRecognizerDelegate, WebImageViewControllerDelegate>{
     id <ImageEditor> _delegate;// invokes the delegate methods to return values and dismiss this view
     UITextField *_activeField;// used with the keyboard methods to adjust the scroll view so the keyboard can show along with the text field
 }
@@ -35,6 +36,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *libraryBtn;
 @property (strong, nonatomic) IBOutlet UIButton *imageCaptureBtn;
 @property (strong, nonatomic) IBOutlet UIButton *previewBtn;// shown when a preview is possible
+@property (strong, nonatomic) IBOutlet UIButton *imageLinkBtn;
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
 //@property (strong, nonatomic) IBOutlet UIButton* rotateBtn;//holds a reference to the rotation button
@@ -45,10 +47,11 @@
 - (IBAction)videoCapture:(id)sender;// this method will allow the user to capture video
 - (IBAction)imageCapture:(id)sender;// this method will allow the user to capture images
 - (IBAction)useLibrary:(id)sender;// this method will allow users to select videos or images from the library
-- (IBAction)save:(id)sender; // saves the values in the dictionary and calls the delegate methods
+- (IBAction)checkAndSave:(id)sender;// checks to see if the media exists and then calls save if it does
+- (void)save; // saves the values in the dictionary and calls the delegate methods
 - (IBAction)cancel:(id)sender; // cancels the editing process and calls the delegate methods
 //- (IBAction)rotate:(id)sender;// rotates the image preview thumbnail
 - (IBAction)editCaption:(id)sender;// allows the user to edit the caption text with a separate controller
-
+- (IBAction)linkToImag:(id)sender;// launches the WebImageViewController
 @end
 

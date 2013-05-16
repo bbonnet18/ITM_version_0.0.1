@@ -23,6 +23,7 @@
     BOOL _isNew;// used to tell whether the build is new or not
     NSString* _titleForBuild;
     NSString* _descriptionForBuild;
+    NSNumber* _applicationID;/// used to hold the app id
 }
 
 @property (strong, nonatomic) IBOutlet UIButton* cancelBtn;
@@ -42,6 +43,7 @@
 @property (strong, nonatomic) UIImage *preview;// actual preview image
 @property (strong, nonatomic) IBOutlet UILabel* previewLabel;// label for the preview image
 
+
 @property (strong, nonatomic) IBOutlet UILabel *datePublishedLabel;
 
 @property (strong, nonatomic) NSString *buildTitle;
@@ -53,8 +55,12 @@
 @property (strong, nonatomic) IBOutlet UIButton *deleteBtn;// used to delete the item
 @property (nonatomic, assign) BOOL isNew;
 @property (strong, nonatomic) IBOutlet UIImageView *infoImgView;// used to show the overlay
+@property (strong, nonatomic) IBOutlet UIButton* viewButton;//
+
 
 -(IBAction)cancelBuild:(id)sender;
 -(IBAction)continueToEdit:(id)sender;
 -(IBAction)deleteBuild:(id)sender;
+-(IBAction)viewBuild:(id)sender;// will view the build if it's published
+-(void) setAppID:(NSNumber*)num;// sets the applicationID so it can be viewed
 @end
