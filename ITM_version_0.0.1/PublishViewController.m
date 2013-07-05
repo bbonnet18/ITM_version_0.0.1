@@ -60,15 +60,15 @@
     
 //    // check to see if the user has seen the message yet
     if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"hasSeenPublish"] isEqualToString:@"YES"]){
-        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"publish" : @"publish-568";
-        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
-        img.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-        tgr.delegate = self;
-        [img addGestureRecognizer:tgr];
-        self.infoImgView = img;
-        [self.infoImgView setAlpha:0.5f];
-        [self.view addSubview:img];
+//        NSString*imgName = ([[UIScreen mainScreen] bounds].size.height <= 480.0) ? @"publish" : @"publish-568";
+//        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
+//        img.userInteractionEnabled = YES;
+//        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+//        tgr.delegate = self;
+//        [img addGestureRecognizer:tgr];
+//        self.infoImgView = img;
+//        [self.infoImgView setAlpha:0.5f];
+//        [self.view addSubview:img];
     }
 
     //self.infoTxt.backgroundColor = [UIColor blueColor];

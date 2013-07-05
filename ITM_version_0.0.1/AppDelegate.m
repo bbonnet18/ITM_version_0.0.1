@@ -10,7 +10,13 @@
 #import "Reachability.h"
 
 
-#define kITMServiceBaseURLString @"http://www.google.com"
+#define kITMServiceBaseURLString @"https://itmgo.com"
+
+@interface AppDelegate ()
+
+-(NSDictionary*)getUserInfo:(NSString*) urlString;
+
+@end
 
 @implementation AppDelegate
 
@@ -31,7 +37,7 @@
 
     [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
 #endif
-    [TestFlight takeOff:@"162233ed-eb83-480d-821d-ace4449fd540"];
+    [TestFlight takeOff:@"ae6f6b8a-6898-49ee-93f9-ed0cb1f15e33"];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
@@ -89,20 +95,15 @@
                 
     }
     
-        // This will call the login screen if the user isn't logged in
-//    if(![[ITMServiceClient sharedInstance] isAuthorized]){
-//        // enter login script
-//        LoginViewController *lv = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-//        self.window.rootViewController = lv;
-//        
-//    }else{
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"user"] == nil){
-        UserViewController *uv = [[UserViewController alloc] initWithNibName:@"UserViewController" bundle:[NSBundle mainBundle]];
-        uv.delegate = self;
-        self.window.rootViewController = uv;
-        
-    }else{
-    
+    //this was launched through a url - so handle it
+    if([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]){
+                
+        NSString *urlString = [[launchOptions objectForKey:UIApplicationLaunchOptionsURLKey] absoluteString];
+        // get user
+        NSDictionary *userDic = [self getUserInfo:urlString];
+        if(userDic != nil){
+            [[NSUserDefaults standardUserDefaults] setObject:userDic forKey:@"user"];
+        }
         HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
         hc.context = self.managedObjectContext;
         hc.delegate = self;
@@ -114,9 +115,68 @@
         self.navController = nav;
         
         self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
+        
+    }else{
+        
+        if([[NSUserDefaults standardUserDefaults] objectForKey:@"user"] == nil){
+            RegisterViewController *reg = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:[NSBundle mainBundle]];
+            
+            self.window.rootViewController = reg;
+            
+        }else{
+            HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
+            hc.context = self.managedObjectContext;
+            hc.delegate = self;
+            
+            // subclassed main nave controller from nav controller to override autorotation
+            MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
+            UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
+            [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
+            self.navController = nav;
+            
+            self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
+        }
+        
+        
     }
+   // if there's no user, create one
+    
     
     return YES;
+
+}
+
+-(NSDictionary*) getUserInfo:(NSString *)urlString{
+    
+
+    NSString *paramsStr  = [[urlString componentsSeparatedByString:@"//"] objectAtIndex:1];// this gets the URL as a string.
+    
+    NSArray *parameters = [paramsStr componentsSeparatedByString:@"&"];
+    
+    NSMutableDictionary *userDic = [[NSMutableDictionary alloc] init];// set the dictionary
+    
+    for(NSString* param in parameters){
+        
+        NSArray * comps = [param componentsSeparatedByString:@"="];
+        NSString *key = [comps objectAtIndex:0];
+        NSString *val = [comps objectAtIndex:1];
+        
+        [userDic setValue:val forKey:key];// set it to the value of the parameters, split into key/values
+    }
+    
+    NSArray *keys = [userDic allKeys];
+    // check to see if the right keys exist
+    for(NSString *key in keys){
+        if([key isEqualToString:@"firstname"] || [key isEqualToString:@"lastname"] || [key isEqualToString:@"token"]){
+         
+        }else{
+            // parameters are off, return nil
+
+            return  nil;
+        }
+    }
+    
+    return userDic;
 
 }
 
@@ -183,6 +243,7 @@
     
     
 }
+
 // notification can be delivered multiple times to be sure not to allow the trigger multiple times
 - (void) published:(NSNotification*) buildID{
     
@@ -295,6 +356,8 @@
     [buildDictionary setObject:b.buildID forKey:@"buildID"];
     [buildDictionary setObject:b.buildDescription forKey:@"tags"];
     [buildDictionary setObject:b.title forKey:@"title"];
+    NSString *email = [[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
+    [buildDictionary setObject:email forKey:@"email"];
     NSError *error;
     // create json data
     NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:0 error:&error];
@@ -319,6 +382,24 @@
 
 - (NSArray*) getUploadObjectsAtIndex:(NSUInteger)uploadIndex{
     return [self.uploadObjects objectAtIndex:uploadIndex];
+}
+
+
+-(void) initialUploadStartedWithNewID:(NSInteger)appID andBuildID:(NSString *)buildID{
+    Build * b = [self getBuild:buildID];
+    NSNumber *newAppID = [NSNumber numberWithInteger:appID];
+    b.applicationID = newAppID;
+    
+    NSError* err = nil;
+    
+    [self.managedObjectContext save:&err];
+    
+    if(err){
+        [self.uploader cancelUpload];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error initializing upload, upload aborted." message:[err localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [av show];
+        
+    }
 }
 
 -(void)uploadDidCompleWithBuildInfo:(NSDictionary *)buildDictionary{
@@ -382,7 +463,7 @@
     
     [self.managedObjectContext save:&err];
     
-    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:[NSString stringWithFormat:@"An error occured while uploading your files. This session will be aborded - Error:%@",reason] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:[NSString stringWithFormat:@"An error occured while uploading your files. This session will be aborted - Error:%@",reason] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [errorAlert show];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadAborted" object:nil userInfo:nil];
     
@@ -390,7 +471,11 @@
 
 -(void) uploadWasCancelledForID:(NSString *)buildID{
   
+    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
+    [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
     self.uploader = nil;
     
     Build *b = [self getBuild:buildID];
@@ -488,6 +573,30 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
     
+}
+
+-(BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    NSString *urlString = [url absoluteString];
+    
+    NSDictionary * userInfo = [self getUserInfo:urlString];
+    if(userInfo != nil){
+        [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"user"];
+    }
+    
+    HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
+    hc.context = self.managedObjectContext;
+    hc.delegate = self;
+    
+    // subclassed main nave controller from nav controller to override autorotation
+    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
+    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
+    [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
+    self.navController = nav;
+    
+    self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
+    
+    return YES;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

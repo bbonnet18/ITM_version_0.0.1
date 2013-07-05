@@ -28,6 +28,7 @@ typedef void (^JSONResponseBlock)(NSDictionary*json); // define the response blo
 -(void) cancelOps;
 -(void)commandWithParameters:(NSMutableDictionary*)params onCompletion:(JSONResponseBlock)completionBlock;// this will be used to create a response block to call when the user gets a response
 -(void)JSONCommandWithParameters:(NSMutableDictionary*)params onCompletion:(JSONResponseBlock)completionBlock;// this will be used to send the JSON data only, provide the JSON as a dictionary
+-(void)JSONUSERCommandWithParameters:(NSMutableDictionary*)params onCompletion:(JSONResponseBlock)completionBlock;// this will be used to send the JSON user data only, provide the JSON as a dictionary
 +(ITMServiceClient*)sharedInstance;// this will return the shared client anywhere in the app
 
 @end

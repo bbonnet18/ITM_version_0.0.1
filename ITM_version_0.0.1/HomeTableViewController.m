@@ -15,6 +15,7 @@
 -(void) setStatusForItems:(Build*)b;// sets the status for each BuildItem to edit
 -(void) handleTap:(UITapGestureRecognizer*) recognize;// handles removing the info img
 -(void) viewBuild:(id)sender;
+-(void) showProfile:(id)sender;// shows the profile for the user as an overlay
 
 @end
 
@@ -75,8 +76,11 @@
     
     
     UIBarButtonItem *addNew = [[UIBarButtonItem alloc] initWithCustomView:newBuild];// add the new button itself
+    UIBarButtonItem *profileBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userWhite.png"] landscapeImagePhone:[UIImage imageNamed:@"userBar"] style:UIBarButtonItemStylePlain target:self action:@selector(showProfile:)];
+    
     
     self.navigationItem.rightBarButtonItem = addNew;
+    self.navigationItem.leftBarButtonItem = profileBtn;
     // register the nib so we can load our custom tableviewcell
     [self.tableView registerNib:[UINib nibWithNibName:@"HomeTableCell" bundle:nil] forCellReuseIdentifier:@"HomeCell"];
     
@@ -142,6 +146,22 @@
     [[NSUserDefaults standardUserDefaults] setValue:@"YES" forKey:@"hasSeenHome"];
 }
 
+-(void)showProfile:(id)sender{
+    ProfileViewController *pf = [[ProfileViewController alloc] initWithNibName:@"ProfileViewController" bundle:[NSBundle mainBundle]];
+    pf.delegate = self;
+    [self presentViewController:pf animated:YES completion:^{
+        
+    }];
+    
+}
+
+-(void) doneEditing{
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
 -(void) viewBuild:(id)sender{
     UIButton *thisBtn = (UIButton*)sender;//reference to the button
     NSIndexPath *indexPath = nil;// instantiate the indexPath
@@ -154,7 +174,7 @@
         Build *b = [self.fetched objectAtIndexPath:indexPath];// get the build
         NSInteger appID = [b.applicationID intValue];
         
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itmmobile.net/ItemViewer.html?id=%i",appID]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itmgo.com/ItemViewer.html?id=%i",appID]];
         
         [[UIApplication sharedApplication] openURL:url];
     }
@@ -273,7 +293,6 @@
         ti.descriptionForBuild = b.buildDescription;
         ti.isNew = NO;
         ti.isEditable = ([b.status isEqualToString:@"edit"]) ? YES : NO;
-        ti.status = b.status;
         ti.buildID = b.buildID;
         ti.preview = [self getBuildItemPreview:b withSize:100 andCorner:8];
         ti.datePublished = (b.publishDate != nil) ? [[Utilities sharedInstance] getTimeStamp:b.publishDate] : @"Not yet published";
@@ -568,7 +587,7 @@
 //        btnImg = [UIImage imageNamed:@"eye-open.png"];
 //    }
     else{// if it's uploading
-        btnImg = [UIImage imageNamed:@"eye-close.png"];
+        btnImg = [UIImage imageNamed:@"stop-sign.png"];
         [actionBtn addTarget:self action:@selector(unlockBuild:) forControlEvents:UIControlEventTouchUpInside];
         [actionBtn setTitle:@"" forState:UIControlStateNormal];
         [cell.pubDateLabel setHidden:YES];

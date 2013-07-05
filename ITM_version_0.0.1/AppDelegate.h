@@ -18,6 +18,7 @@
 #import "LoginViewController.h"
 #import "TestFlight.h"
 #import "UserViewController.h"
+#import "RegisterViewController.h";
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UploadProtocol, UIAlertViewDelegate,UploadControl,StartScreenProtocol>{
     BOOL _isReachable;

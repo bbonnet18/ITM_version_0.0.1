@@ -13,6 +13,8 @@
 -(void) handleTap:(UITapGestureRecognizer*)recognizer;
 
 -(BOOL) checkItemsHaveValues;// used to make sure all items have values
+-(void) reorderBuildItemsWithBuild:(Build*)build andOrderNum:(NSNumber*)orderNumber;// this will re-order after the new one is added, this has to happen so they will show up right in the sequence
+-(void) resetBuildItemsAfterItemDeleted:(NSNumber*)orderNumber;//resets the builditem orderNumbers after one has been deleted
 @end
 
 @implementation MainEditorViewController
@@ -147,18 +149,61 @@
 }
 // make sure we can create a buildItem and then call the setBuildItems function to reset everything, also need to make sure we are not trying to add before 0
 - (void) addBefore:(NSInteger)beforeIndex{
-    if(beforeIndex >= 1){
+    //if(beforeIndex >= 1){
+    if(beforeIndex ==0){
+        beforeIndex = 1;// only if it comes from number 1, so you don't put it behind the first one
+    }
         if([self createBuildItemWithOrderNumber:[NSNumber numberWithInt:beforeIndex]] != nil){
             [self setBuildItems];
-            CGRect newRect = CGRectMake(self.scroller.contentOffset.x+self.scroller.frame.size.width*-1, self.scroller.contentOffset.y, self.scroller.frame.size.width, self.scroller.frame.size.height);
+                CGRect newRect = CGRectMake(self.scroller.contentOffset.x+self.scroller.frame.size.width*-1, self.scroller.contentOffset.y, self.scroller.frame.size.width, self.scroller.frame.size.height);
+            
+            
             [self.scroller scrollRectToVisible:newRect animated:YES];
         }
-    }
+    //}
 }
+
+
 
 - (void) deleteItem:(NSInteger)itemNumber{
     
     [self deleteBuildItemInOrder:itemNumber];
+    
+    Build *build = [self getBuild];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"build == %@",build];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"orderNumber" ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *error = nil;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    
+    if(error){
+        NSLog(@"ERROR GETTING BUILD ITEMS: %@",[error localizedFailureReason]);
+    }
+    
+    // increment all old ones by 1 if their orderNumber is greater than or equal to proposed orderNumber
+    for (BuildItem *bi in results) {
+        NSLog(@"orderInt: %i , deletedVal: %i",[bi.orderNumber intValue],itemNumber);
+        if([bi.orderNumber intValue] >= itemNumber){
+            NSInteger orderIt = [bi.orderNumber intValue];
+            NSInteger newOrder = orderIt - 1;
+            bi.orderNumber = [NSNumber numberWithInt:newOrder];
+        }
+    }
+    NSError *orderErr = nil;
+    
+    if(![self.context save:&orderErr]){
+        NSLog(@"%@", [orderErr localizedFailureReason]);
+    }
+    for (BuildItem *bi in results) {
+        NSLog(@"orderInt: %i , deletedVal: %i",[bi.orderNumber intValue],itemNumber);
+    }
 }
 
 // returns the itemArray. Returns an empty array if there's nothing in it. Returns nil if  there's an error when attempting to execute the fetch request
@@ -176,6 +221,9 @@
     NSError *error = nil;
     
     NSArray *results = [self.context executeFetchRequest:request error:&error];
+    for (BuildItem * bi in results) {
+        NSLog(@"buildItem orderNumber: %@", bi.orderNumber);
+    };
     
     if(error){
         NSLog(@"ERROR GETTING BUILD ITEMS: %@",[error localizedFailureReason]);
@@ -215,6 +263,14 @@
 // this will create, save and return a build item. It will return nil if there's an error when creating and saving the buildItem
 -(BuildItem*) createBuildItemWithOrderNumber:(NSNumber*) orderNum{
     Build *b = [self getBuild];
+    
+    if([orderNum intValue] < 0){
+        orderNum = [NSNumber numberWithInt:0];
+    }
+
+    
+    [self reorderBuildItemsWithBuild:b andOrderNum:orderNum];
+    
     BuildItem* bi = [NSEntityDescription insertNewObjectForEntityForName:@"BuildItem" inManagedObjectContext:self.context];
     bi.orderNumber = orderNum;
     bi.buildItemIDString = [[Utilities sharedInstance] GetUUIDString];
@@ -228,6 +284,50 @@
     return bi;
     
 }
+
+-(void) reorderBuildItemsWithBuild:(Build *)build andOrderNum:(NSNumber *)orderNumber{
+    
+  
+    
+    // get all the current items
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BuildItem" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"build == %@",build];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"orderNumber" ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *error = nil;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+
+    if(error){
+        NSLog(@"ERROR GETTING BUILD ITEMS: %@",[error localizedFailureReason]);
+    }
+
+    // increment all old ones by 1 if their orderNumber is greater than or equal to proposed orderNumber
+    for (BuildItem *bi in results) {
+        NSLog(@"orderInt: %i  proposedInt: %i",[bi.orderNumber intValue], [orderNumber intValue]);
+        if([bi.orderNumber intValue] >= [orderNumber intValue]){
+            NSInteger orderIt = [bi.orderNumber intValue];
+            NSInteger newOrder = orderIt + 1;
+            bi.orderNumber = [NSNumber numberWithInt:newOrder];
+        }
+    }
+    NSError *orderErr = nil;
+    
+    if(![self.context save:&orderErr]){
+         NSLog(@"%@", [orderErr localizedFailureReason]);
+    }
+    
+    
+    for (BuildItem *bi in results) {
+        NSLog(@" --- orderNumber: %@",bi.orderNumber);
+    }
+    
+}
+
 // delete the build item, also calls the function to delete the build's thumbnail
 - (void) deleteBuildItemInOrder:(NSInteger) index{
    // remove the build item by getting it and then removing it from the context and the build relationship
@@ -242,6 +342,7 @@
     NSLog(@"BOOL = %@\n", (boolVal ? @"YES" : @"NO"));
     //}
     BuildItem* b = [self getBuildItem:buildItemIDString];
+    
     [self.context deleteObject:b];
     NSError *error;
     if(![self.context save:&error]){
@@ -359,7 +460,7 @@
     self.scroller.contentSize = CGSizeMake(pagesScrollSize.width * self.previewImageArray.count, pagesScrollSize.height);
     
     CGRect scrollTo = self.scroller.bounds;
-    
+    // this is 0
     scrollTo.origin.x = scrollTo.size.width * self->_previewImageIndex;
     scrollTo.origin.y = 0.0f;
     [self.scroller scrollRectToVisible:scrollTo animated:YES];

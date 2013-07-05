@@ -33,9 +33,9 @@
     if (self) {
         // Custom initialization
         //[self.delegate setDidFinishEditing:NO];
-        self.lineLimit = 2; 
-        self.charactersLimit = 250;
-        self->_heightLimit = 50;
+        self.lineLimit = 5;
+        self.charactersLimit = 215;
+        self->_heightLimit = 75;
         
     }
     return self;
@@ -127,7 +127,7 @@
     
     NSInteger remainingChar = self.charactersLimit - newLength;// the available length remaining
     
-    //self.charLimit.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithInt:remainingChar] stringValue]];
+    self.charLimit.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithInt:remainingChar] stringValue]];
     
     if(newLength < self.charactersLimit){
         underCharLimit = YES;
@@ -154,7 +154,7 @@
     CGSize textSize = [newText sizeWithFont:self.mainTextView.font constrainedToSize:textViewSize lineBreakMode:NSLineBreakByWordWrapping];
     
     
-    //self.lines.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:textSize.height]];
+    self.lines.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:textSize.height]];
     
     BOOL isDelete = NO;
 
@@ -188,40 +188,40 @@
 }
 // this method is responsible for actually sizing the scroll view when the keyboard is present
 - (void) showKeyboardInView:(NSNotification *)aNotification{
-    NSDictionary* info = [aNotification userInfo];
-    CGSize sz = CGSizeMake(480.0, 216.0);
-    self->_keyboardSize = sz;//[[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    
-    self->_oldInsets = self.scrollerView.contentInset;
-    self->_oldScrollIndicatorInsets = self.scrollerView.scrollIndicatorInsets;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, self->_keyboardSize.height, 0.0);
-    self.scrollerView.contentInset = contentInsets;// set content inset so the content window area is inset and allows us to scroll to the right place. 
-    self.scrollerView.scrollIndicatorInsets = contentInsets;
-    
-    // If active text field is hidden by keyboard, scroll it so it's visible
-    // Your application might not need or want this behavior.
-    CGFloat padding = 10.0;
-    
-    
-    CGRect f = self.mainTextView.frame;// get the frame of the textView, it may change as we edit it and we'll have to update that ---!!!!
-    CGRect r = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-    r = [self.view convertRect:r fromView:nil];
-    self->_currentKeyboard = r;
-    
-    CGRect aRect = self.view.frame;// the frame's view rect for the entire view
-    aRect.size.height -= self->_keyboardSize.height;// shorten this now because the keyboard is on it
-    NSLog(@"minY: %f",CGRectGetMaxY(f));
-    NSLog(@"frame.size: %f and contentSize: %f",f.size.height, self.mainTextView.contentSize.height);
-    CGPoint scroller = CGPointMake(0.0, CGRectGetMinY(f) + f.size.height);
-    
-    if (!CGRectContainsPoint(aRect, scroller) ) {// check to see if the rect we create contains the text view
-        CGFloat yVal = scroller.y;
-        CGFloat newY = yVal -self->_currentKeyboard.size.height + padding;
-        CGPoint scrollPoint = CGPointMake(0.0, newY);// calculating the difference here tells us that the content should move up only the distance between the y location of the textview and height of the keyboard size. Think about it like where it was before, minus the keyboard height that's now taking up space on the screen.;
-       // [self.scrollerView setContentOffset:scrollPoint animated:YES];
-    }
+//    NSDictionary* info = [aNotification userInfo];
+//    CGSize sz = CGSizeMake(480.0, 216.0);
+//    self->_keyboardSize = sz;//[[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+//    
+//    self->_oldInsets = self.scrollerView.contentInset;
+//    self->_oldScrollIndicatorInsets = self.scrollerView.scrollIndicatorInsets;
+//    
+//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, self->_keyboardSize.height, 0.0);
+//    self.scrollerView.contentInset = contentInsets;// set content inset so the content window area is inset and allows us to scroll to the right place. 
+//    self.scrollerView.scrollIndicatorInsets = contentInsets;
+//    
+//    // If active text field is hidden by keyboard, scroll it so it's visible
+//    // Your application might not need or want this behavior.
+//    CGFloat padding = 10.0;
+//    
+//    
+//    CGRect f = self.mainTextView.frame;// get the frame of the textView, it may change as we edit it and we'll have to update that ---!!!!
+//    CGRect r = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    
+//    r = [self.view convertRect:r fromView:nil];
+//    self->_currentKeyboard = r;
+//    
+//    CGRect aRect = self.view.frame;// the frame's view rect for the entire view
+//    aRect.size.height -= self->_keyboardSize.height;// shorten this now because the keyboard is on it
+//    NSLog(@"minY: %f",CGRectGetMaxY(f));
+//    NSLog(@"frame.size: %f and contentSize: %f",f.size.height, self.mainTextView.contentSize.height);
+//    CGPoint scroller = CGPointMake(0.0, CGRectGetMinY(f) + f.size.height);
+//    
+//    if (!CGRectContainsPoint(aRect, scroller) ) {// check to see if the rect we create contains the text view
+//        CGFloat yVal = scroller.y;
+//        CGFloat newY = yVal -self->_currentKeyboard.size.height + padding;
+//        CGPoint scrollPoint = CGPointMake(0.0, newY);// calculating the difference here tells us that the content should move up only the distance between the y location of the textview and height of the keyboard size. Think about it like where it was before, minus the keyboard height that's now taking up space on the screen.;
+//       // [self.scrollerView setContentOffset:scrollPoint animated:YES];
+//    }
     
 }
 
@@ -276,9 +276,9 @@
 - (void)hideKeyboard:(NSNotification*)aNotification
 {
     
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.scrollerView.contentInset = contentInsets;
-    self.scrollerView.scrollIndicatorInsets = contentInsets;
+//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//    self.scrollerView.contentInset = contentInsets;
+//    self.scrollerView.scrollIndicatorInsets = contentInsets;
 }
 
 
@@ -296,4 +296,11 @@
     NSTimer *pauseTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(closeScreen:) userInfo:nil repeats:NO];
     
 }
+
+#pragma UIScrollViewDelegate methods
+
+-(void) scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    scrollView.scrollEnabled = NO;
+}
+
 @end

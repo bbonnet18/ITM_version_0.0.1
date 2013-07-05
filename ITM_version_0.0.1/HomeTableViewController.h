@@ -13,7 +13,7 @@
 #import "TitleInfoViewController.h"
 #import "UIImage+Resize.h"
 #import "HomeTableCell.h"
-
+#import "ProfileViewController.h"
 //#define ASSET_BY_SCREEN_HEIGHT(regular, longScreen) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? regular : longScreen)
 
 @protocol UploadControl
@@ -23,7 +23,7 @@
 
 @end
 
-@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol, UIAlertViewDelegate, UIGestureRecognizerDelegate>{
+@interface HomeTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,TitleInfoProtocol, UIAlertViewDelegate, UIGestureRecognizerDelegate, ProfileProtocol>{
     NSFetchedResultsController *_fetched;
     NSManagedObjectContext *_context;
     NSIndexPath* _currentSelection;// reserved for the currently selected item indexPath

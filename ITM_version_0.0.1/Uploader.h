@@ -20,6 +20,7 @@
 - (void) uploadDidFailWithReason:(NSString*) reason andID:(NSString*)buildID;
 - (void) uploadWasCancelledForID:(NSString*) buildID;
 - (void) progressForBuild:(NSDictionary*) progressDictionary;// this will handle updating the upload
+- (void) initialUploadStartedWithNewID:(NSInteger)appID andBuildID:(NSString*) buildID;// this is the app id once it's returned from the initial build
 
 @end
 

@@ -162,7 +162,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Open web browser to find an image. Copy the image URL and tab load image. The image will be save to your library and uploaded when you upload the build.</string>
+						<string key="IBUIText">Open your web browser to find an image. Copy the image URL and paste it into the text field. Tap Go to preview the image. Tap Save to add it to your sequence.</string>
 						<object class="NSColor" key="IBUITextColor" id="747451138">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -223,6 +223,7 @@
 						<string key="NSFrame">{{214, 499}, {71, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

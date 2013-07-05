@@ -9,9 +9,16 @@
 #import "ITMServiceClient.h"
 #import "AFJSONRequestOperation.h"
 
-#define kITMServiceBaseURLString @"http://itmmobile.net"// the base service string
+#define kITMServiceBaseURLString @"https://itmgo.com"// the base service string
 #define kITMServicePath @"api/Build/" // path to services
 #define kITMItemPath @"api/Item/"
+#define kITMUserPath @"api/User/register"
+
+@interface ITMServiceClient ()
+
+-(void) setAuth;
+
+@end
 
 @implementation ITMServiceClient
 
@@ -35,6 +42,7 @@
     [self registerHTTPOperationClass:[AFJSONRequestOperation class]];// register the JSONRequestOperation Class
     
     [self setDefaultHeader:@"Accept" value:@"application/json"];// set the default accept header to accept json
+    [self setAuth];
     
     return self;
 }
@@ -43,6 +51,13 @@
     //return [[user objectForKey:@"userID"] intValue] > 0;
     // for testing -
     return YES;
+}
+// sets the authorization headers to the credentials for this individual
+-(void) setAuth{
+    
+    NSString *username = [[NSUserDefaults standardUserDefaults] valueForKey:@"userName"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
+    [self setAuthorizationHeaderWithUsername:username password:password];
 }
 
 - (void) cancelOps{
@@ -59,6 +74,9 @@
 }
 // this will upload the file if the file is included with the 
 - (void) commandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{// using the block from the header file and that will receive a JSON dictionary
+    
+    [self setAuth];// make sure you're using the most up to date password
+    
     NSData* uploadFile = nil;
 	if ([params objectForKey:@"file"]) {
 		uploadFile = (NSData*)[params objectForKey:@"file"];
@@ -83,6 +101,9 @@
    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
        NSLog(@"key: %@ val%@",key,obj);
    }];
+    
+    
+    
     // create the request as multipart to send the file data, this can be configured to send both image and video requests
     NSMutableURLRequest *apiRequest = [self multipartFormRequestWithMethod:@"POST" path:kITMItemPath  parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
 		if (uploadFile) {
@@ -90,6 +111,7 @@
 			[formData appendPartWithFileData:uploadFile name:@"file" fileName:fileName mimeType:mimeType];
 		}
 	}];
+    
     
     NSLog(@"url : %@",apiRequest.URL);
    [apiRequest.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -121,17 +143,12 @@
 }
 
 - (void) JSONCommandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{
-    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"%@ - %@",key,obj);
-        
-    }];
     
+    [self setAuth];
     
     NSMutableURLRequest  *req = [self requestWithMethod:@"POST" path:kITMServicePath parameters:params];
     [req setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Accept"];
-    
     NSLog(@"url : %@",req.URL);
-    
     
     
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: req];
@@ -160,6 +177,36 @@
     //[self.operationQueue addOperation:operation];
     
 
+}
+
+- (void) JSONUSERCommandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{
+
+    //no need to [self setAuth] because it only gets called once
+    
+    NSMutableURLRequest  *req = [self requestWithMethod:@"POST" path:kITMUserPath parameters:params];
+    [req setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Accept"];
+    
+    NSLog(@"url : %@",req.URL);
+    
+    
+    
+    AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: req];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //success!
+                    
+            completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //failure :(
+        
+        
+            completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+    }];
+    
+    self.currentRequest = operation;
+    
+    [self.currentRequest start];
+    
 }
 
 

@@ -85,11 +85,6 @@
         [[NSUserDefaults standardUserDefaults] setInteger:self->currentItemUploadIndex forKey:@"uploadIndex"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isUploading"];// set it to isUploading because we were uploading until now
         [[ITMServiceClient sharedInstance] cancelOps];// cancel everything
-        //[[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMItemPath];// cancel all of them
-        //[self.mediaQueue cancelAllOperations];// cancel anything that's currently uploading in the queue
-        // stop the queue and do any necessary cleanup
-        
-        // [[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMServicePath];
     }
     
     
@@ -99,18 +94,9 @@
 -(void) cancelUpload{
     
     self.isUploading = NO;
-    //[self.mediaQueue cancelAllOperations];
-    //[[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMItemPath];// cancel all of them
-    //[self.mediaQueue cancelAllOperations];// cancel anything that's currently uploading in the queue
-    // stop the queue and do any necessary cleanup
-    //[[ITMServiceClient sharedInstance] cancelAllHTTPOperationsWithMethod:@"POST" path:kITMServicePath];
     
-    
-    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"isUploading"];// set defaults to no
-    [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
+
     // kill the values for the emails and buildID
-    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingBuildID"];
-    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"lastUploadingEmails"];
     [[ITMServiceClient sharedInstance] cancelOps];
     [self.delegate uploadWasCancelledForID:self.buildID];
     
@@ -197,14 +183,15 @@
         [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:self.mediaPathString] error:nil];
     }
     // used to set up presets if there are many to choose from
-    
-    
-    
+        
     // set up the export session with the preset for medium quality videos
     self.export = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetMediumQuality];
+    
+    
     // set up the export url to export the video to the temporary directory
     self.export.outputURL = [NSURL fileURLWithPath:self.mediaPathString];
     self.export.shouldOptimizeForNetworkUse = YES;// optimize for the networks
+    
     //    NSArray *supportedFileTypes = [self.export supportedFileTypes];
     //
     //    for (int i = 0; i<[supportedFileTypes count]; i++) {
@@ -424,11 +411,20 @@
         [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
         [[ITMServiceClient sharedInstance] JSONCommandWithParameters:jsonDic onCompletion:^(NSDictionary *json) {
             // set the application_id so it can be used for all other requests
-            NSString *newID = [json objectForKey:@"applicationID"];
-            NSInteger appID = [newID intValue];
-            NSLog(@"newID: %@ appID %i",newID,appID);
-            self.application_id = [newID intValue];
-            [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
+            
+            
+            if([json valueForKey:@"error"] == nil){
+                
+                NSString *newID = [json objectForKey:@"applicationID"];
+                NSInteger appID = [newID intValue];
+                NSLog(@"newID: %@ appID %i",newID,appID);
+                self.application_id = [newID intValue];
+                [self.delegate initialUploadStartedWithNewID:[newID intValue] andBuildID:self.buildID];
+                [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
+            }else{
+                [self.delegate uploadDidFailWithReason:[json valueForKey:@"error"] andID:self.buildID];
+            }
+            
              
         }];
     }    
@@ -473,7 +469,12 @@
         //[[ITMServiceClient sharedInstance] setParameterEncoding:AFFormURLParameterEncoding];
         [[ITMServiceClient sharedInstance] commandWithParameters:post_dict onCompletion:^(NSDictionary *json) {
             
-            [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
+            if([json valueForKey:@"error"] == nil){
+                [self performSelectorOnMainThread:@selector(doneUploading:) withObject:json waitUntilDone:NO];
+            }else{
+                [self.delegate uploadDidFailWithReason:[json valueForKey:@"error"] andID:self.buildID];
+            }
+            
         }];
 
     }

@@ -12,7 +12,7 @@
 
 @interface CaptureViewController ()
 //-(NSString*) getOrientation:(UIImage*)img;// helper to check the orientation to determine if it's not up
-//-(UIImage*) rotateThumbnail;// gets the thumbnail image and rotates it
+-(UIImage*) rotateThumbnail:(UIImage*)imgToRotate;// gets the thumbnail image and rotates it
 -(void)handleTap:(UITapGestureRecognizer*)recognizer;
 -(void)checkMediaExists;//checks to see if the media exists and if not, alerts the user
 @end
@@ -331,6 +331,14 @@
         
 }
 
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if(textField.text.length < 50 || range.length > 0){
+        [textField setBackgroundColor:[UIColor whiteColor]];
+        return YES;
+    }
+    [textField setBackgroundColor:[UIColor redColor]];
+    return NO;
+}
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     self->_activeField = nil;
@@ -343,16 +351,20 @@
 - (void) finishedWritingImage:(NSNotification*)notification{
     // saved video is ready to access, so access it
     AVURLAsset *assetToUse = [[AVURLAsset alloc] initWithURL:[self.buildItemVals valueForKey:@"mediaPath"] options:nil];
+    
+    
     NSArray *keys = [NSArray arrayWithObject:@"duration"];
     // as this loads, check the duration. If the duration is there, then it's loaded
     [assetToUse loadValuesAsynchronouslyForKeys:keys completionHandler:^{
         NSError *error  = nil;
         AVKeyValueStatus trackStatus = [assetToUse statusOfValueForKey:@"duration" error:&error];
+
         if(error != nil){
             UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error obtaining duration" message:@"Error obtaining the duration of the video" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [errorAlert show];
         }else{
             //             AVURLAsset *newAsset = [[AVURLAsset alloc] initWithURL:[self.buildItemVals valueForKey:@"mediaPath"] options:nil];
+            
             switch (trackStatus) {
                 case AVKeyValueStatusLoaded:
                     // make sure the  asset is loaded, if it is, then build the thumb
@@ -387,6 +399,19 @@
 - (void) buildThumb:(NSURL*)assetURL{
  
             AVAsset *assetToUse =  (AVAsset*)[[AVURLAsset alloc] initWithURL:assetURL options:nil];
+    
+    ///--------------------------
+    AVAssetTrack *video = [[assetToUse tracksWithMediaType:AVMediaTypeVideo] lastObject];
+    CGAffineTransform t = video.preferredTransform;
+    CGFloat a = t.a;
+    CGFloat b = t.b;
+    CGFloat c = t.c;
+    CGFloat d = t.d;
+    CGFloat tx = t.tx;
+    CGFloat ty = t.ty;
+    
+    NSLog(@"a - %f | b - %f | c - %f | d - %f | tx - %f | ty - %f",a,b,c,d,tx,ty);
+    ///--------------------------
             Float64 durationSeconds = CMTimeGetSeconds([assetToUse duration]);
             CMTime startPoint = CMTimeMake(durationSeconds/2.0,600);
             CMTime actualTime;
@@ -413,15 +438,29 @@
             // if the image was created successfully, then save it 
             if(halfWayImage != NULL){
                 //  these variables are for logging the requested vs actual time strings
+                
+            
                 NSString *actualTimeString = (__bridge NSString*)CMTimeCopyDescription(NULL, actualTime);
                 NSString *requestedTimeString = (__bridge NSString*)CMTimeCopyDescription(NULL, startPoint);
                 NSLog(@"requested time %@, actual time%@", requestedTimeString, actualTimeString);
                 UIImage* imageToUse = [UIImage imageWithCGImage:halfWayImage];
                 
-                if(UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation])){// done to correct video taken with the image orientation set to portrait, this will automatically assign a rotated orientation 
-                    imageToUse = [UIImage imageWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationUp];
+                //********************
+                // this is where you will do the transform, by simply transforming the image. Transforming the video
+                // will have to be done asynchrnously
+                
+                if(t.a<t.b){
+                    imageToUse = [self rotateThumbnail:imageToUse];
                 }
                 
+                //********************
+                
+                //-- Return the statement below if solution above does not work
+//            if(UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation])){// done to correct video taken with the image orientation set to portrait, this will automatically assign a rotated orientation
+//                    imageToUse = [UIImage imageWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationUp];
+//
+//            }
+    
                 [self removeOldThumbAndWriteNew:imageToUse];
                 NSLog(@" the thing was made");
             }
@@ -444,7 +483,7 @@
 
 - (void) loadPlaceholderThumb{
     
-    UIImage* placeholder = [UIImage imageNamed:@"rounded_placeholderNew.png"];
+    UIImage* placeholder = [UIImage imageNamed:@"rounded_placeholderUpdate.png"];
     self.previewImageView.image = placeholder;
     [self.indicator stopAnimating];
 }
@@ -508,7 +547,7 @@
         NSURL *url = [NSURL fileURLWithPath:path];
         [self.buildItemVals setValue:path forKey:@"thumbnailPath"];
         
-        
+       
         UIImage * scaledImage = [img thumbnailImage:250 transparentBorder:1 cornerRadius:15 interpolationQuality:0];
         [UIImagePNGRepresentation(scaledImage) writeToURL:url atomically:YES];
         //[UIImageJPEGRepresentation(scaledImage, 0.75f) writeToURL:url atomically:YES];
@@ -742,47 +781,47 @@
 //    [self removeOldThumbAndWriteNew:img]; 
 //}
 
-//-(UIImage*) rotateThumbnail{
-//    
-//    UIImage *thumb = self.previewImageView.image;
-//    CGImageRef imgRef = thumb.CGImage;
-//    
-//    CGFloat width = CGImageGetWidth(imgRef);// get the width to use for all
-//    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width,width, CGImageGetBitsPerComponent(imgRef), 0, CGImageGetColorSpace(imgRef), CGImageGetBitmapInfo(imgRef));
-//    // get the current transform
-//    CGAffineTransform transform = CGAffineTransformIdentity;
-//    transform = CGAffineTransformTranslate(transform, 0, width);// translate the origin
-//    
-//    transform = CGAffineTransformRotate(transform, DegreesToRadians(-90.0));// rotates the context
-//    
-//    CGContextConcatCTM(bitmapContext, transform);// concatinate the transforms so they take place
-//    CGContextSetInterpolationQuality(bitmapContext, kCGInterpolationDefault);
-//    CGContextDrawImage(bitmapContext, CGRectMake(0, 0, width, width), imgRef);// draw the image in the rotated context
-//    CGImageRef newImg = CGBitmapContextCreateImage(bitmapContext);// create the new version
-//    UIImage* newRotated = [UIImage imageWithCGImage:newImg];// get a UIImage to put in the previewImageView;
-//    
-//    // update the buildItemVals' imageRotation value to reflect the change
-//    NSNumber * rotation = [self.buildItemVals valueForKey:@"imageRotation"];
-//    NSInteger rotationValue = [rotation integerValue];
-//    rotationValue -= 90;
-//    rotationValue = (rotationValue > -360) ? rotationValue : 0;
-//    [self.buildItemVals setValue:[NSNumber numberWithInteger:rotationValue] forKey:@"imageRotation"];// set the buildItemVals value to the new imageRotation
-//    CGContextRelease(bitmapContext);
-//    CGImageRelease(newImg);
-//    
-//    return newRotated;
-//
-//}
-//
-//CGFloat DegreesToRadians(CGFloat degrees)
-//{
-//    return degrees * M_PI / 180;
-//};
-//
-//CGFloat RadiansToDegrees(CGFloat radians)
-//{
-//    return radians * 180 / M_PI;
-//};
+-(UIImage*) rotateThumbnail:(UIImage*)imgToRotate{
+    
+    UIImage *thumb = imgToRotate;
+    CGImageRef imgRef = thumb.CGImage;
+    
+    CGFloat width = CGImageGetWidth(imgRef);// get the width to use for all
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width,width, CGImageGetBitsPerComponent(imgRef), 0, CGImageGetColorSpace(imgRef), CGImageGetBitmapInfo(imgRef));
+    // get the current transform
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformTranslate(transform, 0, width);// translate the origin
+    
+    transform = CGAffineTransformRotate(transform, DegreesToRadians(-90.0));// rotates the context
+    
+    CGContextConcatCTM(bitmapContext, transform);// concatinate the transforms so they take place
+    CGContextSetInterpolationQuality(bitmapContext, kCGInterpolationDefault);
+    CGContextDrawImage(bitmapContext, CGRectMake(0, 0, width, width), imgRef);// draw the image in the rotated context
+    CGImageRef newImg = CGBitmapContextCreateImage(bitmapContext);// create the new version
+    UIImage* newRotated = [UIImage imageWithCGImage:newImg];// get a UIImage to put in the previewImageView;
+    
+    // update the buildItemVals' imageRotation value to reflect the change
+    NSNumber * rotation = [self.buildItemVals valueForKey:@"imageRotation"];
+    NSInteger rotationValue = [rotation integerValue];
+    rotationValue -= 90;
+    rotationValue = (rotationValue > -360) ? rotationValue : 0;
+    [self.buildItemVals setValue:[NSNumber numberWithInteger:rotationValue] forKey:@"imageRotation"];// set the buildItemVals value to the new imageRotation
+    CGContextRelease(bitmapContext);
+    CGImageRelease(newImg);
+    
+    return newRotated;
+
+}
+
+CGFloat DegreesToRadians(CGFloat degrees)
+{
+    return degrees * M_PI / 180;
+};
+
+CGFloat RadiansToDegrees(CGFloat radians)
+{
+    return radians * 180 / M_PI;
+};
 
 - (IBAction)editCaption:(id)sender{
     TextEntryViewController *tv = [[TextEntryViewController alloc] initWithNibName:@"TextEntryViewController" bundle:[NSBundle mainBundle]];

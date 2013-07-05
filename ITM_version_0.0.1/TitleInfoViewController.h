@@ -34,10 +34,7 @@
 @property (strong, nonatomic) NSString* thumbNailPath;// the path for the thumbnail if it has one
 @property (strong, nonatomic) IBOutlet UITextField* titleTxt;
 @property (strong, nonatomic) IBOutlet UIImageView* previewImg;//preview image
-@property (strong, nonatomic) IBOutlet UILabel *statusTxt;// represents the status
-@property (strong, nonatomic) IBOutlet UIImageView* statusImg;//shows whether the item is editable/uploading/viewable
-@property (strong, nonatomic) IBOutlet UILabel *statusLabel;//the label for status
-@property (strong, nonatomic) NSString *status;// the actual status of the build
+
 @property (nonatomic, assign) BOOL isEditable;// used to initialize and tells whether the item is editablew
 @property (strong, nonatomic) id <TitleInfoProtocol> delegate;
 @property (strong, nonatomic) UIImage *preview;// actual preview image
@@ -45,7 +42,7 @@
 
 
 @property (strong, nonatomic) IBOutlet UILabel *datePublishedLabel;
-
+@property (strong, nonatomic) IBOutlet UILabel *datePublishedTitle;
 @property (strong, nonatomic) NSString *buildTitle;
 @property (strong, nonatomic) NSString *description;
 @property (strong, nonatomic) NSString *buildID;

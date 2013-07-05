@@ -50,9 +50,6 @@
 //        deleteBtn.frame = deleteBtnFrame;
 //        [self.view addSubview:deleteBtn];
         
-        self.statusTxt.text = [self statusTxtForBuildStatus:self.status];
-        [self.statusLabel setTextAlignment:NSTextAlignmentLeft];
-        [self.statusImg setImage:[self statusImgForBuildStatus:self.status]];
        [self.previewImg setImage:self.preview];
         [self.previewImg sizeToFit];
         self.titleTxt.text = self.titleForBuild;
@@ -61,16 +58,14 @@
         
     }else{
         [self.deleteBtn setHidden:YES];
-        [self.statusImg setHidden:YES];
-        [self.statusTxt setHidden:YES];
-        [self.statusLabel setHidden:YES]; 
         [self.previewImg setHidden:YES];
         [self.previewLabel setHidden:YES];
         [self.viewButton setHidden:YES];
+        [self.datePublishedTitle setHidden:YES];
         
     }
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithRed:1.0f green:0.93f blue:0.79f alpha:1.0f];
     
     
     
@@ -152,6 +147,17 @@
     }
     return YES;
 }
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if(textView.text.length < 150 || range.length > 0){
+        [textView setBackgroundColor:[UIColor whiteColor]];
+        
+        return YES;
+    }
+    [textView setBackgroundColor:[UIColor redColor]];
+    return NO;
+}
+
+
 
 -(BOOL) textViewShouldEndEditing:(UITextView *)textView{
     [self doneEditingAction:textView];
@@ -166,6 +172,16 @@
     self.activeView = textView;
     [self setupDoneBtn];
     
+}
+
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    if(textField.text.length < 50 || range.length > 0){
+        [textField setBackgroundColor:[UIColor whiteColor]];
+        return YES;
+    }
+    [textField setBackgroundColor:[UIColor redColor]];
+    return NO;
 }
 
 - (void) setupDoneBtn{
@@ -192,34 +208,9 @@
     [self.doneBtn removeFromSuperview];
     
 }
-// returns the status text to show the user based on the status of the build - edit/view/uploading
--(NSString*) statusTxtForBuildStatus:(NSString*) buildStatus{
-    NSString* status = nil;
-    
-    if([buildStatus isEqualToString:@"edit"]){
-        status = @"Editable - you can edit this item and then post it to your users.";
-    }else if([buildStatus isEqualToString:@"uploading"]){
-        status = @"Uploading - this item is uploading, stop the upload to continue editing.";
-    }else{
-        status = @"View - this item has been uploaded, you can view the item.";
-    }
-    return status;
-}
 
--(UIImage*) statusImgForBuildStatus:(NSString*) buildStatus{
-    
-    UIImage* statusImg = nil;
-    
-    if([buildStatus isEqualToString:@"edit"]){
-        statusImg = [UIImage imageNamed:@"eye-open.png"];
-    }else if([buildStatus isEqualToString:@"uploading"]){
-        statusImg = [UIImage imageNamed:@"eye-close.png"];
-    }else{
-        statusImg = [UIImage imageNamed:@"pencil.png"];
-    }
-    return statusImg;
-    
-}
+
+
 // cancels the build process and dismissess the view controller
 - (IBAction)cancelBuild:(id)sender{
     [self.delegate userDidCancel];
@@ -243,7 +234,7 @@
 - (IBAction)viewBuild:(id)sender{
     
     if(self->_applicationID != nil ){
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itmmobile.net/ItemViewer.html?id=%@",self->_applicationID]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itmgo.com/ItemViewer.html?id=%@",self->_applicationID]];
         
         [[UIApplication sharedApplication] openURL:url];
     }
