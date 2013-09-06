@@ -22,7 +22,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *lastName;
 @property (strong, nonatomic) IBOutlet UITextField *email;
 @property (strong, nonatomic) IBOutlet UIButton *getStartedBtn;
-@property (strong, nonatomic) IBOutlet UITextField *userName;
 @property (strong, nonatomic) IBOutlet UITextField *password;
 @property (strong, nonatomic) id <StartScreenProtocol> delegate;
 - (IBAction)getStarted:(id)sender;

@@ -22,17 +22,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *fName;
 @property (strong, nonatomic) IBOutlet UILabel *lName;
 @property (strong, nonatomic) IBOutlet UILabel *email;
-@property (strong, nonatomic) IBOutlet UILabel *userName;
-@property (strong, nonatomic) IBOutlet UITextField *password;
-@property (strong, nonatomic) IBOutlet UIButton *saveBtn;
-@property (strong, nonatomic) IBOutlet UIButton *cancelBtn;
-@property (strong, nonatomic) IBOutlet UIButton *showPasswordBtn;
+
+@property (strong, nonatomic) IBOutlet UIButton *okBtn;
 @property (strong, nonatomic) id <ProfileProtocol> delegate;
-- (IBAction)showPassword:(id)sender;
+
+- (IBAction)ok:(id)sender;
 
 
-- (IBAction)save:(id)sender;
-
-- (IBAction)cancel:(id)sender;
 
 @end

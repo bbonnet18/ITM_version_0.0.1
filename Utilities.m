@@ -60,6 +60,31 @@
     
 }
 
++(void) storeUserInformation:(NSDictionary *)userInfo{
+    
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"user"] == nil){
+        NSDictionary *user = userInfo[@"user"];
+        
+        NSDictionary *contact = user[@"contact"];
+        NSString *primaryEmail = nil;
+        NSDictionary *emailAddresses = contact[@"email_addresses"];
+        for (NSDictionary* email in emailAddresses) {
+            if([email[@"type"] isEqualToString:@"primary"]){
+                primaryEmail = email[@"address"];
+            }
+        }
+        
+        NSString *firstName = user[@"first_name"];
+        NSString *lastName = user[@"last_name"];
+        
+        NSDictionary *allUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:primaryEmail,@"email",firstName,@"firstName",lastName,@"lastName",user,@"fullUserInfo", nil];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:allUserInfo forKey:@"user"];
+
+    }
+        
+}
+
 //-(UIButton*) createRoundedCustomBtnWithImage:(UIImage *)btnImg{
 //    UIColor *btnTintColor = [UIColor colorWithRed:1.0 green:0.93 blue:0.79 alpha:1.0];
 //

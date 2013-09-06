@@ -24,7 +24,7 @@
 @interface Uploader ()
 
 - (UIImage*) rotateImage:(UIImage*)img;
-
+- (void) uploadPreviewImage;// uploads the preview image from the path set during initialization
 @end
 
 @implementation Uploader
@@ -45,6 +45,7 @@
 @synthesize jsonData = _jsonData;
 @synthesize uploadComplete = _uploadComplete;
 @synthesize emailsToDistribute = _emailsToDistribute;
+@synthesize previewImagePath = _previewImagePath;
 
 // class methods
 
@@ -406,7 +407,6 @@
  
 
     
-    NSLog(@"error: %@",[err localizedDescription]);
     if(!err){
         [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
         [[ITMServiceClient sharedInstance] JSONCommandWithParameters:jsonDic onCompletion:^(NSDictionary *json) {
@@ -420,7 +420,7 @@
                 NSLog(@"newID: %@ appID %i",newID,appID);
                 self.application_id = [newID intValue];
                 [self.delegate initialUploadStartedWithNewID:[newID intValue] andBuildID:self.buildID];
-                [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
+                [self performSelectorOnMainThread:@selector(uploadPreviewImage) withObject:nil waitUntilDone:NO];
             }else{
                 [self.delegate uploadDidFailWithReason:[json valueForKey:@"error"] andID:self.buildID];
             }
@@ -499,8 +499,25 @@
 }
 
 
+-(void) uploadPreviewImage{
 
+    NSData *previewData = [NSData dataWithContentsOfFile:self.previewImagePath];
+    NSMutableDictionary *previewDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:previewData,@"file",@"fileName",@"preview.jpg",[NSNumber numberWithInt:self.application_id],@"id",  nil];
+    
+    [[ITMServiceClient sharedInstance] uploadPreviewItem:previewDictionary onCompletion:^(NSDictionary *json) {
+        
+        if([json valueForKey:@"error"] == nil){
+            // now the preview item has been uploaded
+            [self performSelectorOnMainThread:@selector(buildRequestAndUpload) withObject:nil waitUntilDone:NO];
+        }else{
+            [self.delegate uploadDidFailWithReason:[json valueForKey:@"error"] andID:self.buildID];
+        }
 
+        
+    }];
+    
+    
+}
 
 
 // end private methods

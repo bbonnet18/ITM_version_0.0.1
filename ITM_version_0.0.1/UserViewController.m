@@ -12,7 +12,6 @@
 @interface UserViewController ()
 -(BOOL) isValidEmail:(NSString *)emailAdd;// checks for valid emails
 -(BOOL) isValidPassword:(NSString*)password;
--(BOOL) isValidUserName:(NSString*)userName;
 -(NSData*) jsonDataForUser:(NSDictionary*)userData;// gets data from the user's info
 @end
 
@@ -33,8 +32,9 @@
     [super viewDidLoad];
     NSDictionary *userDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
     
-    self.firstName.text = [userDic valueForKey:@"firstname"];
-    self.lastName.text = [userDic valueForKey:@"lastname"];
+    self.firstName.text = [userDic valueForKey:@"firstName"];
+    self.lastName.text = [userDic valueForKey:@"lastName"];
+    self.email.text = [userDic valueForKey:@"email"];
     
 
     // Do any additional setup after loading the view from its nib.
@@ -53,29 +53,18 @@
 
 - (IBAction)getStarted:(id)sender {
     
-    if(![self.firstName.text isEqualToString:@""] && ![self.lastName.text isEqualToString:@""] && [self isValidEmail:self.email.text] && [self isValidUserName:self.userName.text] && [self isValidPassword:self.password.text]){
+    if(![self.firstName.text isEqualToString:@""] && ![self.lastName.text isEqualToString:@""] && [self isValidEmail:self.email.text] && [self isValidPassword:self.password.text]){
         
-        NSMutableDictionary *userDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.firstName.text,@"fName",self.lastName.text, @"lName",self.email.text,@"email",self.userName.text,@"userName",self.password.text,@"password", nil];
+        NSMutableDictionary *userDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.firstName.text,@"fName",self.lastName.text, @"lName",self.email.text,@"email",self.email.text,@"userName",self.password.text,@"password", nil];
 
             
             [[ITMServiceClient sharedInstance] setParameterEncoding:AFJSONParameterEncoding];
             [[ITMServiceClient sharedInstance] JSONUSERCommandWithParameters: userDic onCompletion:^(NSDictionary *json) {
-                
-                if([[json valueForKey:@"userName"] isEqualToString:self.userName.text]){
+                // completed successfully
+                if([[json valueForKey:@"email"] isEqualToString:self.email.text]){
                     
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"fName"] forKey:@"firstName"];
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"lName"] forKey:@"lastName"];
-                    [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"email"] forKey:@"email"];
-                                  
-//                NSURLProtectionSpace *protection = [[NSURLProtectionSpace alloc] initWithHost:@"itmgo.com" port:0 protocol:@"http" realm:nil authenticationMethod:NSURLAuthenticationMethodHTTPBasic];
-//                    
-//                    NSURLCredential *newCreds = [NSURLCredential credentialWithUser:self.userName.text password:self.password.text persistence: NSURLCredentialPersistencePermanent];
-//                    
-//               [[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential:newCreds forProtectionSpace:protection];
-                    [[NSUserDefaults standardUserDefaults] setValue:self.userName.text forKey:@"userName"];
-                    [[NSUserDefaults standardUserDefaults] setValue:self.password.text forKey:@"password"];
 
-                [self.delegate userDidGetStarted:[NSDictionary dictionaryWithObjectsAndKeys:self.firstName.text,@"firstName",self.lastName.text,@"lastName",self.email.text,@"email", nil]];
+                    [self.delegate userDidGetStarted:userDic];
                     
                 }else{
                     UIAlertView *alertNoUser = [[UIAlertView alloc] initWithTitle:@"No user created, please try again. If this persists, contact bonnet_ben@bah.com" message:@"unable to create user" delegate:nil cancelButtonTitle:@"try again" otherButtonTitles: nil];
@@ -140,62 +129,6 @@
 
 @end
 
-/*
- - (NSData*) generateJSONFromBuild:(Build*)b withItems:(NSArray*)buildItems andEmails:(NSArray*)emails{
- // get the date
- NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
- [formatter setDateStyle:NSDateFormatterMediumStyle];
- [formatter setTimeStyle:NSDateFormatterNoStyle];
- [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
- NSString *creationDateString = [formatter stringFromDate:b.dateCreated];
- // this builds a hierarchy with the main node being the build and the items string data making up the rest
- NSDictionary *metaDataDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:creationDateString, @"buildCreationDate",nil];
- 
- // initialize the dictionary that we'll use to add the items to
- NSMutableDictionary *buildDictionary = [[NSMutableDictionary alloc] initWithDictionary:metaDataDictionary];
- // create an array to store the items
- NSMutableArray * itemArray = [[NSMutableArray alloc] init];
- // roll through the items and extract what's needed and add each to the array
- for (BuildItem * b in buildItems) {
- NSString * screenTitle = b.title;
- NSString * screenID = b.buildItemIDString;
- NSString * itemType = b.type;
- NSString * screenText = b.caption;
- NSDictionary *itemDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:screenTitle,@"screenTitle",screenID,@"screenID",itemType,@"itemType",screenText,@"screenText", nil];
- [itemArray addObject:itemDictionary];
- 
- }
- // add the item array to the buildDictionary
- b.applicationID = (b.applicationID != nil) ? b.applicationID : 0;
- 
- if(b.applicationID == nil){
- b.applicationID = [NSNumber numberWithInt:0];
- }
- NSLog(@"APP ID IS: %@",b.applicationID);
- [buildDictionary setObject:b.applicationID forKey:@"applicationID"];
- [buildDictionary setObject:@"" forKey:@"manifestPath"];
- [buildDictionary setObject:itemArray forKey:@"buildItems"];
- //[buildDictionary setObject:emails forKey:@"distroEmails"];
- [buildDictionary setObject:b.buildID forKey:@"buildID"];
- [buildDictionary setObject:b.buildDescription forKey:@"tags"];
- [buildDictionary setObject:b.title forKey:@"title"];
- NSString *email = [[[NSUserDefaults standardUserDefaults] objectForKey:@"user"] valueForKey:@"email"];
- [buildDictionary setObject:email forKey:@"email"];
- NSError *error;
- // create json data
- NSData *buildData = [NSJSONSerialization dataWithJSONObject:buildDictionary options:0 error:&error];
- 
- NSString *stringData = [[NSString alloc] initWithData:buildData encoding:NSUTF8StringEncoding];
- 
- if(!error){
- NSLog(@"jsonData: %@",stringData );
- return buildData;
- }else {
- return nil;
- }
- 
- }
 
- */
 
 

@@ -12,6 +12,7 @@
 #define kITMServiceBaseURLString @"https://itmgo.com"// the base service string
 #define kITMServicePath @"api/Build/" // path to services
 #define kITMItemPath @"api/Item/"
+#define kITMPreviewPath @"api/Item/preview"
 #define kITMUserPath @"api/User/register"
 
 @interface ITMServiceClient ()
@@ -55,9 +56,12 @@
 // sets the authorization headers to the credentials for this individual
 -(void) setAuth{
     
-    NSString *username = [[NSUserDefaults standardUserDefaults] valueForKey:@"userName"];
-    NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
-    [self setAuthorizationHeaderWithUsername:username password:password];
+    NSDictionary *userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+//
+    NSString *userName = [userInfo objectForKey:@"email"];
+    NSString *password = [userInfo objectForKey:@"password"];
+
+    [self setAuthorizationHeaderWithUsername:userName password:password];
 }
 
 - (void) cancelOps{
@@ -142,6 +146,60 @@
 
 }
 
+- (void) uploadPreviewItem:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{// using the block from the header file and that will receive a JSON dictionary
+    
+    [self setAuth];// make sure you're using the most up to date password
+    
+    NSData* uploadFile = nil;
+	if ([params objectForKey:@"file"]) {
+		uploadFile = (NSData*)[params objectForKey:@"file"];
+		[params removeObjectForKey:@"file"];
+	}
+    
+    NSString *fileName = [NSString stringWithFormat:@"previewItem.jpg"];
+    
+    NSString *mimeType = @"image/jpg";
+    NSString *itemPath = [NSString stringWithFormat:@"%@/%@",kITMPreviewPath,[params valueForKey:@"id"]];
+    // create the request as multipart to send the file data, this can be configured to send both image and video requests
+    NSMutableURLRequest *apiRequest = [self multipartFormRequestWithMethod:@"POST" path:itemPath parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+		if (uploadFile) {
+            
+			[formData appendPartWithFileData:uploadFile name:@"file" fileName:fileName mimeType:mimeType];
+		}
+	}];
+    
+    
+    NSLog(@"url : %@",apiRequest.URL);
+    [apiRequest.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"%@ -:- %@",key,obj);
+    }];
+    
+    // create the JSON Operation
+    AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: apiRequest];
+    operation.JSONReadingOptions = NSJSONReadingAllowFragments;
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //success!
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+            
+            completionBlock(responseObject);// this means that the block will receive the responseObject as it's attribute
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //failure :(
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+            NSLog(@"errorNewHTTPOP: %@ - %@ - %@ - %@",[error localizedDescription],[error localizedFailureReason],[error localizedRecoverySuggestion],[error localizedRecoveryOptions]);
+            completionBlock([NSDictionary dictionaryWithObject:[error localizedDescription] forKey:@"error"]);
+        }
+    }];
+    //[self.operationQueue addOperation:operation];
+    self.currentRequest = operation;
+    
+    [self.currentRequest start];
+    
+    
+}
+
+
+
 - (void) JSONCommandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{
     
     [self setAuth];
@@ -182,13 +240,16 @@
 - (void) JSONUSERCommandWithParameters:(NSMutableDictionary *)params onCompletion:(JSONResponseBlock)completionBlock{
 
     //no need to [self setAuth] because it only gets called once
-    
+    [self setAuthorizationHeaderWithUsername:@"tempuser" password:@"temppassword"];
     NSMutableURLRequest  *req = [self requestWithMethod:@"POST" path:kITMUserPath parameters:params];
     [req setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Accept"];
     
     NSLog(@"url : %@",req.URL);
     
-    
+    NSDictionary *requestDic = [req allHTTPHeaderFields];
+    [requestDic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"key: %@   -    value: %@",key,obj);
+    }];
     
     AFJSONRequestOperation* operation = [[AFJSONRequestOperation alloc] initWithRequest: req];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -208,6 +269,8 @@
     [self.currentRequest start];
     
 }
+
+
 
 
 @end

@@ -175,7 +175,7 @@
 }
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    
+    // chck length
     if(textField.text.length < 50 || range.length > 0){
         [textField setBackgroundColor:[UIColor whiteColor]];
         return YES;

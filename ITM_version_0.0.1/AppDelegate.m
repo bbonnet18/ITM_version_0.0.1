@@ -14,8 +14,11 @@
 
 @interface AppDelegate ()
 
--(NSDictionary*)getUserInfo:(NSString*) urlString;
+//-(NSDictionary*)getUserInfo:(NSString*) urlString;
 
+-(BOOL) checkUserInfo;// checks to see if the user's Yammer and ITM creds exist
+-(void) registerUser:(NSNotification*)note;// gets the notification from login procedure so we register the user if the user hasn't done that yet
+-(void) loginUser:(NSNotification*)note;// for users who are fully logged in
 @end
 
 @implementation AppDelegate
@@ -49,12 +52,11 @@
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
-//    For Testing
-//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenHome"];
-//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenTitle"];
-//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenEdit"];
-//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenPublish"];
-//    [[NSUserDefaults standardUserDefaults] setValue:@"NO" forKey:@"hasSeenCapture"];
+    // has to happen when the user hasn't set a password
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerUser:) name:@"RegisterUser" object:nil];
+    // has to happen when the user is fully registered and logged in
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginUser:) name:@"LoginUser" object:nil];
+
     
         // reachability blocks and initialization
     Reachability * reach = [Reachability reachabilityWithHostname:kITMServiceBaseURLString];
@@ -77,108 +79,81 @@
     
     [reach startNotifier];
     
-    
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"]  && [[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
-        NSString* uploadingBuildID = [[NSUserDefaults standardUserDefaults] valueForKey:@"lastUploadingBuildID"];
-        
-        NSArray * emails =  [[NSUserDefaults standardUserDefaults] objectForKey:@"lastUploadingEmails"];
-        // set emails to contain at least one object
-        
-        // this should be encapsulated in another method, so it can be called from here and from the published function
-        
-        Build * newBuild = [self getBuild:uploadingBuildID];
-        
-        if(newBuild != nil){
-            [self startUploadProcessWithBuild:newBuild withDistroEmails:emails];
+            YammerLoginViewController *login = [[YammerLoginViewController alloc] initWithNibName:@"YammerLoginViewController" bundle:[NSBundle mainBundle]];
+            
+            self.window.rootViewController = login;
 
-        }
-                
-    }
-    
-    //this was launched through a url - so handle it
-    if([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]){
-                
-        NSString *urlString = [[launchOptions objectForKey:UIApplicationLaunchOptionsURLKey] absoluteString];
-        // get user
-        NSDictionary *userDic = [self getUserInfo:urlString];
-        if(userDic != nil){
-            [[NSUserDefaults standardUserDefaults] setObject:userDic forKey:@"user"];
-        }
-        HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
-        hc.context = self.managedObjectContext;
-        hc.delegate = self;
-        
-        // subclassed main nave controller from nav controller to override autorotation
-        MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
-        UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
-        [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
-        self.navController = nav;
-        
-        self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
-        
-    }else{
-        
-        if([[NSUserDefaults standardUserDefaults] objectForKey:@"user"] == nil){
-            RegisterViewController *reg = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:[NSBundle mainBundle]];
-            
-            self.window.rootViewController = reg;
-            
-        }else{
-            HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
-            hc.context = self.managedObjectContext;
-            hc.delegate = self;
-            
-            // subclassed main nave controller from nav controller to override autorotation
-            MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
-            UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
-            [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
-            self.navController = nav;
-            
-            self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
-        }
-        
-        
-    }
-   // if there's no user, create one
     
     
     return YES;
 
 }
 
--(NSDictionary*) getUserInfo:(NSString *)urlString{
-    
+// check to see if the user exists, that the authToken exists from Yammer otherwise -
+// 1. if no authToken, restart login process and erase any user info
+// 2. if no user, erase all user information and restart login process
 
-    NSString *paramsStr  = [[urlString componentsSeparatedByString:@"//"] objectAtIndex:1];// this gets the URL as a string.
-    
-    NSArray *parameters = [paramsStr componentsSeparatedByString:@"&"];
-    
-    NSMutableDictionary *userDic = [[NSMutableDictionary alloc] init];// set the dictionary
-    
-    for(NSString* param in parameters){
-        
-        NSArray * comps = [param componentsSeparatedByString:@"="];
-        NSString *key = [comps objectAtIndex:0];
-        NSString *val = [comps objectAtIndex:1];
-        
-        [userDic setValue:val forKey:key];// set it to the value of the parameters, split into key/values
+-(BOOL) checkUserInfo{
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"user"] != nil ||[[YMLoginController sharedInstance] storedAuthToken] != nil){
+        return YES;
     }
-    
-    NSArray *keys = [userDic allKeys];
-    // check to see if the right keys exist
-    for(NSString *key in keys){
-        if([key isEqualToString:@"firstname"] || [key isEqualToString:@"lastname"] || [key isEqualToString:@"token"]){
-         
-        }else{
-            // parameters are off, return nil
+    return NO;
+}
 
-            return  nil;
-        }
-    }
+-(void) registerUser:(NSNotification *)note{
     
-    return userDic;
+    UserViewController *uv = [[UserViewController alloc] initWithNibName:@"UserViewController" bundle:[NSBundle mainBundle]];
+    uv.delegate = self;
+    self.window.rootViewController = uv;
 
 }
+
+- (void) loginUser:(NSNotification*) note{
+    HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
+    hc.context = self.managedObjectContext;
+    hc.delegate = self;
+    
+    // subclassed main nave controller from nav controller to override autorotation
+    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
+    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
+    [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
+    self.navController = nav;
+    
+    self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
+}
+//-(NSDictionary*) getUserInfo:(NSString *)urlString{
+//
+//
+//    NSString *paramsStr  = [[urlString componentsSeparatedByString:@"//"] objectAtIndex:1];// this gets the URL as a string.
+//    
+//    NSArray *parameters = [paramsStr componentsSeparatedByString:@"&"];
+//    
+//    NSMutableDictionary *userDic = [[NSMutableDictionary alloc] init];// set the dictionary
+//    
+//    for(NSString* param in parameters){
+//        
+//        NSArray * comps = [param componentsSeparatedByString:@"="];
+//        NSString *key = [comps objectAtIndex:0];
+//        NSString *val = [comps objectAtIndex:1];
+//        
+//        [userDic setValue:val forKey:key];// set it to the value of the parameters, split into key/values
+//    }
+//    
+//    NSArray *keys = [userDic allKeys];
+//    // check to see if the right keys exist
+//    for(NSString *key in keys){
+//        if([key isEqualToString:@"firstname"] || [key isEqualToString:@"lastname"] || [key isEqualToString:@"token"] || [key isEqualToString:@"email"] || [key isEqualToString:@"password"]){
+//         
+//        }else{
+//            // parameters are off, return nil
+//
+//            return  nil;
+//        }
+//    }
+//    
+//    return userDic;
+//
+//}
 
 -(void)reachabilityChanged:(NSNotification*)note
 {
@@ -233,6 +208,10 @@
             // create an instance of uploader and assign it to the uploader instance variable so it can be acted on and tracked
             self.uploader = [[Uploader alloc] initWithBuildItems:mediaItemsToUpload buildID:newBuild.buildID];
             self.uploader.emailsToDistribute = distroEmails;
+            
+            BuildItem *bI = [mediaItems objectAtIndex:0];// used to get the first buildItem image for the preview
+            
+            [self.uploader setPreviewImagePath:bI.thumbnailPath];
             self.uploader.delegate = self;// should probably set this before calling the method above, or set it with it.
             [self.uploader createJSONDataRequest:jsonData];// start the upload process
         }else{
@@ -356,7 +335,7 @@
     [buildDictionary setObject:b.buildID forKey:@"buildID"];
     [buildDictionary setObject:b.buildDescription forKey:@"tags"];
     [buildDictionary setObject:b.title forKey:@"title"];
-    NSString *email = [[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
+    NSString *email = @"testemail@bah.com";//[[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
     [buildDictionary setObject:email forKey:@"email"];
     NSError *error;
     // create json data
@@ -372,6 +351,8 @@
     }
     
 }
+
+
 // incomplete - finish
 #pragma mark - uploads
 - (void) addItemsToUploadObjects:(NSMutableArray *)mediaItems{
@@ -521,10 +502,16 @@
 }
 
 #pragma StartScreenProtocol delegate methods
-
+// this will finally set the user data 
 -(void) userDidGetStarted:(NSDictionary *)userData{
     
-    [[NSUserDefaults standardUserDefaults] setObject:userData forKey:@"user"];
+    NSString *firstName = [userData valueForKey:@"fName"];
+    NSString *lastName = [userData valueForKey:@"lName"];
+    NSString *email = [userData valueForKey:@"email"];
+    NSString *passoword = [userData valueForKey:@"password"];
+    NSDictionary *finalUserData = [[NSDictionary alloc] initWithObjectsAndKeys:firstName,@"firstName",lastName,@"lastName",email,@"email",passoword,@"password", nil];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:finalUserData forKey:@"user"];
     
     HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
     hc.context = self.managedObjectContext;
@@ -566,10 +553,11 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    
+    // stop the upload if there is one going on
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
-        if(self.uploader){
-            [self.uploader stopUpload];
-        }
+        [self.uploader stopUpload];// 
+        // set the isUploading variable to NO
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
     
@@ -577,26 +565,13 @@
 
 -(BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-    NSString *urlString = [url absoluteString];
-    
-    NSDictionary * userInfo = [self getUserInfo:urlString];
-    if(userInfo != nil){
-        [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"user"];
+    if([[YMLoginController sharedInstance] handleLoginRedirectFromUrl:url sourceApplication:sourceApplication]){
+        return YES;
     }
     
-    HomeTableViewController *hc = [[HomeTableViewController alloc] initWithNibName:@"HomeTableViewController" bundle:[NSBundle mainBundle]];
-    hc.context = self.managedObjectContext;
-    hc.delegate = self;
     
-    // subclassed main nave controller from nav controller to override autorotation
-    MainNavViewController *nav = [[MainNavViewController alloc] initWithRootViewController:hc];
-    UIImage* bgImg = [UIImage imageNamed:@"mysteriousblue-300x45p.png"];// get the header background image
-    [nav.navigationBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];// set the background image of the nav bar
-    self.navController = nav;
     
-    self.window.rootViewController = self.navController;// setting the root view controller is the right way, instead of making the homeview's view a subview of the window - maybe because it then releases the view controller and simply holds onto the subview (in this case that's a button
-    
-    return YES;
+    return NO;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -607,12 +582,14 @@
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
-        if(self.uploader){
-            [self.uploader resumeUpload];
-        }
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    }
+//    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
+//        if(self.uploader){
+//            [self.uploader resumeUpload];
+//        }
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    }
+    
+    NSString *test = @"test";
     
 }
 
@@ -624,7 +601,7 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-    
+    // restart any uploads
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
         if(self.uploader){
             [self.uploader resumeUpload];
@@ -639,7 +616,10 @@
     // stop the upload process and clean up. Make sure to store all relevant user settings
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"isUploading"] == YES){
-        [self.uploader stopUpload];// stop the upload process
+        [self.uploader cancelUpload];// cancel the upload process
+        // set the isUploading variable to NO
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isUploading"];
+        [[NSUserDefaults standardUserDefaults] setValue:0 forKey:@"uploadIndex"];// set upload indext to 0
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
     

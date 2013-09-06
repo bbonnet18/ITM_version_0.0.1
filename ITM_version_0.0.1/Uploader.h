@@ -47,6 +47,7 @@
     BOOL _uploadComplete;// used to track whether completely done uploading, initially set to NO
 
     NSArray *_emailsToDistribute;// holds all the distribution emails if the user provided any
+    NSString *_previewImagePath;// this will hold a reference to the thumbnail image for the whole build
 }
 
 @property (strong, nonatomic) id <UploadProtocol> delegate;
@@ -67,7 +68,7 @@
 @property (strong, nonatomic) NSData *jsonData;
 @property (assign, nonatomic) BOOL uploadComplete;
 @property (strong, nonatomic) NSArray *emailsToDistribute;// handles all the emails from the user when there are emails to distribute this to
-
+@property (strong, nonatomic) NSString *previewImagePath;
 // this method takes in an array of dictionary objects and a JSONData object and starts the process of uploading
 - (id) initWithBuildItems:(NSArray*) buildItemVals buildID:(NSString*) idNum;
 

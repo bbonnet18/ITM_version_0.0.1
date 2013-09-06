@@ -139,6 +139,16 @@
 		9059FA71168D675D00BAE222 /* notepad2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9059FA6F168D675D00BAE222 /* notepad2@2x.png */; };
 		9059FA74168D67AB00BAE222 /* file-info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9059FA72168D67AB00BAE222 /* file-info.png */; };
 		9059FA75168D67AB00BAE222 /* file-info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9059FA73168D67AB00BAE222 /* file-info@2x.png */; };
+		905D32F717CD91130057FB04 /* NSURL+YMQueryParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D32F017CD91130057FB04 /* NSURL+YMQueryParameters.m */; };
+		905D32F817CD91130057FB04 /* YMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D32F217CD91130057FB04 /* YMConstants.m */; };
+		905D32F917CD91130057FB04 /* YMHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D32F417CD91130057FB04 /* YMHTTPClient.m */; };
+		905D32FA17CD91130057FB04 /* YMLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D32F617CD91130057FB04 /* YMLoginController.m */; };
+		905D330217CEE5680057FB04 /* PDKeychainBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D32FF17CEE5670057FB04 /* PDKeychainBindings.m */; };
+		905D330317CEE5680057FB04 /* PDKeychainBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D330117CEE5680057FB04 /* PDKeychainBindingsController.m */; };
+		905D330417CEE7860057FB04 /* PDKeychainBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D32FF17CEE5670057FB04 /* PDKeychainBindings.m */; };
+		905D330517CEE7860057FB04 /* PDKeychainBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D330117CEE5680057FB04 /* PDKeychainBindingsController.m */; };
+		905D336B17D4E1590057FB04 /* YammerLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D336917D4E1580057FB04 /* YammerLoginViewController.m */; };
+		905D336C17D4E1590057FB04 /* YammerLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 905D336A17D4E1580057FB04 /* YammerLoginViewController.xib */; };
 		9068FB3416C1ED340061C288 /* ITMServiceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9068FB3316C1ED340061C288 /* ITMServiceClient.m */; };
 		9068FDAC1693831700217D80 /* TrustedCheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9068FDAA1693831700217D80 /* TrustedCheckmark.png */; };
 		9068FDAD1693831700217D80 /* TrustedCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9068FDAB1693831700217D80 /* TrustedCheckmark@2x.png */; };
@@ -220,6 +230,7 @@
 		90E408621749BA0B00D15B2C /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E408601749BA0B00D15B2C /* cancel@2x.png */; };
 		90E408651749BDBA00D15B2C /* cancel2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E408631749BDBA00D15B2C /* cancel2@2x.png */; };
 		90E408661749BDBA00D15B2C /* cancel2.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E408641749BDBA00D15B2C /* cancel2.png */; };
+		90E837FC17D8264A008FCF83 /* yammer-signin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E837FB17D8264A008FCF83 /* yammer-signin.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -387,6 +398,21 @@
 		9059FA6F168D675D00BAE222 /* notepad2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notepad2@2x.png"; sourceTree = "<group>"; };
 		9059FA72168D67AB00BAE222 /* file-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file-info.png"; sourceTree = "<group>"; };
 		9059FA73168D67AB00BAE222 /* file-info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file-info@2x.png"; sourceTree = "<group>"; };
+		905D32EF17CD91130057FB04 /* NSURL+YMQueryParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+YMQueryParameters.h"; sourceTree = "<group>"; };
+		905D32F017CD91130057FB04 /* NSURL+YMQueryParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+YMQueryParameters.m"; sourceTree = "<group>"; };
+		905D32F117CD91130057FB04 /* YMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMConstants.h; sourceTree = "<group>"; };
+		905D32F217CD91130057FB04 /* YMConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMConstants.m; sourceTree = "<group>"; };
+		905D32F317CD91130057FB04 /* YMHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMHTTPClient.h; sourceTree = "<group>"; };
+		905D32F417CD91130057FB04 /* YMHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMHTTPClient.m; sourceTree = "<group>"; };
+		905D32F517CD91130057FB04 /* YMLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMLoginController.h; sourceTree = "<group>"; };
+		905D32F617CD91130057FB04 /* YMLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMLoginController.m; sourceTree = "<group>"; };
+		905D32FE17CEE5670057FB04 /* PDKeychainBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindings.h; sourceTree = "<group>"; };
+		905D32FF17CEE5670057FB04 /* PDKeychainBindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindings.m; sourceTree = "<group>"; };
+		905D330017CEE5680057FB04 /* PDKeychainBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindingsController.h; sourceTree = "<group>"; };
+		905D330117CEE5680057FB04 /* PDKeychainBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindingsController.m; sourceTree = "<group>"; };
+		905D336817D4E1580057FB04 /* YammerLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YammerLoginViewController.h; sourceTree = "<group>"; };
+		905D336917D4E1580057FB04 /* YammerLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YammerLoginViewController.m; sourceTree = "<group>"; };
+		905D336A17D4E1580057FB04 /* YammerLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YammerLoginViewController.xib; sourceTree = "<group>"; };
 		9068FB3216C1ED340061C288 /* ITMServiceClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITMServiceClient.h; sourceTree = "<group>"; };
 		9068FB3316C1ED340061C288 /* ITMServiceClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITMServiceClient.m; sourceTree = "<group>"; };
 		9068FDAA1693831700217D80 /* TrustedCheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TrustedCheckmark.png; sourceTree = "<group>"; };
@@ -484,6 +510,7 @@
 		90E408601749BA0B00D15B2C /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 		90E408631749BDBA00D15B2C /* cancel2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel2@2x.png"; sourceTree = "<group>"; };
 		90E408641749BDBA00D15B2C /* cancel2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel2.png; sourceTree = "<group>"; };
+		90E837FB17D8264A008FCF83 /* yammer-signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yammer-signin.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -582,6 +609,7 @@
 		903C38AA1623C7D1001845FE = {
 			isa = PBXGroup;
 			children = (
+				905D32EE17CD91130057FB04 /* OAuthSDK */,
 				9090495F1743479A00816CF6 /* WebImageViewController.h */,
 				909049601743479A00816CF6 /* WebImageViewController.m */,
 				909049611743479A00816CF6 /* WebImageViewController.xib */,
@@ -676,6 +704,9 @@
 				909049651744702F00816CF6 /* UserViewController.m */,
 				904366E9177FD8700047B2D6 /* RegisterViewController.h */,
 				904366EA177FD8700047B2D6 /* RegisterViewController.m */,
+				905D336817D4E1580057FB04 /* YammerLoginViewController.h */,
+				905D336917D4E1580057FB04 /* YammerLoginViewController.m */,
+				905D336A17D4E1580057FB04 /* YammerLoginViewController.xib */,
 				904366EB177FD8700047B2D6 /* RegisterViewController.xib */,
 				909049661744702F00816CF6 /* UserViewController.xib */,
 				90BC6524163F86BD00460A55 /* PublishViewController.xib */,
@@ -709,6 +740,7 @@
 				908BCB2D167ED5C0003C61CD /* addcontactpressed@2x.png */,
 				9040274F167C22BB0053A389 /* ambientlightblue-300x115.jpg */,
 				9059FA6B168D631200BAE222 /* ambientlightblue-320x90.png */,
+				90E837FB17D8264A008FCF83 /* yammer-signin.png */,
 				90E4083C1745DB2D00D15B2C /* arrow_down@2x.png */,
 				90E4083D1745DB2D00D15B2C /* arrow_down.png */,
 				9017240C169951A3007C37B0 /* background00.png */,
@@ -860,6 +892,25 @@
 				903C38D31623C7D1001845FE /* ITM_version_0_0_1.xcdatamodeld */,
 			);
 			name = "core data";
+			sourceTree = "<group>";
+		};
+		905D32EE17CD91130057FB04 /* OAuthSDK */ = {
+			isa = PBXGroup;
+			children = (
+				905D32EF17CD91130057FB04 /* NSURL+YMQueryParameters.h */,
+				905D32F017CD91130057FB04 /* NSURL+YMQueryParameters.m */,
+				905D32FE17CEE5670057FB04 /* PDKeychainBindings.h */,
+				905D32FF17CEE5670057FB04 /* PDKeychainBindings.m */,
+				905D330017CEE5680057FB04 /* PDKeychainBindingsController.h */,
+				905D330117CEE5680057FB04 /* PDKeychainBindingsController.m */,
+				905D32F117CD91130057FB04 /* YMConstants.h */,
+				905D32F217CD91130057FB04 /* YMConstants.m */,
+				905D32F317CD91130057FB04 /* YMHTTPClient.h */,
+				905D32F417CD91130057FB04 /* YMHTTPClient.m */,
+				905D32F517CD91130057FB04 /* YMLoginController.h */,
+				905D32F617CD91130057FB04 /* YMLoginController.m */,
+			);
+			path = OAuthSDK;
 			sourceTree = "<group>";
 		};
 		90C0F8ED17093E0F00D1443D /* TestFlightSDK1 */ = {
@@ -1087,6 +1138,8 @@
 				90DAF5341769783500CECD45 /* link.png in Resources */,
 				90DAF536176AA78400CECD45 /* wifi_lg.png in Resources */,
 				904366ED177FD8710047B2D6 /* RegisterViewController.xib in Resources */,
+				905D336C17D4E1590057FB04 /* YammerLoginViewController.xib in Resources */,
+				90E837FC17D8264A008FCF83 /* yammer-signin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,6 +1177,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				905D330417CEE7860057FB04 /* PDKeychainBindings.m in Sources */,
+				905D330517CEE7860057FB04 /* PDKeychainBindingsController.m in Sources */,
 				903C38C81623C7D1001845FE /* main.m in Sources */,
 				903C38CC1623C7D1001845FE /* AppDelegate.m in Sources */,
 				903C38D51623C7D1001845FE /* ITM_version_0_0_1.xcdatamodeld in Sources */,
@@ -1161,6 +1216,11 @@
 				90E408591749A51500D15B2C /* CaptionTextViewController.m in Sources */,
 				90DAF51D17665F6300CECD45 /* ProfileViewController.m in Sources */,
 				904366EC177FD8710047B2D6 /* RegisterViewController.m in Sources */,
+				905D32F717CD91130057FB04 /* NSURL+YMQueryParameters.m in Sources */,
+				905D32F817CD91130057FB04 /* YMConstants.m in Sources */,
+				905D32F917CD91130057FB04 /* YMHTTPClient.m in Sources */,
+				905D32FA17CD91130057FB04 /* YMLoginController.m in Sources */,
+				905D336B17D4E1590057FB04 /* YammerLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1235,8 @@
 				903C39301623C9E3001845FE /* ImageResizeTest.m in Sources */,
 				903C39341623CA09001845FE /* PreviewImageTest.m in Sources */,
 				903C39371623D7B9001845FE /* MainEditorViewControllerTests.m in Sources */,
+				905D330217CEE5680057FB04 /* PDKeychainBindings.m in Sources */,
+				905D330317CEE5680057FB04 /* PDKeychainBindingsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

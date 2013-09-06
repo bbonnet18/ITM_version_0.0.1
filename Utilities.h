@@ -16,4 +16,6 @@
 - (BOOL) checkValidString:(NSString*)str;// checks to see if a string is not null, not empty and is an actual string
 - (NSString*) getTimeStamp:(NSDate*) dateForString;// returns a date as a formatted string
 //- (UIButton*) createRoundedCustomBtnWithImage:(UIImage*)btnImg;//builds a rounded custom button
+
++(void) storeUserInformation:(NSDictionary*)userInfo;// takes in the user information from Yammer and stores it 
 @end
